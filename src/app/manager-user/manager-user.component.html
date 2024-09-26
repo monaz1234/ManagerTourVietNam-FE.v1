@@ -1,4 +1,4 @@
-<table class="table">
+<!-- <table class="table">
   <thead>
     <tr>
       <th>Id</th>
@@ -13,6 +13,47 @@
       <td>Username</td>
       <td>Password</td>
       <td>Role</td>
+    </tr>
+  </tbody>
+</table> -->
+
+
+<hr>
+<form class="form-inline" action="" method="post" role="form">
+  <div class="form-group">
+    <label for=""></label>
+    <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+    <button type="submit" class="btn btn-primary mr-2">Find</button>
+    <a  routerLink="/admin/product/add" class="btn btn-success">Add a new one</a>
+  </div>
+</form>
+<hr>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td scope="row" >{{user.id}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.password}}</td>
+      <td>{{user.role}}</td>
+      <td>
+        <button routerLink="javascript:void(0)" class="btn btn-success">Edit</button>
+      </td>
+      <td>
+        <a href="javascript:void(0)" class="btn btn-sm btn-danger">Delete</a>
+      </td>
+    </tr>
+    <tr>
+      <td scope="row"></td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>
 </table>

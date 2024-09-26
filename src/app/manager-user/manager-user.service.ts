@@ -12,6 +12,6 @@ export class ManagerUserService {
   }
 
   getList_User() : Observable<any>{
-    return this.http.get<any>('http://localhost:8080/user');
+    return this.http.get<any>('http://localhost:9000/api/users');
   }
 }
