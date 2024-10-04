@@ -20,6 +20,7 @@
     "@angular/router": "^18.2.0",
     "bootstrap": "^4.6.2",
     "express": "^4.21.0",
+    "manager-tour-viet-nam-fe.v1": "file:",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
