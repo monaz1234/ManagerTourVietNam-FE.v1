@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h2>Thêm Mới Người Dùng</h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- Sử dụng d-flex để kích hoạt Flexbox -->
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields; let i = index" class="col-md-4 mb-3"> <!-- Chia thành 3 cột -->
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
+
+          <!-- Nếu là trường select thì tạo thẻ select -->
+          <!-- <select *ngIf="field.type === 'select'" [id]="field.name" class="form-control"
+                  [(ngModel)]="newUser[field.name]" [name]="field.name">
+            <option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select> -->
+
+          <!-- Nếu không phải trường select thì tạo thẻ input -->
+          <input *ngIf="field.type !== 'select'" [id]="field.name" class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="newUser[field.name]"
+                 [name]="field.name"
+                 [required]="field.required"
+                 [readonly]="field.name === 'iduser'"
+                 [ngClass]="{'bg-gray': field.name === 'iduser'}">
+        </div>
+      </div>
+
+
+    </div>
+
+    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+      <ul>
+        <li *ngFor="let error of errorMessages">{{ error }}</li>
+      </ul>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm Người Dùng</button>
+  </form>
+</div>
