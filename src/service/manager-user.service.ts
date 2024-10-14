@@ -38,4 +38,8 @@ export class ManagerUserService {
       })
     );
   }
+
+  findUser(id: string): Observable<User> {
+    return this.http.get<User>(`http://localhost:9000/api/user/${id}`);
+  }
 }

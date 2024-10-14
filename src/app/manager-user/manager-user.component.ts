@@ -2,12 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ManagerUserService } from '../../service/manager-user.service';
 import { User } from '../../interface/user.interface';
 import { Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router'; // Đảm bảo import đúng Router và ActivatedRoute
+import { flush } from '@angular/core/testing';
 
 @Component({
   selector: 'app-manager-user',
   templateUrl: './manager-user.component.html',
   styleUrl: './manager-user.component.scss'
 })
+
+
 export class ManagerUserComponent implements OnInit{
 
 
@@ -28,19 +32,40 @@ export class ManagerUserComponent implements OnInit{
 
 
   isAddUserVisible = false; // Biến để theo dõi trạng thái hiển thị
+  isEditUserVisible = false;
+  private isFirstEdit: boolean = true; // Biến để theo dõi lần đầu tiên chọn chỉnh sửa
+
+
+
+  ShowAddUser() : void{
+    this.isAddUserVisible = true;
+    this.isEditUserVisible = false;
+  }
+
+  showFormEditUser(user: any): void {
+    this.selectedUser = { ...user };
+    this.isAddUserVisible = false;
+    this.isEditUserVisible = true;
+  }
+
 
   // Hàm hiển thị form thêm người dùng và tạo id mới
 toggleAddUser(): void {
   this.isAddUserVisible = !this.isAddUserVisible;
+  this.isEditUserVisible = false;
   if (this.isAddUserVisible) {
-    this.generateNewUserId(); // Tạo mã ID mới khi form được hiển thị
+    this.generateNewUserId(); // Tạo mã ID mới khi hiển thị form thêm
+  } else {
+    this.selectedUser = null; // Reset người dùng đã chọn nếu có
   }
 }
 
 
 
 
-  constructor(private managerService: ManagerUserService){
+
+
+  constructor(private managerService: ManagerUserService, private router: Router){
 
   }
   ngOnInit(): void {
@@ -98,15 +123,43 @@ toggleAddUser(): void {
     return status === '1';
   }
 
+  showFormEditUserAuto(id: string): void {
+    if (this.selectedUser && this.selectedUser.iduser === id) {
+      this.isEditUserVisible = false;
+      this.selectedUser = null; // Đặt lại selectedUser
+    } else {
+      this.editUser(id);
+      this.isEditUserVisible = true; // Đảm bảo form được hiện thị
+
+      setTimeout(() => {
+        const editFormElement = document.getElementById('editForm');
+        if (editFormElement) {
+          const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+
+          const firstInputElement = editFormElement.querySelector('input');
+          if (firstInputElement) {
+            firstInputElement.focus();
+          }
+        }
+      }, 100);
+    }
+  }
 
 
 
 
-  // Hàm chỉnh sửa người dùng
-  editUser(user: any): void {
-    this.selectedUser = { ...user }; // Sao chép dữ liệu người dùng để chỉnh sửa
-    console.log('Chỉnh sửa thông tin người dùng:', this.selectedUser);
-    // Ở đây, bạn có thể hiển thị một modal hoặc chuyển hướng đến trang chỉnh sửa
+  editUser(id: string): void {
+    this.managerService.findUser(id).subscribe({
+      next: (user) => {
+        this.selectedUser = user; // Gán thông tin người dùng vào selectedUser
+        this.isAddUserVisible = false;
+        this.isEditUserVisible = true;
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy thông tin người dùng:', error);
+      }
+    });
   }
 
 
@@ -156,10 +209,6 @@ generateNewUserId() {
     console.error("Số lượng người dùng vượt quá giới hạn 999");
   }
 }
-
-
-
-
 
 
 

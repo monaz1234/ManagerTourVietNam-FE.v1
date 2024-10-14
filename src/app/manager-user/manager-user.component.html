@@ -16,11 +16,11 @@
 
   </form>
 
-  <div *ngIf="isAddUserVisible">
-
+  <div *ngIf="isAddUserVisible || isEditUserVisible">
     <app-add *ngIf="isAddUserVisible" [generatedIdUser]="newUserId"></app-add>
-
-
+    <div id="editForm" *ngIf="isEditUserVisible">
+      <app-edit [selectedUser]="selectedUser"></app-edit>
+    </div>
   </div>
 
 
@@ -62,7 +62,7 @@
             </span>
           </td>
           <td>
-            <button class="btn btn-success mr-2" (click)="editUser(user)">Chỉnh sửa</button>
+            <button class="btn btn-success mr-2" (click)="showFormEditUserAuto(user.iduser)">Chỉnh sửa</button>
             <button class="btn btn-danger" (click)="confirmDelete(user)">Xóa</button>
           </td>
         </tr>
