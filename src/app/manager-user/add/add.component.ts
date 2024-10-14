@@ -1,4 +1,4 @@
-import { User } from './../../../../.history/src/app/manager-user/user.interface_20241010090658';
+
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
@@ -9,6 +9,11 @@ import { ManagerUserService } from '../../../service/manager-user.service';
   styleUrl: './add.component.scss'
 })
 export class AddComponent {
+
+  isEditUserVisible = true;
+  closeForm() {
+    this.isEditUserVisible = false; // Set to false to hide the form
+  }
 
   @Input() generatedIdUser: string = ''; // Nhận giá trị iduser từ component cha
   newUser: any = {
@@ -51,6 +56,21 @@ export class AddComponent {
 
   ngOnInit(): void {
     this.newUser.iduser = this.generatedIdUser; // Gán iduser từ cha vào form
+  }
+
+  resetForm() {
+    this.newUser = {
+      iduser: this.generatedIdUser, // Gán ID mới từ component cha
+      name: '',
+      birth: '',
+      email: '',
+      phone: '',
+      points: 0,
+      salary: 0,
+      reward: 0,
+      status: true
+    };
+    this.errorMessages = []; // Reset thông báo lỗi
   }
 
 
@@ -127,7 +147,10 @@ export class AddComponent {
   this.userService.addUser(this.newUser).subscribe({
     next: (response) => {
 
+      this.resetForm();
+      this.closeForm(); // Call a method to close the form
       this.router.navigate(['/gioithieu/add']);
+
     },
     error: (error) => {
       console.error('Lỗi khi thêm người dùng:', error);

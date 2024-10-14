@@ -9,12 +9,14 @@ import { CommonModule } from '@angular/common';
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
 import { FormsModule } from '@angular/forms';
+import { EditComponent } from './manager-user/edit/edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ManagerUserComponent,
     AddComponent,
+    EditComponent,
 
 
   ],
