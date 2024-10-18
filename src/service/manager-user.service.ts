@@ -42,4 +42,9 @@ export class ManagerUserService {
   findUser(id: string): Observable<User> {
     return this.http.get<User>(`http://localhost:9000/api/user/${id}`);
   }
+
+  updateUser(id: string, userData: any) {
+    return this.http.put(`http://localhost:9000/api/user/${id}`, userData);
+  }
+
 }
