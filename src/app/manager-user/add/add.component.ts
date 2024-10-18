@@ -25,7 +25,7 @@ export class AddComponent {
     points: 0,  // Giá trị mặc định cho điểm
     salary: 0,  // Giá trị mặc định cho lương
     reward: 0,  // Giá trị mặc định cho thưởng
-    status: true // Gán trạng thái mặc định
+    status: 1, // Gán trạng thái mặc định
   };
   errorMessages: string[] = [];
 
@@ -68,7 +68,6 @@ export class AddComponent {
       points: 0,
       salary: 0,
       reward: 0,
-      status: true
     };
     this.errorMessages = []; // Reset thông báo lỗi
   }
@@ -77,6 +76,7 @@ export class AddComponent {
 
   onSubmit() {
 
+    console.log('Dữ liệu gửi lên:', this.newUser); // Kiểm tra dữ liệu
     this.errorMessages = []; // Reset thông báo lỗi mỗi khi submit
 
     // Xác thực email
@@ -125,7 +125,7 @@ export class AddComponent {
     }
 
 
-    this.newUser.status = true;
+    this.newUser.status = 1;
     // console.log('Dữ liệu người dùng:', this.newUser); // In ra dữ liệu trước khi gửi
 
   // Đảm bảo rằng newUser có đầy đủ thông tin cần thiết
@@ -138,7 +138,7 @@ export class AddComponent {
     points: this.newUser.points,
     salary: this.newUser.salary,
     reward: this.newUser.reward,
-    status: true,
+    status: this.newUser.status,
   };
 
 

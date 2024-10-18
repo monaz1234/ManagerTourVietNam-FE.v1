@@ -20,6 +20,7 @@ export class ManagerUserComponent implements OnInit{
   users: User[] = []; // sử dụng interface
   selectedUser: any;
   newUserId: string = '';
+  reversedUsers: User[] = []; // Danh sách người dùng đảo ngược
 
 
 
@@ -28,6 +29,11 @@ export class ManagerUserComponent implements OnInit{
   itemsPerPage: number = 10; // Số lượng người dùng trên mỗi trang
   totalItems: number = 0; // Tổng số người dùng
   pages: number[] = []; // Mảng lưu trang
+
+
+  filteredUsers: any[] = []; // Danh sách đã lọc
+  statusFilter: string = ''; // Trạng thái hiện tại được lọc
+  searchQuery: string = ''; // Định nghĩa biến searchQuery
 
 
 
@@ -43,6 +49,7 @@ export class ManagerUserComponent implements OnInit{
   }
 
   showFormEditUser(user: any): void {
+    console.log(user.status); // Kiểm tra giá trị của user.status
     this.selectedUser = { ...user };
     this.isAddUserVisible = false;
     this.isEditUserVisible = true;
@@ -70,20 +77,23 @@ toggleAddUser(): void {
   }
   ngOnInit(): void {
     this.getListUser();
+
   }
 
 
-  // getListUser() {
-  //   this.pro1.getList_User().subscribe((data: User[]) => {
-  //     this.users = data;
-  //   });
-  // }
+
 
   getListUser() {
     this.managerService.users$.subscribe((data: User[]) => {
       this.users = data; // Cập nhật danh sách người dùng
+      console.log(this.users);
+
       this.totalItems = data.length; // Cập nhật tổng số người dùng
+      this.applyFilter(); // Áp dụng bộ lọc ngay sau khi nhận dữ liệu
       this.calculatePages(); // Tính số trang
+
+
+      // Cập nhật người dùng hiển thị trên trang hiện tại (nếu cần)
       this.updateCurrentPageUsers(); // Cập nhật người dùng hiển thị trên trang hiện tại
     });
   }
@@ -120,8 +130,9 @@ toggleAddUser(): void {
   }
 
   isActive(status: string): boolean {
-    return status === '1';
+    return status === '1'; // Giả sử '1' là trạng thái "Hoạt động"
   }
+
 
   showFormEditUserAuto(id: string): void {
     if (this.selectedUser && this.selectedUser.iduser === id) {
@@ -209,6 +220,65 @@ generateNewUserId() {
     console.error("Số lượng người dùng vượt quá giới hạn 999");
   }
 }
+
+
+
+applyFilter(): void {
+  const query = this.searchQuery.trim().toLowerCase(); // Normalize search input
+
+  this.filteredUsers = this.users.filter(user => {
+    const matchesStatus = this.statusFilter === '' || user.status.toString() === this.statusFilter;
+
+    const matchesSearchQuery =
+      user.name.toLowerCase().includes(query) ||
+      user.email.toLowerCase().includes(query);
+
+    return matchesStatus && matchesSearchQuery; // Must match both conditions
+  });
+
+  this.filteredUsers = this.filteredUsers.reverse(); // Reverse the filtered list
+}
+
+
+onSearch(): void {
+  const query = this.searchQuery.trim().toLowerCase();
+
+  this.filteredUsers = this.users.filter(user =>
+    user.name.toLowerCase().includes(query) ||
+    user.email.toLowerCase().includes(query)
+  );
+
+  this.calculatePages();  // Recalculate pages if needed
+  this.updateCurrentPageUsers();  // Update the display with filtered results
+}
+
+onStatusChange(event: Event): void {
+  const selectedStatus = (event.target as HTMLSelectElement).value;
+
+  this.filteredUsers = this.users.filter(user =>
+    selectedStatus ? user.status.toString() === selectedStatus : true
+  );
+
+  // Optionally, you can also call methods to update pagination or other UI elements after filtering.
+  this.calculatePages(); // If you need to recalculate pages after filtering
+  this.updateCurrentPageUsers(); // Update the currently displayed users
+}
+
+openEditForm(user: any) {
+  this.selectedUser = user;
+  this.isEditUserVisible = true;
+}
+
+// Hàm để đóng form chỉnh sửa sau khi lưu
+handleCloseEditForm() {
+  this.isEditUserVisible = false;
+  this.selectedUser = null;
+}
+
+
+
+
+
 
 
 
