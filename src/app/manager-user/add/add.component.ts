@@ -12,7 +12,8 @@ export class AddComponent {
 
   isEditUserVisible = true;
   closeForm() {
-    this.isEditUserVisible = false; // Set to false to hide the form
+    this.isEditUserVisible = false; // Đặt lại trạng thái để ẩn form
+    console.log('Form đã được đóng lại'); // Kiểm tra trong console
   }
 
   @Input() generatedIdUser: string = ''; // Nhận giá trị iduser từ component cha
@@ -38,15 +39,14 @@ export class AddComponent {
     { name: 'email', label: 'Email người dùng', type: 'text', required: false },
     { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
     { name: 'points', label: 'Điểm của người dùng', type: 'text', required: false },
-    // Thêm trường select để chọn lương dựa trên chức vụ
-    // { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false,
-    //   options: [
-    //     { value: '1000', label: 'Nhân viên' },
-    //     { value: '2000', label: 'Quản lý' },
-    //     { value: '3000', label: 'Giám đốc' }
-    //   ]
-    // },
-    { name: 'salary', label: 'Lương của người dùng', type: 'text', required: false },
+    { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false,
+      options: [
+        { value: '1000', label: 'Nhân viên' },
+        { value: '2000', label: 'Quản lý' },
+        { value: '3000', label: 'Giám đốc' }
+      ]
+    },
+
     { name: 'reward', label: 'Thưởng của người dùng', type: 'text', required: false },
     // { name: 'status', label: 'Trạng thái của người dùng', type: 'text', required: false }
   ];
@@ -147,8 +147,9 @@ export class AddComponent {
   this.userService.addUser(this.newUser).subscribe({
     next: (response) => {
 
-      this.resetForm();
+
       this.closeForm(); // Call a method to close the form
+      this.resetForm();
       this.router.navigate(['/gioithieu/add']);
 
     },

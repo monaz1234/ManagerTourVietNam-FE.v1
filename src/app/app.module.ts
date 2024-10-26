@@ -17,17 +17,12 @@ import { EditComponent } from './manager-user/edit/edit.component';
     ManagerUserComponent,
     AddComponent,
     EditComponent,
-
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
-
-
-
   ],
   providers: [
     provideHttpClient()
