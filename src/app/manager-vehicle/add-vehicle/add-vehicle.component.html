@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2>Thêm Mới Phương Tiện</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields; let i = index" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
+
+          <!-- Nếu là trường select thì tạo thẻ select -->
+          <select *ngIf="field.type === 'select'" [id]="field.name" class="form-control"
+                  [(ngModel)]="newVehicle[field.name]" [name]="field.name" [required]="field.require">
+            <option value="">Chọn tài xế</option> <!-- Option mặc định -->
+            <option *ngFor="let option of field.options" [value]="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+
+          <!-- Nếu là trường file, tạo thẻ input type="file" -->
+          <input *ngIf="field.type === 'file'" [id]="field.name" class="form-control"
+                 type="file"
+                 (change)="onFileChange($event)"
+                 [accept]="field.accept"
+                 [required]="field.require">
+
+          <!-- Nếu không phải trường select hoặc file thì tạo thẻ input -->
+          <input *ngIf="field.type !== 'select' && field.type !== 'file'" [id]="field.name" class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="newVehicle[field.name]"
+                 [name]="field.name"
+                 [required]="field.require"
+                 [readonly]="field.name === 'id_vehicles'"
+                 [ngClass]="{'bg-gray': field.name === 'id_vehicles'}">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+      <ul>
+        <li *ngFor="let error of errorMessages">{{ error }}</li>
+      </ul>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm Phương Tiện</button>
+  </form>
+</div>

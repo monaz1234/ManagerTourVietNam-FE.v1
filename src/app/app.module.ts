@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -10,6 +11,10 @@ import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
 import { FormsModule } from '@angular/forms';
 import { EditComponent } from './manager-user/edit/edit.component';
+import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.component';
+import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
+import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
+import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,10 @@ import { EditComponent } from './manager-user/edit/edit.component';
     ManagerUserComponent,
     AddComponent,
     EditComponent,
+    ManagerVehicleComponent,
+    AddVehicleComponent,
+    ManagerHotelComponent,
+    AddHotelComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,3 +39,4 @@ import { EditComponent } from './manager-user/edit/edit.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
