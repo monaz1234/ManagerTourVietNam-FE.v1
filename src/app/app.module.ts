@@ -9,12 +9,20 @@ import { CommonModule } from '@angular/common';
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
 import { FormsModule } from '@angular/forms';
+import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.component';
+import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
+import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
+import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ManagerUserComponent,
     AddComponent,
+    ManagerVehicleComponent,
+    AddVehicleComponent,
+    ManagerHotelComponent,
+    AddHotelComponent,
 
 
   ],

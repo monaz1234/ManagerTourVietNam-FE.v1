@@ -1,4 +1,4 @@
-import { User } from './../../../../.history/src/app/manager-user/user.interface_20241010090658';
+
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
