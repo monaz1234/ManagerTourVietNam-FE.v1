@@ -43,8 +43,15 @@ export class ManagerUserService {
     return this.http.get<User>(`http://localhost:9000/api/user/${id}`);
   }
 
-  updateUser(id: string, userData: any) {
-    return this.http.put(`http://localhost:9000/api/user/${id}`, userData);
+  updateUser(id: string, userData: any): Observable<User> {
+    return this.http.put<User>(`http://localhost:9000/api/user/${id}`, userData).pipe(
+      tap(() => {
+        this.getList_User(); // Cập nhật danh sách người dùng sau khi cập nhật
+      })
+    );
   }
+
+
+
 
 }

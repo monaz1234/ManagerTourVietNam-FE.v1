@@ -33,6 +33,8 @@ export class ManagerUserComponent implements OnInit{
 
   filteredUsers: any[] = []; // Danh sách đã lọc
   statusFilter: string = ''; // Trạng thái hiện tại được lọc
+  selectedStatus: string = ''; // Biến để lưu trữ trạng thái đã chọn
+  selectedSalary: string = ''; // Biến để lưu trữ giá trị lương đã chọn
   searchQuery: string = ''; // Định nghĩa biến searchQuery
 
 
@@ -54,6 +56,13 @@ export class ManagerUserComponent implements OnInit{
     this.isAddUserVisible = false;
     this.isEditUserVisible = true;
   }
+
+
+  formatSalary(salary: number): string {
+    return salary.toLocaleString('vi-VN') + ' đ';
+  }
+
+
 
 
   // Hàm hiển thị form thêm người dùng và tạo id mới
@@ -231,7 +240,9 @@ applyFilter(): void {
 
     const matchesSearchQuery =
       user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query);
+      user.email.toLowerCase().includes(query)||
+      user.phone.toLowerCase().includes(query)||
+      user.iduser.toLowerCase().includes(query);
 
     return matchesStatus && matchesSearchQuery; // Must match both conditions
   });
@@ -239,13 +250,24 @@ applyFilter(): void {
   this.filteredUsers = this.filteredUsers.reverse(); // Reverse the filtered list
 }
 
+onUserUpdated(updatedUser: any): void {
+  const index = this.users.findIndex(user => user.iduser === updatedUser.iduser);
+  if (index > -1) {
+    this.users[index] = { ...updatedUser };  // Cập nhật trong danh sách chính
+    this.onSearch();  // Làm mới kết quả tìm kiếm để hiển thị ngay
+  }
+}
+
+
 
 onSearch(): void {
   const query = this.searchQuery.trim().toLowerCase();
 
   this.filteredUsers = this.users.filter(user =>
     user.name.toLowerCase().includes(query) ||
-    user.email.toLowerCase().includes(query)
+    user.email.toLowerCase().includes(query)||
+    user.iduser.toLowerCase().includes(query)||
+    user.phone.toLowerCase().includes(query)
   );
 
   this.calculatePages();  // Recalculate pages if needed
@@ -254,25 +276,48 @@ onSearch(): void {
 
 onStatusChange(event: Event): void {
   const selectedStatus = (event.target as HTMLSelectElement).value;
+  this.filteredUsers = this.filterUsers(selectedStatus, this.selectedSalary);
 
-  this.filteredUsers = this.users.filter(user =>
-    selectedStatus ? user.status.toString() === selectedStatus : true
-  );
-
-  // Optionally, you can also call methods to update pagination or other UI elements after filtering.
-  this.calculatePages(); // If you need to recalculate pages after filtering
-  this.updateCurrentPageUsers(); // Update the currently displayed users
+  this.calculatePages(); // Cập nhật số trang
+  this.updateCurrentPageUsers(); // Cập nhật danh sách người dùng hiển thị
 }
+
+// onSalaryChange(event: Event): void {
+//   this.selectedSalary = (event.target as HTMLSelectElement).value;
+//   this.filteredUsers = this.filterUsers(this.selectedStatus, this.selectedSalary);
+
+//   this.calculatePages(); // Cập nhật số trang
+//   this.updateCurrentPageUsers(); // Cập nhật danh sách người dùng hiển thị
+// }
+
+
+
+
+
+filterUsers(selectedStatus: string, selectedSalary: string) {
+  return this.users.filter(user => {
+    const matchesStatus = selectedStatus ? user.status.toString() === selectedStatus : true;
+    return matchesStatus;
+  });
+}
+
+
+
+
+
 
 openEditForm(user: any) {
   this.selectedUser = user;
   this.isEditUserVisible = true;
 }
+updateSelectedUser(user: any) {
+  this.selectedUser = user; // Cập nhật người dùng đang được chỉnh sửa
+}
 
 // Hàm để đóng form chỉnh sửa sau khi lưu
 handleCloseEditForm() {
   this.isEditUserVisible = false;
-  this.selectedUser = null;
+  this.updateSelectedUser(null); // Reset lại người dùng đã chọn
 }
 
 

@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div *ngIf="isEditUserVisible" class="container mt-4 bg-gray pb-4 pt-4 rounded">
   <h2>Thêm Mới Người Dùng</h2>
   <form (ngSubmit)="onSubmit()">
     <!-- Sử dụng d-flex để kích hoạt Flexbox -->
@@ -7,13 +7,17 @@
         <div class="form-group">
           <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
 
-          <!-- Nếu là trường select thì tạo thẻ select -->
-          <!-- <select *ngIf="field.type === 'select'" [id]="field.name" class="form-control"
-                  [(ngModel)]="newUser[field.name]" [name]="field.name">
+          <select *ngIf="field.type === 'select'"
+                  [id]="field.name"
+                  class="form-control"
+                  [(ngModel)]="newUser[field.name]"
+                  [name]="field.name"
+                  [required]="field.required">
+            <option value="">Chọn {{ field.label }}</option>
             <option *ngFor="let option of field.options" [value]="option.value">
               {{ option.label }}
             </option>
-          </select> -->
+          </select>
 
           <!-- Nếu không phải trường select thì tạo thẻ input -->
           <input *ngIf="field.type !== 'select'" [id]="field.name" class="form-control"

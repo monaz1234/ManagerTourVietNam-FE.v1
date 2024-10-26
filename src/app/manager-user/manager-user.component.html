@@ -16,18 +16,28 @@
             name="searchQuery" />
         </div>
 
-        <button type="button" class="btn btn-primary mr-2" (click)="onSearch()">Tìm kiếm</button>
-        <a (click)="toggleAddUser()" routerLink="add" class="btn btn-success">Thêm mới</a>
+        <button type="button" class="btn btn-primary mr-2" (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
+         <a (click)="toggleAddUser()" routerLink="add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
       </div>
 
       <!-- Right container for status filter dropdown -->
       <div>
         <select class="form-control" (change)="onStatusChange($event)">
-          <option value="">Tất cả trạng thái</option>
+          <option value="">Lọc theo trạng thái</option>
           <option value="1">Hoạt động</option>
           <option value="2">Không hoạt động</option>
         </select>
       </div>
+
+      <!-- <div>
+        <select class="form-control" (change)="onSalaryChange($event)">
+         <option value="">Lọc theo lương</option>
+          <option value="1000">Dưới 2000</option>
+          <option value="2000">Từ 2000 đến 3000</option>
+          <option value="3000">Trên 3000</option>
+        </select>
+      </div> -->
+
     </div>
 
 
@@ -42,6 +52,7 @@
       <app-edit
       [selectedUser]="selectedUser"
       (closeForm)="handleCloseEditForm()"
+      (userUpdated)="onUserUpdated($event)">
     ></app-edit>
     </div>
   </div>
@@ -75,7 +86,7 @@
           <td>{{user.email}}</td>
           <td>{{user.phone}}</td>
           <td>{{user.points}}</td>
-          <td>{{user.salary | currency:'VND'}}</td>
+          <td>{{ formatSalary(user.salary) }}</td>
           <td>{{user.reward}}</td>
           <td>
             <span [ngClass]="{
