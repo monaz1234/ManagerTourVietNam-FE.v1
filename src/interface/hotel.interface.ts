@@ -5,5 +5,5 @@ export interface Hotel {
   room: string;
   type_room: string;
   image: string;
-  status: boolean;
+  status: string;
 }

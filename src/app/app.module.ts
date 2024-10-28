@@ -15,6 +15,8 @@ import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.compo
 import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
 import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
 import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
+import { TypeUserComponent } from './type-user/type-user.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component
     AddVehicleComponent,
     ManagerHotelComponent,
     AddHotelComponent,
-  ],
+    TypeUserComponent,
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
