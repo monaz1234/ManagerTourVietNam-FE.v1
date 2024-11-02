@@ -54,7 +54,16 @@ export class ManagerHotelService {
       })
     );
   }
-
+  findHotel(id: string): Observable<Hotel> {
+    return this.http.get<Hotel>(`http://localhost:9000/api/hotel/${id}`);
+  }
+  updateHotel(id: string, hotelData: any): Observable<Hotel> {
+    return this.http.put<Hotel>(`http://localhost:9000/api/hotel/${id}`, hotelData).pipe(
+      tap(() => {
+        this.getList_Hotel(); // Cập nhật danh sách người dùng sau khi cập nhật
+      })
+    );
+  }
 
 
 }

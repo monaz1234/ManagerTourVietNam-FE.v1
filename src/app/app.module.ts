@@ -15,6 +15,8 @@ import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.compo
 import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
 import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
 import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
+import { EditVehicleComponent } from './manager-vehicle/edit-vehicle/edit-vehicle.component';
+import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component
     AddVehicleComponent,
     ManagerHotelComponent,
     AddHotelComponent,
+    EditVehicleComponent,
+    EditHotelComponent,
   ],
   imports: [
     BrowserModule,
