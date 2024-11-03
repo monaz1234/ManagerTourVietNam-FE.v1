@@ -12,7 +12,7 @@ export class TypeUserComponent implements OnInit{
   typeTypeUsers : TypeUser[] = [];
   selectedTypeUser: any;
 
-  newTypeUser : String = '';
+  newTypeUser : string = '';
 
 
 

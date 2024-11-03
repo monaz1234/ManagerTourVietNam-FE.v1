@@ -52,5 +52,15 @@ export class ManagerVehicleService {
       })
     );
   }
+  findVehicle(id: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`http://localhost:9000/api/vehicles/${id}`);
+  }
+  updateVehicle(id: string, vehicleData: any): Observable<Vehicle> {
+    return this.http.put<Vehicle>(`http://localhost:9000/api/vehicles/${id}`, vehicleData).pipe(
+      tap(() => {
+        this.getList_Vehicle(); // Cập nhật danh sách xe sau khi cập nhật
+      })
+    );
+  }
 
 }

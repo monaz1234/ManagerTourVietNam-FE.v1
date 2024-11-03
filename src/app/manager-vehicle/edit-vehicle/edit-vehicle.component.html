@@ -1,0 +1,57 @@
+<div *ngIf="selectedVehicle" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Phương Tiện</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
+
+          <!-- Nếu trường là select, hiển thị dropdown -->
+          <select *ngIf="field.type === 'select'"
+                  [id]="field.name"
+                  class="form-control"
+                  [(ngModel)]="selectedVehicle[field.name]"
+                  [name]="field.name"
+                  [required]="field.require">
+            <option value="">Chọn trạng thái</option>
+            <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
+          </select>
+
+          <!-- Nếu trường là file, hiển thị file input -->
+          <!-- Nếu trường là file, hiển thị hình ảnh hiện tại và input file -->
+          <!-- Nếu trường là file, hiển thị hình ảnh hiện tại và input file -->
+          <div *ngIf="field.type === 'file'">
+            <!-- Hiển thị hình ảnh hiện tại nếu có và không có ảnh mới -->
+            <img *ngIf="selectedVehicle.image && !previewImage" [src]="getImageUrl(selectedVehicle.image)"
+                 alt="Hình ảnh hiện tại" style="width: 100px; height: auto; margin-bottom: 10px;">
+
+            <!-- Hiển thị ảnh xem trước nếu có ảnh mới được chọn -->
+            <img *ngIf="previewImage" [src]="previewImage"
+                 alt="Hình ảnh mới" style="width: 100px; height: auto; margin-bottom: 10px;">
+
+            <!-- Input file để chọn hình ảnh mới -->
+            <input type="file"
+                   [id]="field.name"
+                   class="form-control"
+                   (change)="onFileSelected($event)"
+                   [name]="field.name"
+                   [accept]="field.accept" />
+          </div>
+
+          <!-- Nếu trường không phải là select hoặc file, hiển thị textbox -->
+          <input *ngIf="field.type !== 'select' && field.type !== 'file'"
+                 [id]="field.name"
+                 class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="selectedVehicle[field.name]"
+                 [name]="field.name"
+                 [readonly]="field.name === 'iduser'"
+                 [required]="field.require"
+                 [ngClass]="{'bg-gray': field.name === 'iduser'}" />
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+  </form>
+</div>

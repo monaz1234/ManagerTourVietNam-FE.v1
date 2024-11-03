@@ -39,7 +39,7 @@
 
 
   <div *ngIf="isAddTypeUserVisible || isEditTypeUserVisible">
-    <!-- <app-add *ngIf="isAddTypeUserVisible" [generateNewTypeUserId]="newTypeUser"></app-add> -->
+    <app-add-Type *ngIf="isAddTypeUserVisible" [generateNewTypeUserId]="newTypeUser"></app-add-Type>
     <div id="editForm" *ngIf="isEditTypeUserVisible">
       <app-edit
       [selectedUser]="selectedTypeUser"
