@@ -8,6 +8,7 @@ import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.compo
 import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
 import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
 import { TypeUserComponent } from './type-user/type-user.component';
+import { AddTypeComponent } from './type-user/add/add.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,8 @@ const routes: Routes = [
   {path: 'edit/:iduser', component: EditComponent},
 ]},
 {path : 'type_user', component : TypeUserComponent, children :[
+
+  {path : 'add', component : AddTypeComponent}
 
 ]},
 {path : 'phuongtien', component : ManagerVehicleComponent,children:[

@@ -16,7 +16,7 @@ import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.c
 import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
 import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
 import { TypeUserComponent } from './type-user/type-user.component';
-
+import { AddTypeComponent } from './type-user/add/add.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { TypeUserComponent } from './type-user/type-user.component';
     ManagerHotelComponent,
     AddHotelComponent,
     TypeUserComponent,
+    AddTypeComponent,
    ],
   imports: [
     BrowserModule,
