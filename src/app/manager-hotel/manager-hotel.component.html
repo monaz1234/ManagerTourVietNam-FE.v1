@@ -5,22 +5,47 @@
       <label for="search" class="mr-2">Tìm kiếm</label>
       <input type="text" id="search" name="search" class="form-control" placeholder="Nhập tên hoặc email">
     </div> -->
-    <div class="d-flex align-items-center mb-4">
-      <div class="mr-2"> <!-- Khoảng cách bên phải cho trường đầu tiên -->
-        <input type="text" class="form-control" placeholder="Nhập tên ">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center"> <!-- Left container for search and add button -->
+        <div class="mr-2"> <!-- Input with right margin -->
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchQuery"
+            placeholder="Nhập tên hoặc email"
+            name="searchQuery" />
+        </div>
+
+        <button type="button" class="btn btn-primary mr-2" (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
+         <a (click)="toggleAddHotel()" routerLink="add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
       </div>
-      <button type="submit" class="btn btn-primary mr-2 button-spacing">Tìm kiếm</button>
-      <a (click)="toggleAddHotel()" routerLink="add" class="btn btn-success">Thêm mới</a>
+
+      <!-- Right container for status filter dropdown -->
+      <div>
+        <select class="form-control" (change)="onStatusChange($event)">
+          <option value="">Lọc theo trạng thái</option>
+          <option value="1">Hoạt động</option>
+          <option value="2">Không hoạt động</option>
+        </select>
+      </div>
+
+
 
     </div>
 
   </form>
 
-  <div *ngIf="isAddHotelVisible">
-
-    <app-add-hotel *ngIf="isAddHotelVisible" [generatedIdHotel]="newHotelId"></app-add-hotel>
-
-
+  <div *ngIf="isAddHotelVisible || isEditHotelVisible">
+    <app-add-hotel
+      *ngIf="isAddHotelVisible"
+      [generatedIdHotel]="newHotelId"></app-add-hotel>
+    <div id="editForm" *ngIf="isEditHotelVisible">
+      <app-edit-hotel
+      [selectedHotel]="selectedHotel"
+      (closeForm)="handleCloseEditForm()"
+      (userUpdated)="onHotelUpdated($event)">
+    ></app-edit-hotel>
+    </div>
   </div>
 
 
@@ -44,7 +69,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let hotel of hotels; let i = index">
+        <tr *ngFor="let hotel of filteredHotels; let i = index">
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
           <td>{{hotel.id_hotel}}</td>
           <td>{{hotel.name_hotel}}</td>
@@ -64,8 +89,8 @@
           </td>
           <td>
             <!-- <button class="btn btn-success mr-2" (click)="editUser(user)">Chỉnh sửa</button>-->
-            <button class="btn btn-success mr-2" >Chỉnh sửa</button>
-            <button class="btn btn-danger" (click)="confirmDeleteHotel(hotel)">Xóa</button>
+            <button class="btn btn-success mr-2" (click)="showFormEditHotelAuto(hotel.id_hotel)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btn btn-danger" (click)="confirmDeleteHotel(hotel)"><i class="fa fa-trash" aria-hidden="true"></i></button>
 
           </td>
         </tr>
