@@ -19,7 +19,7 @@ export class AddTypeComponent {
    @Input() generateNewTypeUserId: string = '';
     newTypeUser: any = {
       idtypeuser : '',
-      name: '',
+      name_type: '',
       status : '',
       salary : 0,
 
@@ -28,8 +28,8 @@ export class AddTypeComponent {
 
 
     formFields = [
-      {name : 'idpyteuser', label : 'Id loại thông tin người dùng', type: 'text', required: true},
-      {name : 'name', label: 'Tên loại người dùng', type : 'text', required : true},
+      {name : 'idtypeuser', label : 'Id loại thông tin người dùng', type: 'text', required: true},
+      {name : 'name_type', label: 'Tên loại người dùng', type : 'text', required : true},
       {name: 'salary', label : 'Lương loại người dùng', type: 'number', required : false },
     ];
 
@@ -37,13 +37,13 @@ export class AddTypeComponent {
 
 
     ngOnInit(): void{
-      this.newTypeUser.idpyteuser = this.generateNewTypeUserId;
+      this.newTypeUser.idtypeuser = this.generateNewTypeUserId;
     }
 
     resetForm(){
       this.newTypeUser = {
         idtypeuser : this.generateNewTypeUserId,
-        name : '',
+        name_type : '',
         status : '',
         salary : 0,
       }
@@ -58,7 +58,7 @@ export class AddTypeComponent {
 
       this.newTypeUser = {
         idtypeuser : this.newTypeUser.idtypeuser,
-        name : this.newTypeUser.name,
+        name_type : this.newTypeUser.name_type,
         status : this.newTypeUser.status,
         salary : this.newTypeUser.salary
       };

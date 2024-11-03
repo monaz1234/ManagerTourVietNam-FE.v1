@@ -141,7 +141,7 @@ toggleAddTypeUser(): void {
     });
   }
 
-  showFormEditUserAuto(id: string): void {
+  showFormEditTypeUserAuto(id: string): void {
     if (this.selectedTypeUser && this.selectedTypeUser.idtypeuser === id) {
       this.isEditTypeUserVisible = false;
       this.selectedTypeUser = null; // Đặt lại selectedUser
@@ -150,7 +150,7 @@ toggleAddTypeUser(): void {
       this.isEditTypeUserVisible = true; // Đảm bảo form được hiện thị
 
       setTimeout(() => {
-        const editFormElement = document.getElementById('editForm');
+        const editFormElement = document.getElementById('editTypeUserForm');
         if (editFormElement) {
           const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({ top: elementPosition, behavior: 'smooth' });
@@ -269,18 +269,18 @@ confirmDelete(typeuser: any): void {
     });
   }
 
-  openEditForm(typeuser: any) {
+  openEditTypeForm(typeuser: any) {
     this.selectedTypeUser = typeuser;
     this.isEditTypeUserVisible = true;
   }
-  updateSelectedUser(typeuser: any) {
+  updateSelectedTypeUser(typeuser: any) {
     this.selectedTypeUser = typeuser; // Cập nhật người dùng đang được chỉnh sửa
   }
 
   // Hàm để đóng form chỉnh sửa sau khi lưu
   handleCloseEditForm() {
     this.isEditTypeUserVisible = false;
-    this.updateSelectedUser(null); // Reset lại người dùng đã chọn
+    this.updateSelectedTypeUser(null); // Reset lại người dùng đã chọn
   }
 
 

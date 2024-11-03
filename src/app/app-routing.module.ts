@@ -13,6 +13,7 @@ import { AddTypeComponent } from './type-user/add/add.component';
 
 import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
 import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.component';
+import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user.component';
 const routes: Routes = [
 {path : 'gioithieu', component : ManagerUserComponent, children :[
   {path: 'add', component: AddComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
 
 ]},
 {path : 'type_user', component : TypeUserComponent, children :[
-  {path : 'add', component : AddTypeComponent}
+  {path : 'add', component : AddTypeComponent},
+  {path : 'edit_type_user/:idtypeuser', component: EditTypeUserComponent}
 ]},
 {path : 'phuongtien', component : ManagerVehicleComponent,children:[
   {path: 'add',component: AddVehicleComponent }
