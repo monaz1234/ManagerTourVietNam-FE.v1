@@ -19,6 +19,7 @@ import { TypeUserComponent } from './type-user/type-user.component';
 import { AddTypeComponent } from './type-user/add/add.component';
 import { EditVehicleComponent } from './manager-vehicle/edit-vehicle/edit-vehicle.component';
 import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.component';
+import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.compon
     AddTypeComponent,
     EditVehicleComponent,
     EditHotelComponent,
+    EditTypeUserComponent,
   ],
   imports: [
     BrowserModule,

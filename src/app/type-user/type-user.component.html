@@ -40,12 +40,12 @@
 
   <div *ngIf="isAddTypeUserVisible || isEditTypeUserVisible">
     <app-add-Type *ngIf="isAddTypeUserVisible" [generateNewTypeUserId]="newTypeUser"></app-add-Type>
-    <div id="editForm" *ngIf="isEditTypeUserVisible">
-      <app-edit
-      [selectedUser]="selectedTypeUser"
+    <div id="editTypeUserForm" *ngIf="isEditTypeUserVisible">
+      <app-edit-type-user
+      [selectedTypeUser]="selectedTypeUser"
       (closeForm)="handleCloseEditForm()"
       (userUpdated)="onUserUpdated($event)">
-    ></app-edit>
+    ></app-edit-type-user>
     </div>
   </div>
 
@@ -91,7 +91,7 @@
             </span>
           </td> -->
           <td>
-            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditUserAuto(typeuser.idtypeuser)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditTypeUserAuto(typeuser.idtypeuser)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
             <button class="btn btn-danger" (click)="confirmDelete(typeuser)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>
         </tr>
