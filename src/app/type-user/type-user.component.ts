@@ -168,23 +168,24 @@ toggleAddTypeUser(): void {
 
 
 
-  applyFilterTypeUser() : void {
+  applyFilterTypeUser(): void {
     const query = this.searchQuery.trim().toLowerCase(); // Normalize search input
 
     this.filteredTypeUser = this.typeTypeUsers.filter(typeuser => {
-      const matchesStatus = this.statusFilter === '' || typeuser.status.toString() === this.statusFilter;
+      const matchesStatus = this.statusFilter === '' || typeuser.status?.toString() === this.statusFilter;
 
       const matchesSearchQuery =
-      typeuser.name_type.toLowerCase().includes(query) ||
-      typeuser.power.toLowerCase().includes(query)||
-      typeuser.salary.toString().includes(query)||
-      typeuser.idtypeuser.toLowerCase().includes(query);
+        (typeuser.name_type || '').toLowerCase().includes(query) ||
+        (typeuser.power || '').toLowerCase().includes(query) ||
+        typeuser.salary?.toString().includes(query) ||
+        (typeuser.idtypeuser || '').toLowerCase().includes(query);
 
       return matchesStatus && matchesSearchQuery; // Must match both conditions
     });
 
     this.filteredTypeUser = this.filteredTypeUser.reverse(); // Reverse the filtered list
   }
+
 
   deleteTypeUser(id: string): void {
     this.typeUserService.deleteTypeUser(id).subscribe({

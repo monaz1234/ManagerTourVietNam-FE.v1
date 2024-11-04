@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
+import { TypeUserService } from '../../../service/type_user/type-user.service';
 
 @Component({
   selector: 'app-edit',
@@ -14,13 +15,14 @@ export class EditComponent{
 
 
 
-  constructor(private router: Router, private userService: ManagerUserService) {}
+  constructor(private router: Router, private userService: ManagerUserService, private typeUserService: TypeUserService) {}
 
 
  ngOnInit(): void {
-    if (!this.selectedUser) {
+    if (this.selectedUser) {
       console.error('Không tìm thấy người dùng để chỉnh sửa');
     }
+    this.loadSalaryOptions();
   }
 
   formFields = [
@@ -31,13 +33,7 @@ export class EditComponent{
     { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
     { name: 'points', label: 'Điểm của người dùng', type: 'text', required: false },
 
-    { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false,
-      options: [
-        { value: '1000', label: 'Nhân viên' },
-        { value: '2000', label: 'Quản lý' },
-        { value: '3000', label: 'Giám đốc' }
-      ]
-    },
+    {name: 'salary', label : 'Lương của người dùng', type: 'select', required : false, options: []}, // Để options rỗng trước
 
     { name: 'reward', label: 'Thưởng của người dùng', type: 'text', required: false },
 
@@ -68,6 +64,29 @@ export class EditComponent{
     };
   }
 
+ // Hàm lấy dữ liệu lương từ dịch vụ và cập nhật vào options
+ loadSalaryOptions(): void {
+  this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
+    // Filter out typeUsers with status === 2
+    const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
+
+    // Map remaining users to the salaryOptions format
+    const salaryOptions = activeTypeUsers.map(user => ({
+      value: user.salary.toString(),
+      label: user.name_type
+    }));
+
+    const salaryField = this.formFields.find(field => field.name === 'salary');
+    if (salaryField) {
+      salaryField.options = salaryOptions;
+    }
+
+    // Optionally, remove or hide certain form fields if no typeUsers are active
+    if (activeTypeUsers.length === 0) {
+      this.formFields = this.formFields.filter(field => field.name !== 'salary');
+    }
+  });
+}
 
 
   onSubmit() {
