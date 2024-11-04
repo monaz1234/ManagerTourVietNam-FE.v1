@@ -1,1 +1,36 @@
-<p>edit-type-user works!</p>
+<div *ngIf="selectedTypeUser" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Người Dùng</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
+
+          <!-- Nếu trường là select, hiển thị dropdown -->
+          <select *ngIf="field.type === 'select'"
+                  [id]="field.name"
+                  class="form-control"
+                  [(ngModel)]="selectedTypeUser[field.name]"
+                  [name]="field.name"
+                  [required]="field.required">
+            <option value="">Chọn trạng thái</option> <!-- Tuỳ chọn rỗng -->
+            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+          </select>
+
+          <!-- Nếu trường không phải là select, hiển thị textbox -->
+          <input *ngIf="field.type !== 'select'"
+                 [id]="field.name"
+                 class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="selectedTypeUser[field.name]"
+                 [name]="field.name"
+                 [readonly]="field.name === 'idtypeuser'"
+                 [required]="field.required"
+                 [ngClass]="{'bg-gray': field.name === 'idtypeuser'}" />
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+  </form>
+</div>

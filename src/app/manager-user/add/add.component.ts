@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
+import { TypeUserService } from '../../../service/type_user/type-user.service';
 
 @Component({
   selector: 'app-add',
@@ -31,30 +32,29 @@ export class AddComponent {
 
 
 
-  formFields = [
-    { name: 'iduser', label: 'Id thông tin người dùng', type: 'text', required: true,  },
+  formFields: {
+    name: string;
+    label: string;
+    type: string;
+    required: boolean;
+    options?: { value: string; label: string }[];
+  }[] = [
+    { name: 'iduser', label: 'Id thông tin người dùng', type: 'text', required: true },
     { name: 'name', label: 'Tên người dùng', type: 'text', required: false },
     { name: 'birth', label: 'Ngày sinh người dùng', type: 'date', required: false },
     { name: 'email', label: 'Email người dùng', type: 'text', required: false },
     { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
     { name: 'points', label: 'Điểm của người dùng', type: 'text', required: false },
-    { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false,
-      options: [
-        { value: '1000', label: 'Nhân viên' },
-        { value: '2000', label: 'Quản lý' },
-        { value: '3000', label: 'Giám đốc' }
-      ]
-    },
-
-    { name: 'reward', label: 'Thưởng của người dùng', type: 'text', required: false },
-    // { name: 'status', label: 'Trạng thái của người dùng', type: 'text', required: false }
+    { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false, options: [] },
+    { name: 'reward', label: 'Thưởng của người dùng', type: 'text', required: false }
   ];
 
 
-  constructor(private userService: ManagerUserService, private router: Router) {}
+  constructor(private userService: ManagerUserService, private router: Router, private typeUserService: TypeUserService) {}
 
   ngOnInit(): void {
     this.newUser.iduser = this.generatedIdUser; // Gán iduser từ cha vào form
+    this.loadSalaryOptions(); // Gọi hàm để lấy dữ liệu lương
   }
 
   resetForm() {
@@ -69,6 +69,29 @@ export class AddComponent {
       reward: 0,
     };
     this.errorMessages = []; // Reset thông báo lỗi
+  }
+
+  loadSalaryOptions(): void {
+    this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
+      // Filter out typeUsers with status === 2
+      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
+
+      // Map remaining users to the salaryOptions format
+      const salaryOptions = activeTypeUsers.map(user => ({
+        value: user.salary.toString(),
+        label: user.name_type
+      }));
+
+      const salaryField = this.formFields.find(field => field.name === 'salary');
+      if (salaryField) {
+        salaryField.options = salaryOptions;
+      }
+
+      // Optionally, remove or hide certain form fields if no typeUsers are active
+      if (activeTypeUsers.length === 0) {
+        this.formFields = this.formFields.filter(field => field.name !== 'salary');
+      }
+    });
   }
 
 
