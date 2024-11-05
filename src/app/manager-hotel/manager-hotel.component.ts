@@ -81,7 +81,7 @@ export class ManagerHotelComponent {
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
-  isActive(status: string): boolean {
+  isActive(status: any): boolean {
     return status === '1';
   }
 
