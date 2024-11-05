@@ -48,7 +48,7 @@ export class AddVehicleComponent {
       label: 'Hình ảnh',
       type: 'file',
       require: true,
-      accept: '.png, .jpg' // Chỉ cho phép tải lên hình ảnh PNG hoặc JPG
+      accept: '.png, .jpg, .jpeg' // Chỉ cho phép tải lên hình ảnh PNG hoặc JPG
     },
     { name: 'description', label: 'Mô tả', type: 'text', require: true },
   ];

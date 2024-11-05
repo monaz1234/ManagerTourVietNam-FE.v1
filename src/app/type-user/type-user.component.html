@@ -1,3 +1,5 @@
+<!-- <p>type-user works!</p> -->
+
 <div class="mt-1">
   <!-- Form tìm kiếm -->
   <form class="form-inline mb-4" action="" method="post" role="form">
@@ -17,7 +19,7 @@
         </div>
 
         <button type="button" class="btn btn-primary mr-2" (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
-         <a (click)="toggleAddUser()" routerLink="add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
+         <a (click)="toggleAddTypeUser()" routerLink="add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
       </div>
 
       <!-- Right container for status filter dropdown -->
@@ -28,16 +30,6 @@
           <option value="2">Không hoạt động</option>
         </select>
       </div>
-
-      <!-- <div>
-        <select class="form-control" (change)="onSalaryChange($event)">
-         <option value="">Lọc theo lương</option>
-          <option value="1000">Dưới 2000</option>
-          <option value="2000">Từ 2000 đến 3000</option>
-          <option value="3000">Trên 3000</option>
-        </select>
-      </div> -->
-
     </div>
 
 
@@ -46,16 +38,14 @@
 
 
 
-  <div *ngIf="isAddUserVisible || isEditUserVisible">
-    <app-add
-      *ngIf="isAddUserVisible"
-      [generatedIdUser]="newUserId"></app-add>
-    <div id="editForm" *ngIf="isEditUserVisible">
-      <app-edit
-      [selectedUser]="selectedUser"
+  <div *ngIf="isAddTypeUserVisible || isEditTypeUserVisible">
+    <app-add-Type *ngIf="isAddTypeUserVisible" [generateNewTypeUserId]="newTypeUser"></app-add-Type>
+    <div id="editTypeUserForm" *ngIf="isEditTypeUserVisible">
+      <app-edit-type-user
+      [selectedTypeUser]="selectedTypeUser"
       (closeForm)="handleCloseEditForm()"
       (userUpdated)="onUserUpdated($event)">
-    </app-edit>
+    ></app-edit-type-user>
     </div>
   </div>
 
@@ -67,41 +57,42 @@
       <thead class="thead-dark">
         <tr>
           <th>STT</th>
-          <th>ID User</th>
-          <th>Tên</th>
-          <th>Ngày sinh</th>
-          <th>Email</th>
-          <th>Số điện thoại</th>
-          <th>Điểm</th>
-          <th>Lương</th>
-          <th>Thưởng</th>
-          <th>Trạng thái</th>
+          <th>ID Type User</th>
+          <th>Name Type</th>
+          <th>Salary</th>
+          <th>Status</th>
+          <!-- <th>Power</th> -->
           <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of filteredUsers; let i = index">
+        <tr *ngFor="let typeuser of filteredTypeUser; let i = index">
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
-          <td>{{user.iduser}}</td>
-          <td>{{user.name}}</td>
-          <td>{{ user.birth | date: 'dd/MM/yyyy' }}</td>
-          <td>{{user.email}}</td>
-          <td>{{user.phone}}</td>
-          <td>{{user.points}}</td>
-          <td>{{ formatSalary(user.salary) }}</td>
-          <td>{{user.reward}}</td>
+          <td>{{typeuser.idtypeuser}}</td>
+          <td>{{typeuser.name_type}}</td>
+          <td>{{ formatSalary(typeuser.salary) }}</td>
           <td>
             <span [ngClass]="{
-              'text-success': user.status === 1,
-              'text-danger': user.status === 2,
-              'text-warning': user.status === 3
+              'text-success': typeuser.status === 1,
+              'text-danger': typeuser.status === 2,
+              'text-warning': typeuser.status === 3
             }">
-        {{ user.status === 1 ? 'Active' : (user.status === 2 ? 'Stopped' : (user.status === 3 ? 'Wait Report' : '')) }}
+        {{ typeuser.status === 1 ? 'Active' : (typeuser.status === 2 ? 'Stopped' : (typeuser.status === 3 ? 'Wait Report' : '')) }}
       </span>
           </td>
+          <!-- <td>
+            <span [ngClass]="{
+                  'text-success': typeuser.power === 1,
+                  'text-danger': typeuser.power === 2,
+                  'text-warning': typeuser.power === 3,
+                  'text-info' : typeuser.power === 4
+                  }">
+              {{ typeuser.status === 1 ? 'Quản lý' : (typeuser.status === 2 ? 'Nhân viên' : (typeuser.status === 3 ? 'Tài xế' : (typeuser.status === 4 ? 'Khách hàng' : ''))) }}
+            </span>
+          </td> -->
           <td>
-            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditUserAuto(user.iduser)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-            <button class="btn btn-danger" (click)="confirmDelete(user)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditTypeUserAuto(typeuser.idtypeuser)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btn btn-danger" (click)="confirmDelete(typeuser)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>
         </tr>
       </tbody>
@@ -130,3 +121,4 @@
     </ul>
   </nav>
 </div>
+

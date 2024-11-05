@@ -16,6 +16,12 @@ import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.compo
 import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
 import { ManagerHotelComponent } from './manager-hotel/manager-hotel.component';
 import { AddHotelComponent } from './manager-hotel/add-hotel/add-hotel.component';
+import { TypeUserComponent } from './type-user/type-user.component';
+import { AddTypeComponent } from './type-user/add/add.component';
+import { EditVehicleComponent } from './manager-vehicle/edit-vehicle/edit-vehicle.component';
+import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.component';
+import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user.component';
+
 
 import { ManagerPromotionComponent } from './manager-promotion/manager-promotion.component';
 import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
@@ -27,15 +33,22 @@ import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-prom
     ManagerUserComponent,
     AddComponent,
     EditComponent,
+
     ManagerVehicleComponent,
     AddVehicleComponent,
+    EditVehicleComponent,
+
     ManagerHotelComponent,
     AddHotelComponent,
+    EditHotelComponent,
 
     ManagerPromotionComponent,
     AddPromotionComponent,
     EditPromoComponent,
 
+    TypeUserComponent,
+    AddTypeComponent,
+    EditTypeUserComponent,
   ],
   imports: [
     BrowserModule,
