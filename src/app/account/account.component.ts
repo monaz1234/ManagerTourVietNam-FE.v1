@@ -48,7 +48,7 @@ export class AccountComponent implements OnInit {
   }
 
 
-  toggleAddUser(): void {
+  toggleAddAccount(): void {
     this.isAddAccountVisible = !this.isAddAccountVisible;
     this.isEditAccountVisible = false;
     if (this.isAddAccountVisible) {
@@ -90,8 +90,8 @@ export class AccountComponent implements OnInit {
 
       const matchesSearchQuery =
         account.username.toLowerCase().includes(query) ||
-        account.typeUser.toLowerCase().includes(query) ||
-        account.user.toLowerCase().includes(query) ||
+        account.typeUser.name_type.toLowerCase().includes(query) ||
+        account.user.name.toLowerCase().includes(query) ||
         account.idaccount.toLowerCase().includes(query);
 
       return matchesStatus && matchesSearchQuery;
@@ -229,8 +229,8 @@ deleteAccount(id: string): void {
 
     this.filteredAccount = this.accounts.filter(account =>
       account.username.toLowerCase().includes(query) ||
-      account.typeUser.toLowerCase().includes(query)||
-      account.user.toLowerCase().includes(query)
+      account.typeUser.name_type.toLowerCase().includes(query)||
+      account.user.name.toLowerCase().includes(query)
     );
 
     this.calculatePages();  // Recalculate pages if needed
