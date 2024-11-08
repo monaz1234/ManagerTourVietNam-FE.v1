@@ -1,0 +1,38 @@
+/* Định dạng chung */
+.mt-1 {
+    margin-top: 1rem;
+  }
+  .table-responsive {
+    margin-top: 1rem;
+  }
+  .table {
+    font-size: 0.9rem;
+  }
+  .font-weight-bold {
+    font-weight: 600;
+  }
+  .font-size-15px {
+    font-size: 15px;
+  }
+  
+  /* Định dạng cho các nút hành động */
+  .btnEdit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+  }
+  
+  /* Phân trang */
+  .pagination {
+    margin-top: 1.5rem;
+  }
+  .page-item .page-link {
+    color: #007bff;
+  }
+  .page-item .page-link:hover {
+    background-color: #f0f0f0;
+    border-color: #007bff;
+  }
+  

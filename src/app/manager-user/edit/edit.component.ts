@@ -19,7 +19,8 @@ export class EditComponent{
 
 
  ngOnInit(): void {
-    if (this.selectedUser) {
+  console.log(this.selectedUser);
+    if (!this.selectedUser) {
       console.error('Không tìm thấy người dùng để chỉnh sửa');
     }
     this.loadSalaryOptions();

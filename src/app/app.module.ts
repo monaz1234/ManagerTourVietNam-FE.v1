@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { provideHttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
 import { FormsModule } from '@angular/forms';
@@ -23,20 +24,31 @@ import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user
 import { AccountComponent } from './account/account.component';
 
 
+import { ManagerPromotionComponent } from './manager-promotion/manager-promotion.component';
+import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
+import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ManagerUserComponent,
     AddComponent,
     EditComponent,
+
     ManagerVehicleComponent,
     AddVehicleComponent,
+    EditVehicleComponent,
+
     ManagerHotelComponent,
     AddHotelComponent,
+    EditHotelComponent,
+
+    ManagerPromotionComponent,
+    AddPromotionComponent,
+    EditPromoComponent,
+
     TypeUserComponent,
     AddTypeComponent,
-    EditVehicleComponent,
-    EditHotelComponent,
     EditTypeUserComponent,
     AccountComponent,
   ],
@@ -49,6 +61,7 @@ import { AccountComponent } from './account/account.component';
   providers: [
     provideHttpClient()
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
