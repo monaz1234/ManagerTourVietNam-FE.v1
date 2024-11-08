@@ -18,9 +18,13 @@ import { TypeUserComponent } from './type-user/type-user.component';
 import { AddTypeComponent } from './type-user/add/add.component';
 import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user.component';
 
+import { AccountComponent } from './account/account.component';
+
+
 import { ManagerPromotionComponent } from './manager-promotion/manager-promotion.component';
 import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
 import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
+
 
 
 const routes: Routes = [
@@ -57,6 +61,10 @@ const routes: Routes = [
     { path: 'add', component: AddHotelComponent },
     { path: 'edit/:idhotel', component: EditHotelComponent }
   ]
+},
+
+{
+  path: 'account', component : AccountComponent
 },
 ];
 

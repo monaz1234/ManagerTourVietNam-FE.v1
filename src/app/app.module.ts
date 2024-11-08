@@ -21,6 +21,7 @@ import { AddTypeComponent } from './type-user/add/add.component';
 import { EditVehicleComponent } from './manager-vehicle/edit-vehicle/edit-vehicle.component';
 import { EditHotelComponent } from './manager-hotel/edit-hotel/edit-hotel.component';
 import { EditTypeUserComponent } from './type-user/edit-type-user/edit-type-user.component';
+import { AccountComponent } from './account/account.component';
 
 
 import { ManagerPromotionComponent } from './manager-promotion/manager-promotion.component';
@@ -49,6 +50,7 @@ import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-prom
     TypeUserComponent,
     AddTypeComponent,
     EditTypeUserComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
