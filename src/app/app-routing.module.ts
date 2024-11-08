@@ -24,6 +24,7 @@ import { AccountComponent } from './account/account.component';
 import { ManagerPromotionComponent } from './manager-promotion/manager-promotion.component';
 import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
 import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
+import { AddAccountComponent } from './account/add-account/add-account.component';
 
 
 
@@ -40,7 +41,7 @@ const routes: Routes = [
 ]},
 
 {
-  path : 'phuongtien', 
+  path : 'phuongtien',
   component : ManagerVehicleComponent,
   children:[
     { path: 'add', component: AddVehicleComponent },
@@ -48,7 +49,7 @@ const routes: Routes = [
 ]},
 
 {
-  path : 'khuyenmai', 
+  path : 'khuyenmai',
   component : ManagerPromotionComponent, children :[
   {path: 'add', component: AddPromotionComponent},
   {path: 'edit/:promotion_code', component: EditPromoComponent},
@@ -64,7 +65,9 @@ const routes: Routes = [
 },
 
 {
-  path: 'account', component : AccountComponent
+  path: 'account', component : AccountComponent, children: [
+    {path : 'add' , component: AddAccountComponent},
+  ]
 },
 ];
 
