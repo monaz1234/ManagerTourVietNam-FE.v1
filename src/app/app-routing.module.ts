@@ -25,6 +25,7 @@ import { ManagerPromotionComponent } from './manager-promotion/manager-promotion
 import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
 import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
 import { AddAccountComponent } from './account/add-account/add-account.component';
+import { EditAccountComponent } from './account/edit-account/edit-account.component';
 
 
 
@@ -67,6 +68,7 @@ const routes: Routes = [
 {
   path: 'account', component : AccountComponent, children: [
     {path : 'add' , component: AddAccountComponent},
+    {path: 'edit', component : EditAccountComponent},
   ]
 },
 ];

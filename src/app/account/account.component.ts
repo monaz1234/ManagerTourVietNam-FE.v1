@@ -40,12 +40,12 @@ export class AccountComponent implements OnInit {
     this.isEditAccountVisible = false;
   }
 
-  showFormEditAccount(account: any): void {
-    console.log(account.status); // Kiểm tra giá trị của user.status
-    this.selectedAccount = { ...account };
-    this.isAddAccountVisible = false;
-    this.isEditAccountVisible = true;
-  }
+  showFormEditAccount(accountId: string) {
+  this.accountService.findAccount(accountId).subscribe(account => {
+    this.selectedAccount = account;
+    this.isEditAccountVisible = true; // Ensure form visibility
+  });
+}
 
 
   toggleAddAccount(): void {

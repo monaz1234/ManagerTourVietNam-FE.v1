@@ -28,6 +28,7 @@ import { ManagerPromotionComponent } from './manager-promotion/manager-promotion
 import { AddPromotionComponent } from './manager-promotion/add-promotion/add-promotion.component';
 import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
 import { AddAccountComponent } from './account/add-account/add-account.component';
+import { EditAccountComponent } from './account/edit-account/edit-account.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { AddAccountComponent } from './account/add-account/add-account.component
     EditTypeUserComponent,
     AccountComponent,
     AddAccountComponent,
+    EditAccountComponent,
   ],
   imports: [
     BrowserModule,

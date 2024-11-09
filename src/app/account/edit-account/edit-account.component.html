@@ -1,0 +1,36 @@
+<div *ngIf="selectedAccount" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Tài Khoản</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
+
+          <!-- Hiển thị dropdown nếu trường là iduser hoặc id_type_user -->
+          <select *ngIf="field.type === 'select'"
+            [id]="field.name"
+            class="form-control"
+            [(ngModel)]="selectedAccount[field.name]"
+            [name]="field.name"
+            [required]="field.required">
+            <option value="">Chọn {{ field.label }}</option>
+            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+        </select>
+
+          <!-- Nếu trường không phải là select, hiển thị textbox -->
+          <input *ngIf="field.type !== 'select'"
+                 [id]="field.name"
+                 class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="selectedAccount[field.name]"
+                 [name]="field.name"
+                 [readonly]="field.name === 'idaccount'"
+                 [required]="field.required"
+                 [ngClass]="{'bg-gray': field.name === 'iduser'}" />
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+  </form>
+</div>
