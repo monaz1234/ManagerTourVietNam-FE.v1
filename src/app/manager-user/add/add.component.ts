@@ -94,6 +94,29 @@ export class AddComponent {
     });
   }
 
+  loadTypeUserOptions(): void {
+    this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
+      // Filter out typeUsers with status === 2
+      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
+
+      // Map remaining users to the salaryOptions format
+      const salaryOptions = activeTypeUsers.map(user => ({
+        value: user.idtypeuser,
+        label: user.name_type
+      }));
+
+      const idtyperUserField = this.formFields.find(field => field.name === 'idtypeuser');
+      if (idtyperUserField) {
+        idtyperUserField.options = salaryOptions;
+      }
+
+      // Optionally, remove or hide certain form fields if no typeUsers are active
+      if (activeTypeUsers.length === 0) {
+        this.formFields = this.formFields.filter(field => field.name !== 'idtypeuser');
+      }
+    });
+  }
+
 
 
   onSubmit() {
