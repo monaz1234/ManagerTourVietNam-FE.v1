@@ -1,0 +1,58 @@
+// Định nghĩa màu sắc và kích thước để dễ chỉnh sửa sau này
+$background-color: #f3f3f3;
+$error-color: red;
+$font-size-label: 14px;
+$font-size-button: 16px;
+$input-padding: 10px;
+$border-radius: 8px;
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+.login-container {
+  margin-left: 37%;
+  margin-right: 30%;
+  margin-top: 10%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  // Sử dụng nesting cho các thành phần bên trong
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      font-size: $font-size-label;
+    }
+
+    input.form-control {
+      width: 100%;
+      padding: $input-padding;
+      font-size: $font-size-label;
+      margin-top: 5px;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: $input-padding;
+    font-size: $font-size-button;
+    margin-top: 20px;
+  }
+
+  .error-message {
+    color: $error-color;
+    margin-top: 10px;
+  }
+}
+
+.register-link {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: underline;
+}
+

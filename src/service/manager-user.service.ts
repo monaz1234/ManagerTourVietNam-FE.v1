@@ -22,6 +22,10 @@ export class ManagerUserService {
     });
   }
 
+  getList_UserCopppy(): Observable<User[]> {
+    return this.http.get<User[]>(`http://localhost:9000/api/users`);
+  }
+
 
   addUser(user: User): Observable<any> {
     return this.http.post<any>('http://localhost:9000/api/user', user).pipe(

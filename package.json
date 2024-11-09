@@ -22,6 +22,7 @@
     "manager-tour-viet-nam-fe.v1": "file:",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "vite-plugin-node": "^4.0.0",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {

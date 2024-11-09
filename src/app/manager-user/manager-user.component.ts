@@ -301,11 +301,6 @@ filterUsers(selectedStatus: string, selectedSalary: string) {
   });
 }
 
-
-
-
-
-
 openEditForm(user: any) {
   this.selectedUser = user;
   this.isEditUserVisible = true;
