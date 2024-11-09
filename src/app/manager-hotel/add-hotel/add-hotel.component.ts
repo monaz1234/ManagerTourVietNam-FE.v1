@@ -29,8 +29,7 @@ formFields = [
   {name: 'id_hotel', label: 'Id của khách sạn', type: 'text', require: true},
   {name: 'name_hotel', label: 'Tên của khách sạn', type: 'text', require: true},
   {name: 'description', label: 'Mô tả', type: 'text', require: true},
-  {name: 'room', label: 'Số phòng', type: 'text', require: true},
-  {name: 'type_room', label: 'Loại phòng', type: 'text', require: true},
+
   {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'}
 ];
 
@@ -119,8 +118,6 @@ addHotel (){
     id_hotel: this.newHotel.id_hotel,
     name_hotel: this.newHotel.name_hotel,
     description: this.newHotel.description,
-    room: this.newHotel.room,
-    type_room: this.newHotel.type_room,
     image: '',
     status: true
   };
