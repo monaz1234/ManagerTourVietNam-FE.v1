@@ -41,11 +41,11 @@
       *ngIf="isAddAccountVisible"
       [generatedIdAccount]="newAccountId"></app-add-account>
     <div id="editForm" *ngIf="isEditAccountVisible">
-      <app-edit
-      [selectedUser]="selectedAccount"
+      <app-edit-account
+      [selectedAccount]="selectedAccount"
       (closeForm)="handleCloseEditForm()"
-      (userUpdated)="onAccountUpdated($event)">
-    </app-edit>
+      (accountUserUpdated)="onAccountUpdated($event)">
+    </app-edit-account>
     </div>
   </div>
 
