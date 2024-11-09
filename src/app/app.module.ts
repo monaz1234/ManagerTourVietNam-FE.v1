@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditComponent } from './manager-user/edit/edit.component';
 import { ManagerVehicleComponent } from './manager-vehicle/manager-vehicle.component';
 import { AddVehicleComponent } from './manager-vehicle/add-vehicle/add-vehicle.component';
@@ -29,6 +29,9 @@ import { AddPromotionComponent } from './manager-promotion/add-promotion/add-pro
 import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-promo.component';
 import { AddAccountComponent } from './account/add-account/add-account.component';
 import { EditAccountComponent } from './account/edit-account/edit-account.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -55,12 +58,17 @@ import { EditAccountComponent } from './account/edit-account/edit-account.compon
     AccountComponent,
     AddAccountComponent,
     EditAccountComponent,
+    LoginComponent,
+    AdminComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+
   ],
   providers: [
     provideHttpClient()
