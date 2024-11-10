@@ -176,7 +176,6 @@ toggleAddTypeUser(): void {
 
       const matchesSearchQuery =
         (typeuser.name_type || '').toLowerCase().includes(query) ||
-        (typeuser.power || '').toLowerCase().includes(query) ||
         typeuser.salary?.toString().includes(query) ||
         (typeuser.idtypeuser || '').toLowerCase().includes(query);
 

@@ -64,7 +64,7 @@ export class AddAccountComponent {
   loadTypeUserOptions(): void {
     this.type_UserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
       // Filter out typeUsers with status === 2
-      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
+      const activeTypeUsers = typeUsers.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng');
 
       // Map remaining users to the salaryOptions format
       const typeUserOptions = activeTypeUsers.map(user => ({
@@ -87,7 +87,7 @@ export class AddAccountComponent {
   loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
       // Lọc người dùng có status khác 2 và id_type_user khác "T003"
-      const activeUsers = users.filter(user => user.status !== 2 && user.id_type_user !== "T003");
+      const activeUsers = users.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng');
 
       // Chuyển đổi những người dùng còn lại thành dạng UserOptions
       const UserOptions = activeUsers.map(user => ({

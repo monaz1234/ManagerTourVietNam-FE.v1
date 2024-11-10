@@ -1,3 +1,4 @@
+import { TypeUser } from './typeuser.interface';  // Đảm bảo đường dẫn đúng
 export interface User {
   iduser: string;
   name: string;
@@ -7,11 +8,10 @@ export interface User {
   points: number;
   salary: number;
   reward: number;
-  status: string;
-  typeUser: {
-    idtypeuser: string;
-    name_type: string;
-    status: number;
-    salary: number;
-  };
+  status: number;
+  typeUser: TypeUser | null;
+
+  [key: string]: any; // Thêm chỉ số kiểu string
 }
+
+

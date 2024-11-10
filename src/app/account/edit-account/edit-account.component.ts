@@ -10,34 +10,33 @@ import { ManagerUserService } from '../../../service/manager-user.service';
   styleUrls: ['./edit-account.component.scss']
 })
 export class EditAccountComponent {
-  @Input() selectedAccount: any;  // Chỉ cần khai báo một lần từ @Input()
+  @Input() selectedAccount: any;  // Input property for the selected account
   @Output() closeForm = new EventEmitter<void>();
   @Output() accountUserUpdated = new EventEmitter<void>();
 
-  // Khai báo các biến options
-  typeUserOptions: any[] = [{ value: 'T001', label: 'Chọn loại người dùng' }];  // Mảng chứa đối tượng mặc định
-  userOptions: any[] = [{ value: 'Y001', label: 'Chọn người dùng' }];            // Mảng chứa đối tượng mặc định
-
+  // Options for type users and users
+  typeUserOptions: any[] = [];
+  userOptions: any[] = [];
 
   formFields = [
-    {name : 'idaccount', label: 'Id thông tin người dùng', type: 'text', required: true, displayName: ''},
-    {name : 'username', label: 'Tài khoản', type: 'text', required: false, displayName: ''},
-    {name: 'password', label : 'Mật khẩu', type: 'text', required : false, displayName: ''},
+    { name: 'idaccount', label: 'Id thông tin người dùng', type: 'text', required: true },
+    { name: 'username', label: 'Tài khoản', type: 'text', required: false },
+    { name: 'password', label: 'Mật khẩu', type: 'text', required: false },
     {
       name: 'id_type_user',
       label: 'Loại người dùng',
       type: 'select',
       required: false,
-      options: this.typeUserOptions,  // Sử dụng typeUserOptions đã khai báo
-      displayName: ''  // Chưa có giá trị mặc định, sẽ cập nhật sau
+      options: [],  // This will be updated dynamically
+      displayName: ''
     },
     {
       name: 'iduser',
       label: 'Người dùng',
       type: 'select',
       required: false,
-      options: this.userOptions,      // Sử dụng userOptions đã khai báo
-      displayName: ''  // Chưa có giá trị mặc định, sẽ cập nhật sau
+      options: [],  // This will be updated dynamically
+      displayName: ''
     },
     {
       name: 'status',
@@ -47,8 +46,7 @@ export class EditAccountComponent {
       options: [
         { value: '1', label: 'Hoạt động' },
         { value: '2', label: 'Đã ngưng hoạt động' }
-      ],
-      displayName: ''
+      ]
     }
   ];
 
@@ -60,89 +58,68 @@ export class EditAccountComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('Selected Account:', this.selectedAccount);
-
-    // Kiểm tra nếu selectedAccount đã có giá trị
     if (this.selectedAccount) {
-      // Cập nhật giá trị mặc định cho id_type_user và iduser
-      if (this.selectedAccount.typeUser) {
-        this.selectedAccount.id_type_user = this.selectedAccount.typeUser.idtypeuser; // Cập nhật giá trị id_type_user
-      }
-      if (this.selectedAccount.user) {
-        this.selectedAccount.iduser = this.selectedAccount.user.iduser; // Cập nhật giá trị iduser
-      }
+      // Set the initial values of type and user based on the selected account
+      this.selectedAccount.id_type_user = this.selectedAccount.typeUser?.idtypeuser || '';
+      this.selectedAccount.iduser = this.selectedAccount.user?.iduser || '';
 
-      // Tìm và cập nhật displayName cho các trường
-      const idTypeUserField = this.formFields.find(field => field.name === 'id_type_user');
-      if (idTypeUserField) {
-        idTypeUserField.displayName = this.selectedAccount.typeUser?.name_type || '';
-      }
-
-      const idUserField = this.formFields.find(field => field.name === 'iduser');
-      if (idUserField) {
-        idUserField.displayName = this.selectedAccount.user?.name || '';
-      }
-
-      // Tải các tùy chọn (options) cho các dropdown
       this.loadTypeUserOptions();
       this.loadUsersOptions();
-
-      // Kiểm tra giá trị của iduser và idtypeuser sau khi gán
-      console.log('Selected Account iduser:', this.selectedAccount.iduser);
-      console.log('Selected Account id_type_user:', this.selectedAccount.id_type_user);
     }
   }
 
   loadTypeUserOptions(): void {
     this.type_userService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
-      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
-      this.typeUserOptions = activeTypeUsers.map(user => ({
-        value: user.idtypeuser,
-        label: user.name_type
-      }));
+      this.typeUserOptions = typeUsers
+        .filter(user => user.status !== 2 && user.name_type !== 'Khách hàng') // Thêm điều kiện loại trừ "Khách hàng"
+        .map(user => ({
+          value: user.idtypeuser,
+          label: user.name_type
+        }));
 
-      // Cập nhật lại options cho trường 'id_type_user'
       const typeUserField = this.formFields.find(field => field.name === 'id_type_user');
-      if (typeUserField) {
-        typeUserField.options = this.typeUserOptions;
-      }
+      if (typeUserField) typeUserField.options = this.typeUserOptions;
     });
   }
 
+
   loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
-      const activeUsers = users.filter(user => user.status !== 2);
-      this.userOptions = activeUsers.map(user => ({
+      this.userOptions = users.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng').map(user => ({
         value: user.iduser,
         label: user.name
       }));
 
-      // Cập nhật lại options cho trường 'iduser'
       const userField = this.formFields.find(field => field.name === 'iduser');
-      if (userField) {
-        userField.options = this.userOptions;
-      }
+      if (userField) userField.options = this.userOptions;
     });
   }
 
   onSubmit(): void {
+    // Update the account with the selected user and type user
+    this.selectedAccount.typeUser = {
+      idtypeuser: this.selectedAccount.id_type_user,
+      name_type: this.typeUserOptions.find(option => option.value === this.selectedAccount.id_type_user)?.label || '',
+      salary: 0,  // Set this value according to your requirements, maybe from the options
+      status: 1
+    };
+
+    this.selectedAccount.user = {
+      iduser: this.selectedAccount.iduser,
+      name: this.userOptions.find(option => option.value === this.selectedAccount.iduser)?.label || '',
+      status: 1
+    };
+
+    // Call service to update the account
     this.accountService.updateAccount(this.selectedAccount.idaccount, this.selectedAccount).subscribe({
       next: (response) => {
         console.log('Chỉnh sửa thành công', response);
-        this.refreshAccountUserData();
         this.accountUserUpdated.emit(this.selectedAccount);
         this.closeForm.emit();
       },
       error: (error) => {
-        console.error('Lỗi khi cập nhập người dùng', error);
+        console.error('Lỗi khi cập nhật người dùng', error);
       }
-    });
-  }
-
-  refreshAccountUserData(): void {
-    this.accountService.findAccount(this.selectedAccount.idaccount).subscribe(account => {
-      console.log('Dữ liệu tài khoản mới', account);
-      this.selectedAccount = account;
     });
   }
 }

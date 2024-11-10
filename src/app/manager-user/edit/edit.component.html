@@ -6,20 +6,17 @@
         <div class="form-group">
           <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
 
-          <!-- Nếu trường là select, hiển thị dropdown -->
           <select *ngIf="field.type === 'select'"
             [id]="field.name"
             class="form-control"
             [(ngModel)]="selectedUser[field.name]"
-            (ngModelChange)="onIdTypeUserChange(selectedUser[field.name])"
+            (ngModelChange)="field.name === 'typeUser' ? onTypeUserChange(selectedUser[field.name]) : null"
             [name]="field.name"
             [required]="field.required">
-              <option value="">Chọn loại người dùng</option> <!-- Tuỳ chọn rỗng -->
+              <option value="">Chọn loại người dùng</option>
               <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
           </select>
 
-
-          <!-- Nếu trường không phải là select, hiển thị textbox -->
           <input *ngIf="field.type !== 'select'"
                  [id]="field.name"
                  class="form-control"
