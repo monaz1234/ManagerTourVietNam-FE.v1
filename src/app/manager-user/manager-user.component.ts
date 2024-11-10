@@ -52,10 +52,12 @@ export class ManagerUserComponent implements OnInit{
 
   showFormEditUser(user: any): void {
     console.log(user.status); // Kiểm tra giá trị của user.status
-    this.selectedUser = { ...user };
+    this.selectedUser = { ...user};  // Cập nhật selectedUser
+    console.log(this.selectedUser); // Kiểm tra giá trị của selectedUser
     this.isAddUserVisible = false;
     this.isEditUserVisible = true;
   }
+
 
 
   formatSalary(salary: number): string {
@@ -85,6 +87,7 @@ toggleAddUser(): void {
 
   }
   ngOnInit(): void {
+
     this.getListUser();
 
   }
@@ -242,7 +245,9 @@ applyFilter(): void {
       user.name.toLowerCase().includes(query) ||
       user.email.toLowerCase().includes(query)||
       user.phone.toLowerCase().includes(query)||
-      user.iduser.toLowerCase().includes(query);
+      user.iduser.toLowerCase().includes(query)||
+      user.typeUser?.name_type.toLowerCase().includes(query);
+
 
     return matchesStatus && matchesSearchQuery; // Must match both conditions
   });
@@ -267,7 +272,8 @@ onSearch(): void {
     user.name.toLowerCase().includes(query) ||
     user.email.toLowerCase().includes(query)||
     user.iduser.toLowerCase().includes(query)||
-    user.phone.toLowerCase().includes(query)
+    user.phone.toLowerCase().includes(query)||
+    user.typeUser?.name_type.toLowerCase().includes(query)
   );
 
   this.calculatePages();  // Recalculate pages if needed

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
 import { TypeUserService } from '../../../service/type_user/type-user.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add',
@@ -27,9 +28,10 @@ export class AddComponent {
     salary: 0,  // Giá trị mặc định cho lương
     reward: 0,  // Giá trị mặc định cho thưởng
     status: 1, // Gán trạng thái mặc định
+    typeUser: '',
   };
   errorMessages: string[] = [];
-
+  activeTypeUsers: any[] = [];
 
 
   formFields: {
@@ -43,26 +45,37 @@ export class AddComponent {
     { name: 'name', label: 'Tên người dùng', type: 'text', required: false },
     { name: 'birth', label: 'Ngày sinh người dùng', type: 'date', required: false },
     { name: 'email', label: 'Email người dùng', type: 'text', required: false },
+    {
+      name: 'typeUser',
+      label: 'Loại người dùng',
+      type: 'select',
+      required: false,
+      options: []
+    },
     { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
-    { name: 'points', label: 'Điểm của người dùng', type: 'text', required: false },
-    { name: 'salary', label: 'Lương của người dùng', type: 'select', required: false, options: [] },
-    { name: 'reward', label: 'Thưởng của người dùng', type: 'text', required: false }
+    { name: 'points', label: 'Điểm của người dùng', type: 'number', required: false },
+    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false },
+    { name: 'reward', label: 'Thưởng của người dùng', type: 'number', required: false }
   ];
 
 
-  constructor(private userService: ManagerUserService, private router: Router, private typeUserService: TypeUserService) {}
+
+  constructor(private userService: ManagerUserService, private router: Router, private typeUserService: TypeUserService, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.newUser.iduser = this.generatedIdUser; // Gán iduser từ cha vào form
     this.loadSalaryOptions(); // Gọi hàm để lấy dữ liệu lương
-  }
+    this.loadTypeUserOptions();
+    this.getTypeUserOptions();
 
+  }
   resetForm() {
     this.newUser = {
       iduser: this.generatedIdUser, // Gán ID mới từ component cha
       name: '',
       birth: '',
       email: '',
+      typeUser:'',
       phone: '',
       points: 0,
       salary: 0,
@@ -70,6 +83,7 @@ export class AddComponent {
     };
     this.errorMessages = []; // Reset thông báo lỗi
   }
+
 
   loadSalaryOptions(): void {
     this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
@@ -97,26 +111,57 @@ export class AddComponent {
   loadTypeUserOptions(): void {
     this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
       // Filter out typeUsers with status === 2
-      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
+      this.activeTypeUsers = typeUsers.filter(user => user.status !== 2);
 
-      // Map remaining users to the salaryOptions format
-      const salaryOptions = activeTypeUsers.map(user => ({
+      // Map active users to the id_type_user options format
+      const idTypeUserOptions = this.activeTypeUsers.map(user => ({
         value: user.idtypeuser,
         label: user.name_type
       }));
 
-      const idtyperUserField = this.formFields.find(field => field.name === 'idtypeuser');
-      if (idtyperUserField) {
-        idtyperUserField.options = salaryOptions;
+      const idTypeUserField = this.formFields.find(field => field.name === 'typeUser');
+      if (idTypeUserField) {
+        idTypeUserField.options = idTypeUserOptions;
       }
 
-      // Optionally, remove or hide certain form fields if no typeUsers are active
-      if (activeTypeUsers.length === 0) {
-        this.formFields = this.formFields.filter(field => field.name !== 'idtypeuser');
+      // Optionally, hide id_type_user field if no active users
+      if (this.activeTypeUsers.length === 0) {
+        this.formFields = this.formFields.filter(field => field.name !== 'typeUser');
       }
     });
   }
 
+  onIdTypeUserChange(selectedIdTypeUser: string): void {
+    const selectedTypeUser = this.activeTypeUsers.find(user => user.idtypeuser === selectedIdTypeUser);
+    if (selectedTypeUser) {
+      this.newUser.salary = selectedTypeUser.salary; // Lấy salary từ đối tượng typeUser đã chọn
+    } else {
+      this.newUser.salary = 0; // Reset salary nếu không tìm thấy loại người dùng
+    }
+  }
+
+  typeUserOptions: { idtypeuser: string; name_type: string; status: number; salary: number }[] = [];
+  getTypeUserOptions() {
+    this.typeUserService.getListType_UserCopppy().subscribe((data: any) => {
+      this.typeUserOptions = data;
+    });
+  }
+
+
+  onTypeUserChange(selectedTypeUserId: string) {
+    const selectedTypeUser = this.typeUserOptions.find(
+      (type) => type.idtypeuser === selectedTypeUserId
+    );
+
+    if (selectedTypeUser) {
+      this.newUser.typeUser = {
+        idtypeuser: selectedTypeUser.idtypeuser,
+        name_type: selectedTypeUser.name_type,
+        status: selectedTypeUser.status,
+        salary: selectedTypeUser.salary,
+      };
+    }
+  }
 
 
   onSubmit() {
@@ -149,7 +194,11 @@ export class AddComponent {
 
     if (!this.newUser.birth) {
       this.errorMessages.push('Ngày sinh không được để trống!');
-    } else {
+    }
+    if(!this.newUser.typeUser){
+      this.errorMessages.push('Không được để trống loại người dùng');
+    }
+    else {
       // Kiểm tra ngày sinh không được dưới 18 tuổi
       const birthDate = new Date(this.newUser.birth);
       const today = new Date();
@@ -175,7 +224,7 @@ export class AddComponent {
 
   // Đảm bảo rằng newUser có đầy đủ thông tin cần thiết
   this.newUser = {
-    iduser: this.newUser.iduser,  // Chuyển đổi nếu cần
+    iduser: this.newUser.iduser,
     name: this.newUser.name,
     birth: this.newUser.birth,
     email: this.newUser.email,
@@ -184,24 +233,41 @@ export class AddComponent {
     salary: this.newUser.salary,
     reward: this.newUser.reward,
     status: this.newUser.status,
-  };
+    typeUser: (() => {
+      const selectedTypeUser = this.typeUserOptions.find(
+        option => option.idtypeuser === this.newUser.typeUser
+      );
 
+      return selectedTypeUser
+        ? {
+            idtypeuser: selectedTypeUser.idtypeuser,
+            name_type: selectedTypeUser.name_type,
+            status: selectedTypeUser.status,
+            salary: selectedTypeUser.salary
+          }
+        : { idtypeuser: "", name_type: "", status: 0, salary: 0 }; // Giá trị mặc định nếu không tìm thấy
+    })()
+  };
 
 
 
   this.userService.addUser(this.newUser).subscribe({
     next: (response) => {
-
-
       this.closeForm(); // Call a method to close the form
       this.resetForm();
-      this.router.navigate(['/gioithieu/add']);
-
+      this.router.navigate(['admin/gioithieu/add']);
     },
     error: (error) => {
       console.error('Lỗi khi thêm người dùng:', error);
+      if (error.error) {
+        console.error('Chi tiết lỗi từ backend:', error.error);
+      } else {
+        console.error('Lỗi không xác định:', error);
+      }
     }
   });
+
+
 
 
 
