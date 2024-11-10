@@ -29,14 +29,6 @@
         </select>
       </div>
 
-      <!-- <div>
-        <select class="form-control" (change)="onSalaryChange($event)">
-         <option value="">Lọc theo lương</option>
-          <option value="1000">Dưới 2000</option>
-          <option value="2000">Từ 2000 đến 3000</option>
-          <option value="3000">Trên 3000</option>
-        </select>
-      </div> -->
 
     </div>
 
@@ -51,8 +43,7 @@
       *ngIf="isAddUserVisible"
       [generatedIdUser]="newUserId"></app-add>
     <div id="editForm" *ngIf="isEditUserVisible">
-      <app-edit
-      [selectedUser]="selectedUser"
+      <app-edit *ngIf="selectedUser" [selectedUser]="selectedUser"
       (closeForm)="handleCloseEditForm()"
       (userUpdated)="onUserUpdated($event)">
     </app-edit>
@@ -71,10 +62,9 @@
           <th>Tên</th>
           <th>Ngày sinh</th>
           <th>Email</th>
-          <th>Số điện thoại</th>
-          <th>Điểm</th>
+          <th>Phone</th>
+          <th>Quyền</th>
           <th>Lương</th>
-          <th>Thưởng</th>
           <th>Trạng thái</th>
           <th>Hành động</th>
         </tr>
@@ -87,9 +77,8 @@
           <td>{{ user.birth | date: 'dd/MM/yyyy' }}</td>
           <td>{{user.email}}</td>
           <td>{{user.phone}}</td>
-          <td>{{user.points}}</td>
+           <td>{{ user.typeUser?.name_type }}</td>
           <td>{{ formatSalary(user.salary) }}</td>
-          <td>{{user.reward}}</td>
           <td>
             <span [ngClass]="{
               'text-success': user.status === 1,

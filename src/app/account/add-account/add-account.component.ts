@@ -84,12 +84,12 @@ export class AddAccountComponent {
     });
   }
 
-  loadUsersOptions(): void{
+  loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
-      // Filter out typeUsers with status === 2
-      const activeUsers = users.filter(user => user.status !== 2);
+      // Lọc người dùng có status khác 2 và id_type_user khác "T003"
+      const activeUsers = users.filter(user => user.status !== 2 && user.id_type_user !== "T003");
 
-      // Map remaining users to the salaryOptions format
+      // Chuyển đổi những người dùng còn lại thành dạng UserOptions
       const UserOptions = activeUsers.map(user => ({
         value: user.iduser,
         label: user.name
@@ -100,12 +100,13 @@ export class AddAccountComponent {
         nameField.options = UserOptions;
       }
 
-      // Optionally, remove or hide certain form fields if no typeUsers are active
+      // Nếu không có người dùng hợp lệ, loại bỏ trường 'iduser'
       if (activeUsers.length === 0) {
         this.formFields = this.formFields.filter(field => field.name !== 'iduser');
       }
     });
   }
+
 
   onSubmit(){
     console.log('Dữ liệu gửi lên', this.newAccount);
@@ -127,7 +128,7 @@ export class AddAccountComponent {
       next: (response) =>{
         this.closeForm();
         this.resetForm();
-        this.router.navigate(['/account/add']);
+        this.router.navigate(['admin/account/add']);
       },
       error : (error) =>{
         console.log('Lỗi khi thêm tài khoản người dùng', error);

@@ -8,14 +8,16 @@
 
           <!-- Nếu trường là select, hiển thị dropdown -->
           <select *ngIf="field.type === 'select'"
-                  [id]="field.name"
-                  class="form-control"
-                  [(ngModel)]="selectedUser[field.name]"
-                  [name]="field.name"
-                  [required]="field.required">
-            <option value="">Chọn trạng thái</option> <!-- Tuỳ chọn rỗng -->
-            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+            [id]="field.name"
+            class="form-control"
+            [(ngModel)]="selectedUser[field.name]"
+            (ngModelChange)="onIdTypeUserChange(selectedUser[field.name])"
+            [name]="field.name"
+            [required]="field.required">
+              <option value="">Chọn loại người dùng</option> <!-- Tuỳ chọn rỗng -->
+              <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
           </select>
+
 
           <!-- Nếu trường không phải là select, hiển thị textbox -->
           <input *ngIf="field.type !== 'select'"
@@ -24,7 +26,7 @@
                  [type]="field.type"
                  [(ngModel)]="selectedUser[field.name]"
                  [name]="field.name"
-                 [readonly]="field.name === 'iduser'"
+                 [readonly]="field.name === 'iduser' || field.name === 'salary'"
                  [required]="field.required"
                  [ngClass]="{'bg-gray': field.name === 'iduser'}" />
         </div>

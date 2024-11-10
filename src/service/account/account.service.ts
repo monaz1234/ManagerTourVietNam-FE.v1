@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AccountService {
-  private accountsSuubject : BehaviorSubject<Account[]> = new BehaviorSubject<Account[]>([]);
-  account$: Observable<Account[]> = this.accountsSuubject.asObservable();
+  private accountsSubject : BehaviorSubject<Account[]> = new BehaviorSubject<Account[]>([]);
+  account$: Observable<Account[]> = this.accountsSubject.asObservable();
 
 
   constructor(private http: HttpClient) {
@@ -17,7 +17,7 @@ export class AccountService {
 
   getList_Account() : void {
     this.http.get<Account[]>('http://localhost:9000/api/accounts').subscribe((data)=>{
-      this.accountsSuubject.next(data);
+      this.accountsSubject.next(data);
     });
   }
 

@@ -6,6 +6,12 @@ export interface User {
   phone: string;
   points: number;
   salary: number;
-  reward: string;
+  reward: number;
   status: string;
+  typeUser: {
+    idtypeuser: string;
+    name_type: string;
+    status: number;
+    salary: number;
+  };
 }
