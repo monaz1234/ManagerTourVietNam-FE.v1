@@ -12,8 +12,7 @@ export class EditComponent implements OnInit {
   @Input() selectedUser: any;
   @Output() closeForm = new EventEmitter<void>();
   @Output() userUpdated = new EventEmitter<any>();
-  typeUserOptions12: any[] = [{ value: '', label: 'Chọn loại người dùng' }];
-  activeTypeUsers: any[] = [];
+  typeUserOptions: any[] = [];
 
   formFields = [
     { name: 'iduser', label: 'Id thông tin người dùng', type: 'text', required: true },
@@ -27,9 +26,9 @@ export class EditComponent implements OnInit {
       label: 'Loại người dùng',
       type: 'select',
       required: false,
-      options: [],
+      options: []
     },
-    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false},
+    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false },
     { name: 'reward', label: 'Thưởng của người dùng', type: 'number', required: false },
     {
       name: 'status',
@@ -50,141 +49,90 @@ export class EditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.selectedUser);
-
-    if (this.selectedUser.typeUser) {
-      this.selectedUser.typeUser = this.selectedUser.typeUser.idtypeuser; // Cập nhật giá trị id_type_user
+    if (this.selectedUser) {
+      console.log('Selected User:', this.selectedUser);
+      this.selectedUser.typeUser = this.selectedUser.typeUser?.idtypeuser || '';
     }
 
-    if (!this.selectedUser) {
-      console.error('Không tìm thấy người dùng để chỉnh sửa');
-      return;
-    }
-
-    // Đảm bảo load các options cho typeUser
-    this.loadSalaryOptions();
     this.loadTypeUserOptions();
-    console.log('Selected Account id_type_user:', this.selectedUser.typeUser);
-
-    // Kiểm tra và cập nhật selectedUser.typeUser
   }
-
-
-
-  loadSalaryOptions(): void {
-    this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
-      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
-      const typeUserOptions = activeTypeUsers.map(user => ({
-        value: user.idtypeuser,
-        label: user.name_type
-      }));
-
-      // Update options for typeUser field
-      const typeUserField = this.formFields.find(field => field.name === 'typeUser');
-      if (typeUserField) {
-        typeUserField.options = typeUserOptions;
-      }
-
-      // Set the selected type user if available
-      if (this.selectedUser && this.selectedUser.typeUser) {
-        const selectedOption = typeUserOptions.find(option => option.value === this.selectedUser.typeUser.idtypeuser);
-        if (selectedOption) {
-          this.selectedUser.typeUser = selectedOption;
-        }
-      }
-    });
-  }
-  onTypeUserChange(selectedTypeUserId: string) {
-    const selectedTypeUser = this.typeUserOptions.find(
-      (type) => type.idtypeuser === selectedTypeUserId
-    );
-
-    if (selectedTypeUser) {
-      this.selectedUser.typeUser = {
-        idtypeuser: selectedTypeUser.idtypeuser,
-        name_type: selectedTypeUser.name_type,
-        status: selectedTypeUser.status,
-        salary: selectedTypeUser.salary
-      };
-    }
-  }
-
-  onIdTypeUserChange(selectedIdTypeUser: string): void {
-    const selectedTypeUser = this.typeUserOptions12.find(user => user.value === selectedIdTypeUser);
-    if (selectedTypeUser) {
-      this.selectedUser.salary = selectedTypeUser.salary; // Lấy salary từ đối tượng typeUser đã chọn
-    } else {
-      this.selectedUser.salary = 0; // Reset salary nếu không tìm thấy loại người dùng
-    }
-  }
-
-  typeUserOptions: { idtypeuser: string; name_type: string; status: number; salary: number }[] = [];
-  getTypeUserOptions() {
-    this.typeUserService.getListType_UserCopppy().subscribe((data: any) => {
-      this.typeUserOptions = data;
-    });
-  }
-
 
   loadTypeUserOptions(): void {
     this.typeUserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
-      const activeTypeUsers = typeUsers.filter(user => user.status !== 2);
-      this.typeUserOptions12 = activeTypeUsers.map(user => ({
+      this.typeUserOptions = typeUsers.filter(user => user.status !== 2).map(user => ({
         value: user.idtypeuser,
         label: user.name_type,
-        salary: user.salary
-      }));
+        salary: user.salary,
+        status : user.status
 
-      // Cập nhật lại loại người dùng đã chọn
+
+      }));
+      const typeUserField = this.formFields.find(field => field.name === 'typeUser');
+      if (typeUserField) typeUserField.options = this.typeUserOptions;
+
+      // Kiểm tra giá trị hiện tại của selectedUser.typeUser và cập nhật lại nếu cần
       if (this.selectedUser && this.selectedUser.typeUser) {
-        const selectedOption = this.typeUserOptions12.find(option => option.value === this.selectedUser.typeUser.idtypeuser);
-        if (selectedOption) {
-          this.selectedUser.typeUser = selectedOption;
-          console.log('Cập nhật loại người dùng:', this.selectedUser.typeUser);
+        const selectedTypeUser = this.typeUserOptions.find(option => option.value === this.selectedUser.typeUser);
+        if (selectedTypeUser) {
+          this.selectedUser.name_type = selectedTypeUser.label;
+          this.selectedUser.salary = selectedTypeUser.salary;
+          console.log("Vãi lìn");
         }
       }
     });
+
   }
 
 
+  onTypeUserChange(selectedTypeUserId: string): void {
+    const selectedTypeUser = this.typeUserOptions.find(type => type.value === selectedTypeUserId);
+    if (selectedTypeUser) {
+      // Cập nhật thông tin salary và name_type
+      this.selectedUser.salary = selectedTypeUser.salary || 0;
+      this.selectedUser.name_type = selectedTypeUser.label;
+      this.selectedUser.typeUser = selectedTypeUser.value;
+      this.selectedUser.status = selectedTypeUser.status
 
+      console.log(selectedTypeUser.value);
+    } else {
+      // Nếu không tìm thấy loại người dùng phù hợp, bạn có thể reset giá trị
+      this.selectedUser.salary = 0;
+      this.selectedUser.name_type = '';
+    }
+  }
 
-  onSubmit() {
-    // Cập nhật thông tin người dùng với loại người dùng đã chọn
-    this.selectedUser = {
-      iduser: this.selectedUser.iduser,
-      name: this.selectedUser.name,
-      birth: this.selectedUser.birth,
-      email: this.selectedUser.email,
-      phone: this.selectedUser.phone,
-      points: this.selectedUser.points,
-      salary: this.selectedUser.salary,
-      reward: this.selectedUser.reward,
-      status: this.selectedUser.status,
-      typeUser: (() => {
-        const selectedTypeUser = this.typeUserOptions12.find(
-          option => option.value === this.selectedUser.typeUser.value
-        );
+  onSubmit(): void {
+    // Tìm typeUser từ typeUserOptions bằng cách so sánh idtypeuser với selectedUser.typeUser
+    const selectedTypeUser = this.typeUserOptions.find(option => option.value === this.selectedUser.typeUser);
 
-        // Nếu tìm thấy loại người dùng, cập nhật thông tin đầy đủ
-        return selectedTypeUser
-          ? {
-              idtypeuser: selectedTypeUser.value,
-              name_type: selectedTypeUser.label,
-              status: selectedTypeUser.status,
-              salary: selectedTypeUser.salary
-            }
-          : { idtypeuser: "", name_type: "", status: 0, salary: 0 }; // Giá trị mặc định nếu không tìm thấy
-      })()
-    };
+    // Nếu tìm thấy typeUser trong danh sách options, gán lại dữ liệu vào selectedUser
+    if (selectedTypeUser) {
+      this.selectedUser = {
+        ...this.selectedUser,
+        typeUser: {
+          idtypeuser: selectedTypeUser.value,  // Đảm bảo gán đúng ID của typeUser
+          name_type: selectedTypeUser.label,   // Đảm bảo gán đúng tên loại người dùng
+          status : selectedTypeUser.status,
+          salary: selectedTypeUser.salary,      // Đảm bảo gán đúng lương
+        }
+      };
+    } else {
+      // Nếu không tìm thấy, gán giá trị mặc định cho typeUser
+      this.selectedUser = {
+        ...this.selectedUser,
+        typeUser: { idtypeuser: "", name_type: "", salary: 0, status: 1 }
+      };
+    }
 
-    // Cập nhật người dùng
+    // Kiểm tra log để đảm bảo rằng selectedUser đã được gán đúng
+    console.log('Updated Selected User:', this.selectedUser);
+
+    // Tiến hành gửi yêu cầu cập nhật người dùng
     this.userService.updateUser(this.selectedUser.iduser, this.selectedUser).subscribe({
       next: (response) => {
         console.log('Chỉnh sửa thành công:', response);
-        this.refreshUserData();
-        this.userUpdated.emit(this.selectedUser);
-        this.closeForm.emit();
+        this.userUpdated.emit(this.selectedUser);  // Emit người dùng đã cập nhật
+        this.closeForm.emit();  // Emit để đóng form
       },
       error: (error) => {
         console.error('Lỗi khi cập nhật người dùng:', error);
@@ -193,12 +141,4 @@ export class EditComponent implements OnInit {
   }
 
 
-
-
-  refreshUserData() {
-    this.userService.findUser(this.selectedUser.iduser).subscribe(user => {
-      console.log('Dữ liệu người dùng mới:', user);
-      this.selectedUser = user;
-    });
-  }
 }
