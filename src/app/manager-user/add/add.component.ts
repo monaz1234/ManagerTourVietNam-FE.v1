@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerUserService } from '../../../service/manager-user.service';
 import { TypeUserService } from '../../../service/type_user/type-user.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { User } from '../../../interface/user.interface';
 
 @Component({
   selector: 'app-add',
@@ -18,6 +19,7 @@ export class AddComponent {
   }
 
   @Input() generatedIdUser: string = ''; // Nhận giá trị iduser từ component cha
+  @Output() userAdded = new EventEmitter<User>(); // Phát sự kiện với kiểu User
   newUser: any = {
     iduser: '',
     name: '',
@@ -63,12 +65,21 @@ export class AddComponent {
   constructor(private userService: ManagerUserService, private router: Router, private typeUserService: TypeUserService, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
+    console.log('ID nhận từ cha:', this.generatedIdUser); // Kiểm tra giá trị
     this.newUser.iduser = this.generatedIdUser; // Gán iduser từ cha vào form
-    this.loadSalaryOptions(); // Gọi hàm để lấy dữ liệu lương
+    this.loadSalaryOptions();
     this.loadTypeUserOptions();
     this.getTypeUserOptions();
-
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['generatedIdUser']) {
+      console.log('ID nhận được:', changes['generatedIdUser'].currentValue);
+      this.newUser.iduser = changes['generatedIdUser'].currentValue;
+    }
+  }
+
+
   resetForm() {
     this.newUser = {
       iduser: this.generatedIdUser, // Gán ID mới từ component cha

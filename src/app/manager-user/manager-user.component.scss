@@ -28,3 +28,28 @@
   margin-right: 10px;
 }
 
+
+// --- phân trang -----
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #333;
+
+    &:hover {
+      background-color: #ddd;
+    }
+
+    &.active {
+      background-color: #007bff;
+      color: #fff;
+    }
+  }
+}
