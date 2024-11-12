@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ManagerUserService } from '../../service/manager-user.service';
 import { User } from '../../interface/user.interface';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router'; // Đảm bảo import đúng Router và ActivatedRoute
-import { flush } from '@angular/core/testing';
-
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-manager-user',
   templateUrl: './manager-user.component.html',
@@ -17,20 +16,23 @@ export class ManagerUserComponent implements OnInit{
 
 
 
+
   users: User[] = []; // sử dụng interface
   selectedUser: any;
   newUserId: string = '';
   reversedUsers: User[] = []; // Danh sách người dùng đảo ngược
+  displaySearchResult: User[] = []; // Khởi tạo biến để lưu kết quả tìm kiếm
+  isSearchCompleted: boolean = false; // Cờ để kiểm tra kết quả tìm kiếm
 
 
-  currentPage: number = 2; // Trang hiện tại
+  currentPage: number = 1; // Trang hiện tại
   currentUsers: User[] = []; // Danh sách người dùng hiện tại
-  itemsPerPage: number = 2; // Số lượng người dùng trên mỗi trang
-  totalItems: number = 999; // Tổng số người dùng
-  pages: number[] = []; // Mảng lưu trang
+  itemsPerPage: number = 5; // Số lượng người dùng trên mỗi trang
+  totalItems: number = 0; // Tổng số người dùng
+  pages: (string | number)[] = [];
 
 
-  totalPages: number = 90;    // Tổng số trang
+  totalPages: number = 0;    // Tổng số trang
 
 
 
@@ -46,6 +48,7 @@ export class ManagerUserComponent implements OnInit{
   isAddUserVisible = false; // Biến để theo dõi trạng thái hiển thị
   isEditUserVisible = false;
   private isFirstEdit: boolean = true; // Biến để theo dõi lần đầu tiên chọn chỉnh sửa
+  isLoading = false; // Trạng thái chờ dữ liệu
 
 
 
@@ -92,7 +95,7 @@ toggleAddUser(): void {
   }
   ngOnInit(): void {
 
-    this.getListUser();
+    // this.getListUser();
     this.loadUsers();
 
   }
@@ -101,15 +104,40 @@ toggleAddUser(): void {
 
 
   getListUser() {
-    this.managerService.users$.subscribe((data: User[]) => {
-      this.users = data; // Cập nhật danh sách người dùng
-      console.log(this.users); // Kiểm tra xem dữ liệu có chính xác không
-      this.totalItems = data.length; // Cập nhật tổng số người dùng
-      this.applyFilter(); // Áp dụng bộ lọc ngay sau khi nhận dữ liệu
-      this.calculatePages(); // Tính số trang
-      this.updateCurrentPageUsers(); // Cập nhật người dùng hiển thị trên trang hiện tại
+    this.managerService.getUsersWithPagination(this.currentPage, this.itemsPerPage).subscribe({
+      next: (response) => {
+        this.totalPages = response.totalPages;
+        this.users = response.content;
+        // this.applyFilter();
+      },
+      error: (err) => {
+        console.error("Error fetching users:", err);
+      }
     });
+
   }
+  loadUsers(): void {
+    this.isLoading = true;
+
+    this.managerService
+      .getUsersWithPagination(this.currentPage, this.itemsPerPage)
+      .pipe(
+        tap((response) => {
+          this.users = response.content;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+          this.applyFilters(); // Áp dụng bộ lọc sau khi tải dữ liệu
+        }),
+        catchError((error) => {
+          console.error('Lỗi khi tải danh sách người dùng:', error);
+          return of([]); // Trả về danh sách rỗng khi có lỗi
+        }),
+        finalize(() => (this.isLoading = false)) // Dừng trạng thái chờ dữ liệu
+      )
+      .subscribe();
+  }
+
+
 
 
 
@@ -120,13 +148,8 @@ toggleAddUser(): void {
     this.currentUsers = this.filteredUsers.slice(start, end); // Sử dụng filteredUsers thay vì users
   }
 
-  loadUsers() {
-    this.managerService.getUsersWithPagination(this.currentPage, this.itemsPerPage).subscribe(response => {
-      // Cập nhật số trang và mảng pages
-      this.totalPages = response.totalPages;
-      this.pages = Array.from({ length: this.totalPages }, (_, index) => index + 1); // Tạo mảng các trang
-    });
-  }
+
+
 
   previousPage() {
     if (this.currentPage > 1) {
@@ -142,14 +165,22 @@ toggleAddUser(): void {
     }
   }
 
-  goToPage(page: number) {
-    this.currentPage = page; // Chuyển đến trang mong muốn
-    this.loadUsers();
+  goToPage(page: string | number) {
+    // Chuyển đổi page thành số nếu đó là số, hoặc bỏ qua nếu là dấu ba chấm
+    if (typeof page === 'number') {
+      this.currentPage = page; // Nếu page là số, gán cho currentPage
+      this.loadUsers();
+    }
   }
 
   calculatePages(): void {
-    const pageCount = Math.ceil(this.totalItems / this.itemsPerPage); // Tính tổng số trang
-    this.pages = Array.from({ length: pageCount }, (_, i) => i + 1); // Mảng chứa số trang
+    this.pages = [];
+    const startPage = Math.max(1, this.currentPage - 1);
+    const endPage = Math.min(this.totalPages, this.currentPage + 1);
+
+    if (startPage > 2) this.pages.push(1, '...');
+    for (let i = startPage; i <= endPage; i++) this.pages.push(i);
+    if (endPage < this.totalPages - 1) this.pages.push('...', this.totalPages);
   }
 
 
@@ -182,6 +213,10 @@ toggleAddUser(): void {
   }
 
 
+  onUserAdded(user: User) {
+    console.log('Người dùng mới:', user);
+    this.isAddUserVisible = false; // Ẩn form sau khi thêm
+  }
 
 
   editUser(id: string): void {
@@ -220,40 +255,36 @@ deleteUser(id: string): void {
   });
 }
 
-generateNewUserId() {
+generateNewUserId(): void {
+  this.managerService.getUserIds().subscribe(existingIds => {
+    // Loại bỏ chữ 'Y' và chuyển đổi thành số
+    const numericIds = existingIds.map(id => parseInt(id.slice(1), 10));
 
-  // Tạo một mảng chứa tất cả các iduser hiện tại
-  const existingIds = this.users.map(user => parseInt(user.iduser.slice(1))); // Lấy phần số của iduser
-  const userCount = this.users.length + 1; // Số lượng người dùng hiện tại + 1
+    // Tìm ID bị thiếu
+    const missingId = Array.from({ length: numericIds.length + 1 }, (_, i) => i + 1)
+      .find(id => !numericIds.includes(id));
 
-  // Tìm số iduser nhỏ nhất bị thiếu
-  for (let i = 1; i <= userCount; i++) {
-    if (!existingIds.includes(i)) {
-      this.newUserId = `Y${i.toString().padStart(3, '0')}`; // Định dạng Y00X
-      return; // Trả về ngay khi tìm thấy số thiếu
+    // Kiểm tra nếu missingId là undefined
+    if (missingId === undefined) {
+      throw new Error('Unable to generate new ID');
     }
-  }
 
-  if (userCount < 10) {
-    this.newUserId = `Y00${userCount}`;  // Định dạng Y00X nếu nhỏ hơn 10
-  } else if (userCount < 100) {
-    this.newUserId = `Y0${userCount}`;   // Định dạng Y0XX nếu nhỏ hơn 100
-  } else if (userCount < 1000) {
-    this.newUserId = `Y${userCount}`;    // Định dạng YXXX nếu nhỏ hơn 1000
-  } else {
-    console.error("Số lượng người dùng vượt quá giới hạn 999");
-  }
+    // Tạo ID mới
+    this.newUserId = `Y${missingId.toString().padStart(3, '0')}`;
+    console.log(this.newUserId)
+  });
 }
 
 
 
-applyFilter(): void {
-  const query = this.searchQuery.trim().toLowerCase(); // Normalize search input
 
-  // Lọc người dùng theo điều kiện tìm kiếm
-  this.filteredUsers = this.users.filter(user => {
-    const matchesStatus = this.statusFilter === '' || user.status.toString() === this.statusFilter;
 
+
+
+applyFilters(): void {
+  const query = this.searchQuery.trim().toLowerCase();
+
+  this.filteredUsers = this.users.filter((user) => {
     const matchesSearchQuery =
       user.name.toLowerCase().includes(query) ||
       user.email.toLowerCase().includes(query) ||
@@ -261,40 +292,92 @@ applyFilter(): void {
       user.iduser.toLowerCase().includes(query) ||
       user.typeUser?.name_type.toLowerCase().includes(query);
 
-    return matchesStatus && matchesSearchQuery; // Must match both conditions
+    const matchesStatus =
+      !this.statusFilter || user.status.toString() === this.statusFilter;
+
+    return matchesSearchQuery && matchesStatus;
   });
 
-  this.filteredUsers = this.filteredUsers.reverse(); // Đảo ngược danh sách sau khi lọc
-  this.calculatePages();  // Tính lại số trang
-  this.updateCurrentPageUsers();
+  this.totalItems = this.filteredUsers.length; // Cập nhật tổng số người dùng sau khi lọc
+  this.calculatePages(); // Tính lại số trang
+  this.updateCurrentPageUsers(); // Cập nhật danh sách hiển thị
 }
-
 
 
 onUserUpdated(updatedUser: any): void {
   const index = this.users.findIndex(user => user.iduser === updatedUser.iduser);
   if (index > -1) {
-    this.users[index] = { ...updatedUser };  // Cập nhật trong danh sách chính
-    this.onSearch();  // Làm mới kết quả tìm kiếm để hiển thị ngay
+    this.users[index] = { ...updatedUser }; // Cập nhật trong danh sách chính
+    this.onSearch(this.searchQuery);       // Truyền giá trị tìm kiếm hiện tại
   }
 }
 
 
 
-onSearch(): void {
-  const query = this.searchQuery.trim().toLowerCase();
 
-  this.filteredUsers = this.users.filter(user =>
-    user.name.toLowerCase().includes(query) ||
-    user.email.toLowerCase().includes(query)||
-    user.iduser.toLowerCase().includes(query)||
-    user.phone.toLowerCase().includes(query)||
-    user.typeUser?.name_type.toLowerCase().includes(query)
-  );
+// onSearch(): void {
+//   const query = this.searchQuery.trim().toLowerCase();
 
-  this.calculatePages();  // Recalculate pages if needed
-  this.updateCurrentPageUsers();  // Update the display with filtered results
+//   this.filteredUsers = this.users.filter(user =>
+//     user.name.toLowerCase().includes(query) ||
+//     user.email.toLowerCase().includes(query)||
+//     user.iduser.toLowerCase().includes(query)||
+//     user.phone.toLowerCase().includes(query)||
+//     user.typeUser?.name_type.toLowerCase().includes(query)
+//   );
+
+//   this.calculatePages();  // Recalculate pages if needed
+//   this.updateCurrentPageUsers();
+// }
+
+// Hàm tìm kiếm người dùng
+onSearch(query: string): void {
+  if (query) {
+    this.managerService.getUsersBySearch(query).subscribe({
+      next: (results) => {
+        this.filteredUsers = results; // Cập nhật danh sách người dùng đã lọc
+        this.isSearchCompleted = true; // Đánh dấu kết quả tìm kiếm đã hoàn tất
+        console.log('Kết quả tìm kiếm:', results);
+      },
+      error: (err) => {
+        console.error('Lỗi khi tìm kiếm:', err);
+        this.isSearchCompleted = false; // Nếu có lỗi, ẩn kết quả tìm kiếm
+      }
+    });
+  } else {
+    this.filteredUsers = this.users;  // Nếu không có tìm kiếm, hiển thị tất cả
+    this.isSearchCompleted = false; // Chưa tìm kiếm
+  }
 }
+
+
+searchAcrossPages(query: string, pageNumber: number = 0): void {
+  const pageSize = 5; // Kích thước mỗi trang
+  this.managerService.getUsersWithPagination(pageNumber, pageSize).subscribe({
+    next: (response: any) => {
+      // Tìm kiếm trong dữ liệu của trang hiện tại
+      const matchedUser = response.content.find((user: any) => user.iduser === query);
+
+      if (matchedUser) {
+        console.log('Kết quả tìm thấy:', matchedUser);
+        // Gán kết quả tìm thấy vào displaySearchResult
+        this.displaySearchResult = [matchedUser];
+      } else if (!response.last) {
+        // Nếu không phải trang cuối, tìm tiếp trên trang sau
+        this.searchAcrossPages(query, pageNumber + 1);
+      } else {
+        console.log('Không tìm thấy kết quả!');
+        // Hiển thị thông báo không tìm thấy nếu đã hết dữ liệu
+        this.displaySearchResult = []; // Đặt kết quả rỗng
+      }
+    },
+    error: (error) => {
+      console.error('Lỗi khi tải dữ liệu:', error);
+    }
+  });
+}
+
+
 
 onStatusChange(event: Event): void {
   const selectedStatus = (event.target as HTMLSelectElement).value;
@@ -303,17 +386,6 @@ onStatusChange(event: Event): void {
   this.calculatePages(); // Cập nhật số trang
   this.updateCurrentPageUsers(); // Cập nhật danh sách người dùng hiển thị
 }
-
-// onSalaryChange(event: Event): void {
-//   this.selectedSalary = (event.target as HTMLSelectElement).value;
-//   this.filteredUsers = this.filterUsers(this.selectedStatus, this.selectedSalary);
-
-//   this.calculatePages(); // Cập nhật số trang
-//   this.updateCurrentPageUsers(); // Cập nhật danh sách người dùng hiển thị
-// }
-
-
-
 
 
 filterUsers(selectedStatus: string, selectedSalary: string) {
@@ -336,12 +408,6 @@ handleCloseEditForm() {
   this.isEditUserVisible = false;
   this.updateSelectedUser(null); // Reset lại người dùng đã chọn
 }
-
-
-
-
-
-
 
 
 }
