@@ -190,27 +190,42 @@ toggleAddUser(): void {
 
 
   showFormEditUserAuto(id: string): void {
-    if (this.selectedUser && this.selectedUser.iduser === id) {
+    // Nếu form đang mở và ID người dùng giống nhau, chỉ cần đóng lại
+    if (this.isEditUserVisible && this.selectedUser && this.selectedUser.iduser === id) {
       this.isEditUserVisible = false;
-      this.selectedUser = null; // Đặt lại selectedUser
-    } else {
-      this.editUser(id);
-      this.isEditUserVisible = true; // Đảm bảo form được hiện thị
-
-      setTimeout(() => {
-        const editFormElement = document.getElementById('editForm');
-        if (editFormElement) {
-          const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-
-          const firstInputElement = editFormElement.querySelector('input');
-          if (firstInputElement) {
-            firstInputElement.focus();
-          }
-        }
-      }, 100);
+      this.selectedUser = null; // Reset selectedUser
+      return;
     }
+
+    // Đóng form cũ trước khi mở mới
+    this.isEditUserVisible = false;
+
+    setTimeout(() => {
+      // Cập nhật thông tin người dùng mới
+      this.selectedUser = this.users.find(user => user.iduser === id); // Lấy người dùng theo ID
+      this.isEditUserVisible = true; // Mở lại form
+
+      // Cuộn đến form và focus vào ô nhập đầu tiên
+      this.scrollToAndFocusForm();
+    }, 0); // Timeout nhỏ để đảm bảo Angular cập nhật trạng thái
   }
+
+  // Hàm cuộn đến form và focus vào ô nhập đầu tiên
+  private scrollToAndFocusForm(): void {
+    setTimeout(() => {
+      const editFormElement = document.getElementById('editForm');
+      if (editFormElement) {
+        const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+
+        const firstInputElement = editFormElement.querySelector('input');
+        if (firstInputElement) {
+          (firstInputElement as HTMLElement).focus();
+        }
+      }
+    }, 100); // Timeout nhỏ để đảm bảo DOM được render đầy đủ
+  }
+
 
 
   onUserAdded(user: User) {
