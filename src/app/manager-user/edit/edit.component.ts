@@ -13,6 +13,7 @@ export class EditComponent implements OnInit {
   @Output() closeForm = new EventEmitter<void>();
   @Output() userUpdated = new EventEmitter<any>();
   typeUserOptions: any[] = [];
+  errorMessages: string[] = [];
 
   formFields = [
     { name: 'iduser', label: 'Id thông tin người dùng', type: 'text', required: true },
@@ -102,6 +103,60 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // Làm trống danh sách lỗi trước khi kiểm tra
+    this.errorMessages = [];
+
+    // Kiểm tra email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(this.selectedUser.email)) {
+      this.errorMessages.push('Email không hợp lệ!');
+    }
+
+    // Kiểm tra số điện thoại
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(this.selectedUser.phone)) {
+      this.errorMessages.push('Số điện thoại không hợp lệ!');
+    }
+
+    // Kiểm tra điểm, lương và thưởng không âm
+    if (this.selectedUser.points < 0) {
+      this.errorMessages.push('Điểm không được âm!');
+    }
+    if (this.selectedUser.salary < 0) {
+      this.errorMessages.push('Lương không được âm!');
+    }
+    if (this.selectedUser.reward < 0) {
+      this.errorMessages.push('Thưởng không được âm!');
+    }
+
+    // Kiểm tra ngày sinh
+    if (!this.selectedUser.birth) {
+      this.errorMessages.push('Ngày sinh không được để trống!');
+    } else {
+      const birthDate = new Date(this.selectedUser.birth);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      if (age < 18) {
+        this.errorMessages.push('Người dùng phải từ 18 tuổi trở lên!');
+      }
+    }
+
+    // Kiểm tra loại người dùng
+    if (!this.selectedUser.typeUser) {
+      this.errorMessages.push('Loại người dùng không được để trống!');
+    }
+
+    // Nếu có lỗi, dừng quá trình gửi và hiển thị lỗi
+    if (this.errorMessages.length > 0) {
+      console.error('Lỗi xác thực:', this.errorMessages);
+      return;
+    }
+
     // Tìm typeUser từ typeUserOptions bằng cách so sánh idtypeuser với selectedUser.typeUser
     const selectedTypeUser = this.typeUserOptions.find(option => option.value === this.selectedUser.typeUser);
 
@@ -112,8 +167,8 @@ export class EditComponent implements OnInit {
         typeUser: {
           idtypeuser: selectedTypeUser.value,  // Đảm bảo gán đúng ID của typeUser
           name_type: selectedTypeUser.label,   // Đảm bảo gán đúng tên loại người dùng
-          status : selectedTypeUser.status,
-          salary: selectedTypeUser.salary,      // Đảm bảo gán đúng lương
+          status: selectedTypeUser.status,
+          salary: selectedTypeUser.salary      // Đảm bảo gán đúng lương
         }
       };
     } else {
@@ -131,8 +186,8 @@ export class EditComponent implements OnInit {
     this.userService.updateUser(this.selectedUser.iduser, this.selectedUser).subscribe({
       next: (response) => {
         console.log('Chỉnh sửa thành công:', response);
-        this.userUpdated.emit(this.selectedUser);  // Emit người dùng đã cập nhật
-        this.closeForm.emit();  // Emit để đóng form
+        this.userUpdated.emit(this.selectedUser); // Emit người dùng đã cập nhật
+        this.closeForm.emit(); // Emit để đóng form
       },
       error: (error) => {
         console.error('Lỗi khi cập nhật người dùng:', error);
