@@ -1,137 +1,227 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { AccountService } from '../../../service/account/account.service';
 import { Router } from '@angular/router';
 import { TypeUserService } from '../../../service/type_user/type-user.service';
 import { ManagerUserService } from '../../../service/manager-user.service';
+import { Account } from '../../../interface/account.interface';
+import { User } from '../../../interface/user.interface';
+import { TypeUser } from '../../../interface/typeuser.interface';
 
 @Component({
   selector: 'app-add-account',
   templateUrl: './add-account.component.html',
-  styleUrl: './add-account.component.scss'
+  styleUrls: ['./add-account.component.scss']
 })
 export class AddAccountComponent {
 
   isEditAccountVisible = true;
-  closeForm() {
-    this.isEditAccountVisible = false; // Đặt lại trạng thái để ẩn form
-    console.log('Form đã được đóng lại'); // Kiểm tra trong console
-  }
-
   @Input() generatedIdAccount: string = '';
+  @Output() accountAdded = new EventEmitter<Account>();
+
   newAccount: any = {
-    idaccount : '',
-    username : '',
+    idaccount: '',
+    username: '',
     password: '',
     image: '',
-    id_type_user:'',
-    iduser:'',
+    id_type_user: '',
+    iduser: '',
     status: 1,
   };
 
   errorMessages: string[] = [];
+  activeTypeUsers: any[] = [];
+  typeUserOptions:  TypeUser[] = [];
+  userOptions: User[] = [];
 
-  formFields:{
+
+  [key: string]: any; // Thêm chỉ số kiểu string
+  formFields: {
     name: string;
     label: string;
     type: string;
     required: boolean;
-    options?:{value : string; label: string}[];
+    options?: { value: string; label: string }[];
   }[] = [
-    {name : 'idaccount', label: 'Id thông tin người dùng', type: 'text', required: true},
-    {name : 'username', label: 'Tài khoản', type: 'text', required: false},
-    {name: 'password', label : 'Mật khẩu', type: 'text', required : false},
-    { name: 'id_type_user', label: 'Loại người dùng', type: 'select', required: false, options: [] },
+    { name: 'idaccount', label: 'Id thông tin người dùng', type: 'text', required: true },
+    { name: 'username', label: 'Tài khoản', type: 'text', required: true },
+    { name: 'password', label: 'Mật khẩu', type: 'text', required: true },
+    { name: 'id_type_user', label: 'Loại người dùng', type: 'select', required: true, options: [] },
     { name: 'iduser', label: 'Người dùng', type: 'select', required: false, options: [] },
-  ]
+  ];
 
-  constructor(private accountService : AccountService, private router : Router, private type_UserService : TypeUserService, private userService : ManagerUserService){}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private type_UserService: TypeUserService,
+    private userService: ManagerUserService
+  ) {}
 
-  ngOnInit() : void{
+  ngOnInit(): void {
     this.newAccount.idaccount = this.generatedIdAccount;
+
     this.loadTypeUserOptions();
     this.loadUsersOptions();
+    this.getTypeUserOptions()
+    this.getUserOptions();
   }
 
-  resetForm(){
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['generatedIdAccount']) {
+      this.newAccount.idaccount = changes['generatedIdAccount'].currentValue;
+    }
+
+  }
+
+  closeForm() {
+    this.isEditAccountVisible = false;
+    console.log('Form đã được đóng lại');
+  }
+
+  resetForm() {
     this.newAccount = {
-      idaccount : this.generatedIdAccount,
-      username : '',
+      idaccount: this.generatedIdAccount,
+      username: '',
       password: '',
+      image: '',
+      id_type_user: '',
+      iduser: '',
+      status: 1,
     };
     this.errorMessages = [];
   }
 
   loadTypeUserOptions(): void {
     this.type_UserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
-      // Filter out typeUsers with status === 2
       const activeTypeUsers = typeUsers.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng');
-
-      // Map remaining users to the salaryOptions format
       const typeUserOptions = activeTypeUsers.map(user => ({
         value: user.idtypeuser,
         label: user.name_type
       }));
 
-      const nameField = this.formFields.find(field => field.name === 'id_type_user');
-      if (nameField) {
-        nameField.options = typeUserOptions;
-      }
-
-      // Optionally, remove or hide certain form fields if no typeUsers are active
-      if (activeTypeUsers.length === 0) {
-        this.formFields = this.formFields.filter(field => field.name !== 'id_type_user');
+      const field = this.formFields.find(field => field.name === 'id_type_user');
+      if (field) {
+        field.options = typeUserOptions;
       }
     });
   }
 
   loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
-      // Lọc người dùng có status khác 2 và id_type_user khác "T003"
       const activeUsers = users.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng');
-
-      // Chuyển đổi những người dùng còn lại thành dạng UserOptions
-      const UserOptions = activeUsers.map(user => ({
+      const userOptions = activeUsers.map(user => ({
         value: user.iduser,
         label: user.name
       }));
 
-      const nameField = this.formFields.find(field => field.name === 'iduser');
-      if (nameField) {
-        nameField.options = UserOptions;
-      }
-
-      // Nếu không có người dùng hợp lệ, loại bỏ trường 'iduser'
-      if (activeUsers.length === 0) {
-        this.formFields = this.formFields.filter(field => field.name !== 'iduser');
+      const field = this.formFields.find(field => field.name === 'iduser');
+      if (field) {
+        field.options = userOptions;
       }
     });
   }
 
 
-  onSubmit(){
-    console.log('Dữ liệu gửi lên', this.newAccount);
-    this.errorMessages = [];
-    if(this.errorMessages.length > 0){
-      return;
+
+  getTypeUserOptions() {
+    this.type_UserService.getListType_UserCopppy().subscribe((data: any) => {
+      this.typeUserOptions = data;
+    });
+  }
+  onTypeUserChange(selectedTypeUserId: string) {
+    const selectedTypeUser = this.typeUserOptions.find(
+      (type) => type.idtypeuser === selectedTypeUserId
+    );
+
+    if (selectedTypeUser) {
+      this.newAccount.typeUser = {
+        idtypeuser: selectedTypeUser.idtypeuser,
+        name_type: selectedTypeUser.name_type,
+        status: selectedTypeUser.status,
+        salary: selectedTypeUser.salary,
+      };
     }
-    this.newAccount.status = 1;
+  }
+
+
+
+  getUserOptions() {
+    this.userService.getList_UserCopppy().subscribe((data: any) => {
+      this.userOptions = data;
+    });
+  }
+  onUserChange(selectedUserId: string) {
+    const selectedUser = this.userOptions.find(
+      (type) => type.iduser === selectedUserId
+    );
+
+    if (selectedUser) {
+      this.newAccount.user = {
+        iduser: selectedUser.iduser,
+        name: selectedUser.name,
+        birth : selectedUser.birth,
+        email : selectedUser.email,
+        phone : selectedUser.phone,
+        points : selectedUser.points,
+        salary : selectedUser.salary,
+        reward : selectedUser.reward,
+        status : selectedUser.status,
+        typeUser : selectedUser.typeUser
+
+      };
+    }
+  }
+
+  onSelectChange(selectedValue: any) {
+    // Gọi cả hai hàm khi giá trị thay đổi
+    this.onTypeUserChange(selectedValue);
+    this.onUserChange(selectedValue);
+  }
+  getSelectedTypeUser() {
+    return this.typeUserOptions.find(option => option.idtypeuser === this.newAccount.id_type_user) || { idtypeuser: "", name_type: "", status: 0, salary: 0 };
+  }
+
+  getSelectedUser() {
+    return this.userOptions.find(option => option.iduser === this.newAccount.iduser) || { iduser: "", name: "", birth: "", email: "", phone: "", points: 0, salary: 0, reward: 0, status: 0, typeUser: "" };
+  }
+  validateAccountData(): boolean {
+    this.errorMessages = [];
+    if (!this.newAccount.idaccount) this.errorMessages.push('ID tài khoản không được để trống.');
+    if (!this.newAccount.username) this.errorMessages.push('Tài khoản không được để trống.');
+    if (!this.newAccount.password) this.errorMessages.push('Mật khẩu không được để trống.');
+    return this.errorMessages.length === 0;
+  }
+
+
+
+  onSubmit() {
+    console.log('Dữ liệu gửi lên', this.newAccount);
+
+    if (!this.validateAccountData()) return;
+
+    // Cập nhật lại các giá trị liên quan đến loại người dùng và người dùng
     this.newAccount = {
-      idaccount : this.newAccount.idaccount,
-      username : this.newAccount.username,
-      password : this.newAccount.password,
-      image : this.newAccount.image,
-      status : this.newAccount.status,
-      id_type_user: this.newAccount.id_type_user,
-      iduser : this.newAccount.iduser,
+      ...this.newAccount,
+      status: 1,
+      iduser: this.getSelectedUser().iduser,
+      id_type_user: this.getSelectedTypeUser().idtypeuser,
+      typeUser: this.getSelectedTypeUser(),
+      user: this.getSelectedUser()
     };
+
     this.accountService.addAccount(this.newAccount).subscribe({
-      next: (response) =>{
+      next: (response) => {
+        this.accountAdded.emit(this.newAccount);
+        this.router.navigate(['admin/account/add']);
         this.closeForm();
         this.resetForm();
-        this.router.navigate(['admin/account/add']);
       },
-      error : (error) =>{
-        console.log('Lỗi khi thêm tài khoản người dùng', error);
+      error: (error) => {
+        console.error('Lỗi khi thêm tài khoản:', error);
+        if (error.error) {
+          console.error('Chi tiết lỗi từ backend:', error.error);
+        } else {
+          console.error('Lỗi không xác định:', error);
+        }
       }
     });
   }

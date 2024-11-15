@@ -264,6 +264,8 @@ export class AddComponent {
 
   this.userService.addUser(this.newUser).subscribe({
     next: (response) => {
+
+      this.userAdded.emit(this.newUser);
       this.closeForm(); // Call a method to close the form
       this.resetForm();
       this.router.navigate(['admin/gioithieu/add']);

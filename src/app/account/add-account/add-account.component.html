@@ -7,19 +7,23 @@
         <div class="form-group">
           <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
 
+          <!-- Trường select cho loại người dùng và người dùng -->
           <select *ngIf="field.type === 'select'"
                   [id]="field.name"
                   class="form-control"
                   [(ngModel)]="newAccount[field.name]"
                   [name]="field.name"
-                  [required]="field.required">
+                  [required]="field.required"
+                  (ngModelChange)="onSelectChange(newAccount[field.name])">
+                  >
+
             <option value="">Chọn {{ field.label }}</option>
             <option *ngFor="let option of field.options" [value]="option.value">
               {{ option.label }}
             </option>
           </select>
 
-          <!-- Nếu không phải trường select thì tạo thẻ input -->
+          <!-- Trường input cho các loại trường còn lại -->
           <input *ngIf="field.type !== 'select'" [id]="field.name" class="form-control"
                  [type]="field.type"
                  [(ngModel)]="newAccount[field.name]"
@@ -29,10 +33,9 @@
                  [ngClass]="{'bg-gray': field.name === 'idaccount'}">
         </div>
       </div>
-
-
     </div>
 
+    <!-- Hiển thị thông báo lỗi nếu có -->
     <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
       <ul>
         <li *ngFor="let error of errorMessages">{{ error }}</li>
