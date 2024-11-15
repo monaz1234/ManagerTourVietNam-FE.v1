@@ -231,6 +231,8 @@ toggleAddUser(): void {
   onUserAdded(user: User) {
     console.log('Người dùng mới:', user);
     this.isAddUserVisible = false; // Ẩn form sau khi thêm
+    this.loadUsers();
+
   }
 
 
