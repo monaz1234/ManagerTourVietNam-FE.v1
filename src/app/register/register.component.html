@@ -1,50 +1,72 @@
-<div class="register-container">
-  <h2>Đăng Ký</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="username">Tên đăng nhập:</label>
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        formControlName="username"
-        required
-      />
-      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error-message">
-        Vui lòng nhập tên đăng nhập.
+<section>
+  <div class="leaves">
+      <div class="set">
+          <div><img src="assets/images/leaf_01.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_02.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_03.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_04.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_01.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_02.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_03.png" alt="leaf"></div>
+          <div><img src="assets/images/leaf_04.png" alt="leaf"></div>
+      </div>
+  </div>
+  <img src="assets/images/bg.jpg" class="bg" alt="background">
+  <img src="assets/images/girl.png" class="girl" alt="girl">
+  <img src="assets/images/trees.png" class="trees" alt="trees">
+  <div class="register-container">
+    <h2>Đăng Ký</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <!--<label for="username">Tên đăng nhập:</label>-->
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          formControlName="username"
+          placeholder="Tên đăng nhập"
+          required
+        />
+        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error-message">
+          Vui lòng nhập tên đăng nhập.
+        </div>
       </div>
 
-    </div>
-
-    <div class="form-group">
-      <label for="password">Mật khẩu:</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        formControlName="password"
-        required
-      />
-      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
-        Mật khẩu phải có ít nhất 6 ký tự.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="confirmPassword">Nhập lại mật khẩu:</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        class="form-control"
-        formControlName="confirmPassword"
-        required
-      />
-      <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="error-message">
-        Mật khẩu không khớp.
+      <div class="form-group">
+        <!--<label for="password">Mật khẩu:</label>-->
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Mật khẩu"
+          required
+        />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+          Mật khẩu phải có ít nhất 6 ký tự.
+        </div>
       </div>
 
+      <div class="form-group">
+        <!--<label for="confirmPassword">Nhập lại mật khẩu:</label>-->
+        <input
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          formControlName="confirmPassword"
+          placeholder="Nhập lại mật khẩu"
+          required
+        />
+        <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="error-message">
+          Mật khẩu không khớp.
+        </div>
+      </div>
+      <div class="inputBox">
+        <button type="submit" id="btn" class="btn btn-primary" [disabled]="registerForm.invalid">Đăng Ký</button>
+      </div>
+      <div class="login-link">
+        <p>Bạn đã có tài khoản! <a routerLink="/login">Đăng nhập ngay</a></p>
     </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Đăng Ký</button>
-  </form>
-</div>
+    </form>
+  </div>
+</section>

@@ -31,12 +31,31 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 
-
-
+import { CustomerComponent} from './customer/customer.component';
+import { CustomerdetailComponent} from './customerdetail/customerdetail.component';
 const routes: Routes = [
 
-{path: '', component : LoginComponent},
+{path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
+{
+  path: 'customer',
+  component : CustomerComponent,
+  children: [
+    {
+      path: 'login',
+      component: LoginComponent,
+    },
+    {
+      path: 'register',
+      component: RegisterComponent,
+    },
+    { 
+      path: 'customer/tour/:id', 
+      component: CustomerdetailComponent,
+    }, // Route cho chi tiết tour
+  ],
+},
+
 {
   path: 'admin',
   component: AdminComponent,
@@ -91,7 +110,7 @@ const routes: Routes = [
     },
   ],
 },
-{ path: '', redirectTo: '/admin', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần
+{ path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần
 ];
 
 @NgModule({

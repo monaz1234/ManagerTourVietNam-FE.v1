@@ -10,7 +10,7 @@ interface Option {
 @Component({
   selector: 'app-edit-vehicle',
   templateUrl: './edit-vehicle.component.html',
-  styleUrl: './edit-vehicle.component.scss'
+  styleUrl: './edit-vehicle.component.scss',
 })
 
 export class EditVehicleComponent  {

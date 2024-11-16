@@ -6,5 +6,5 @@ export interface Tour {
     status: boolean;
     description: string;
     image: string;
-
+    is_deleted: boolean;
   }

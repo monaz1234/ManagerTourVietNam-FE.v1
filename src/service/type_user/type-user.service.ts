@@ -15,44 +15,44 @@ TypeUser$ : Observable<TypeUser[]> = this.typeuserSubject.asObservable();
 
   constructor(private http : HttpClient) {
     this.getListType_User();
-   }
+    }
 
 
-   getListType_User() : void{
+    getListType_User() : void{
     this.http.get<TypeUser[]>(`http://localhost:9000/api/type_users`).subscribe((data) =>{
       this.typeuserSubject.next(data);
     })
-   }
+    }
 
-   getListType_UserCopppy(): Observable<TypeUser[]> {
+    getListType_UserCopppy(): Observable<TypeUser[]> {
     return this.http.get<TypeUser[]>(`http://localhost:9000/api/type_users`);
   }
 
-   addTypeUser(typeUser : TypeUser ): Observable<any>{
+    addTypeUser(typeUser : TypeUser ): Observable<any>{
     return this.http.post<any>(`http://localhost:9000/api/type_user`, typeUser).pipe(
       tap(() => {
         this.getListType_User();
       })
     );
-   }
+    }
 
-   deleteTypeUser(id : String ):Observable<void>{
+    deleteTypeUser(id : String ):Observable<void>{
     return this.http.delete<void>(`http://localhost:9000/api/type_user/${id}`).pipe(
       tap(() =>{
         this.getListType_User();
       })
     );
-   }
+    }
 
-   findTypeUser(id : String) : Observable<TypeUser>{
+    findTypeUser(id : String) : Observable<TypeUser>{
     return this.http.get<TypeUser>(`http://localhost:9000/api/type_user/${id}`);
-   }
+    }
 
-   updateTypeUser(id : String, typeUserData : any) : Observable<TypeUser>{
+    updateTypeUser(id : String, typeUserData : any) : Observable<TypeUser>{
     return this.http.put<TypeUser>(`http://localhost:9000/api/type_user/${id}`, typeUserData).pipe(
       tap(() => {
         this.getListType_User();
       })
     );
-   }
+    }
 }
