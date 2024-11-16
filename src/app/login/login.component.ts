@@ -52,13 +52,25 @@ export class LoginComponent {
             }
           });
 
+
           // Nếu không tìm thấy tài khoản hợp lệ
           if (!isValidAccount) {
             this.errorMessage = 'Thông tin đăng nhập không chính xác.';
           }
       }
+
+    // Xử lý đăng nhập (ở đây bạn có thể thêm logic gọi API để kiểm tra thông tin đăng nhập)
+    if (this.username === 'admin' && this.password === 'password123') {
+      this.errorMessage = '';
+      localStorage.setItem('username', this.username); // Lưu tên đăng nhập vào LocalStorage
+      // Chuyển hướng đến trang chính sau khi đăng nhập thành công
+      this.router.navigate(['/customer']);
+    } else {
+      this.errorMessage = 'Thông tin đăng nhập không chính xác.';
+
     }
 
 
   }
+}
 }

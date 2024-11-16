@@ -1,0 +1,248 @@
+<section class="ftco-section">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Tour du lịch</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="customerdetail">Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Tours</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Khách sạn</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+                <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
+                <li class="nav-item" *ngIf="username">
+                    <span class="nav-link">Xin chào: {{ username }}</span>
+                </li>
+                <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Khám phá địa điểm yêu thích của bạn với chúng tôi</h1>
+    </div>
+</div>
+<!-- Search Tabs Section -->
+<div class="container search-container">
+    <ul class="nav nav-tabs" id="searchTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tour-tab" data-bs-toggle="tab" data-bs-target="#tour" type="button" role="tab" aria-controls="tour" aria-selected="true">Tìm kiếm Tour</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="hotel-tab" data-bs-toggle="tab" data-bs-target="#hotel" type="button" role="tab" aria-controls="hotel" aria-selected="false">Tìm kiếm Khách sạn</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="searchTabsContent">
+        <!-- Tour Search Form -->
+        <div class="tab-pane fade show active" id="tour" role="tabpanel" aria-labelledby="tour-tab">
+            <form class="mt-3" (ngSubmit)="searchTours()">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="tourDestination">Tour</label>
+                      <input type="text" class="form-control" id="tourDestination" [(ngModel)]="searchTourDestination" name="tourDestination" placeholder="Tìm kiếm...">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="departureDate">Ngày khởi hành</label>
+                      <input type="date" class="form-control" id="departureDate" [(ngModel)]="searchDepartureDate" name="departureDate">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="priceRange">Khoảng giá</label>
+                      <select class="form-control" id="priceRange" [(ngModel)]="searchPriceRange" name="priceRange">
+                        <option>Chọn khoảng giá</option>
+                        <option value="Dưới 3 triệu">Dưới 3 triệu</option>
+                        <option value="3-5 triệu">3-5 triệu</option>
+                        <option value="Trên 5 triệu">Trên 5 triệu</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
+            </form>
+            
+        </div>
+
+        <!-- Hotel Search Form -->
+        <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
+            <form class="mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="hotelLocation">Địa điểm</label>
+                            <input type="text" class="form-control" id="hotelLocation" placeholder="Tìm kiếm khách sạn...">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="priceRange">Khoảng giá</label>
+                            <select class="form-control" id="priceRange">
+                                <option>Chọn khoảng giá</option>
+                                <option>Dưới 1 triệu</option>
+                                <option>1-3 triệu</option>
+                                <option>Trên 3 triệu</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Product Section -->
+<div class="container product-section">
+    <div class="category-title">
+        <h2>Danh sách Tour du lịch</h2>
+    </div>
+    <div class="row">
+        <div *ngFor="let tour of pagedTours" class="col-md-4">
+            <div class="product-card" (click)="goToTourDetail(tour.idtour)">
+                <div class="price-label">
+                    <span class="price">{{ getTourDetailById(tour.idtour)?.total_price | currency:'VND' }}</span><br>
+                </div>
+                <img [src]="'../../assets/images/' + tour.image" alt="{{ tour.tourname }}" class="product-image">
+                <div class="product-info">
+                    <h3>{{ tour.tourname }}</h3>
+                    <p>Địa điểm: {{ tour.location }}</p>
+                    <p>Ngày khởi hành: {{ getTourDetailById(tour.idtour)?.depart | date:'dd/MM/yyyy' }}</p>
+                    <p>Số chỗ: {{ getTourDetailById(tour.idtour)?.place }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Phân trang cho Tour -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0)" aria-label="Previous" (click)="previousPageTour()">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" *ngFor="let page of pagesTour" [ngClass]="{'active': page === currentPageTour}">
+                <a class="page-link" href="javascript:void(0)" (click)="goToPageTour(page)">{{ page }}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0)" aria-label="Next" (click)="nextPageTour()">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Promotion Section -->
+<div class="container product-section">
+    <div class="category-title">
+        <h2>Ưu đãi hấp dẫn</h2>
+    </div>
+    <div class="row">
+        <div *ngFor="let promotion of pagedPromotions" class="col-md-4">
+            <div class="promotion-card">
+                <div class="info">
+                    <h3>{{ promotion.name }}</h3>
+                    <p class="description">{{ promotion.description }}</p>
+                </div>
+                <p class="code">Mã KM: {{ promotion.code }}</p>
+                <p class="status" [ngClass]="{'inactive': !promotion.status}">
+                    Trạng thái: {{ promotion.status ? 'Hoạt động' : 'Hết hạn' }}
+                </p>
+            </div>
+            
+        </div>        
+    </div>
+    <!-- Phân trang cho Khuyến mãi -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0)" aria-label="Previous" (click)="previousPagePromotion()">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" *ngFor="let page of pagesPromotion" [ngClass]="{'active': page === currentPagePromotion}">
+                <a class="page-link" href="javascript:void(0)" (click)="goToPagePromotion(page)">{{ page }}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0)" aria-label="Next" (click)="nextPagePromotion()">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- END nav -->
+<div class="slider">
+<div class="slides">
+    <div class="slide slide1"></div>
+    <div class="slide slide2"></div>
+    <div class="slide slide3"></div>
+    <div class="slide slide4"></div>
+    <div class="slide slide5"></div>
+        <!-- Thêm các slide khác nếu cần -->
+</div>
+<div class="overlay">
+    <h2>CHÚNG TÔI LÀ CÔNG TY DU LỊCH VIETNAMTOUR</h2>
+    <p>Chúng tôi sẽ mang đến cho quý khách những trải nghiệm tuyệt vời nhất</p>
+    <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer-content">
+    <div class="footer-section">
+    <h3>Giới thiệu</h3>
+    <p>Website VietNamTour cho phép đặt các tour du lịch khắp mọi nơi trong nước.</p>
+    </div>
+    <div class="footer-section">
+    <h4>Thông tin</h4>
+    <ul>
+        <li><a href="#">Giới thiệu</a></li>
+        <li><a href="#">Tin tức</a></li>
+        <li><a href="#">Chính sách và quyền riêng tư</a></li>
+        <li><a href="#">Liên hệ với chúng tôi</a></li>
+    </ul>
+    </div>
+    <div class="footer-section">
+    <h4>Liên hệ</h4>
+    <ul>
+        <li>Địa chỉ: 273 An Dương Vương, Tp.HCM</li>
+        <li>Số điện thoại: (+84) 123-456-789</li>
+        <li>Email: admin&#64;gmail.com</li>
+    </ul>
+    </div>
+    <div class="footer-section">
+    <h4>Theo dõi chúng tôi</h4>
+    <div class="social-icons">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-instagram"></i></a>
+    </div>
+    </div>
+</div>
+<div class="footer-bottom">
+    Copyright &copy;2024
+</div>
+</footer>
+
+</section>
+
+
+
+
+
+

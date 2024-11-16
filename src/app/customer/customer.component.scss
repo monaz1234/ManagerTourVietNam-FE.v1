@@ -1,0 +1,420 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.hero-section {
+    background-image: url('https://media.mia.vn/uploads/blog-du-lich/vinh-ha-long-tac-pham-nghe-thuat-cua-thien-nhien-4-1642730571.jpg'); /* Đặt URL ảnh nền ở đây */
+    position: relative;
+    background-size: cover;         /* Làm cho ảnh nền phủ kín khu vực */
+    background-position: center;    /* Căn giữa ảnh nền */
+    background-attachment: fixed;   /* Giữ ảnh nền cố định khi cuộn */
+    height: 400px;                  /* Chiều cao của header */
+    color: white;
+    width: 100%;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7);
+
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: orangered;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.search-container {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: -50px; /* Đẩy phần này lên phía trên để nó trùng vào ảnh nền của header */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative; /* Đặt vị trí để z-index có hiệu lực */
+    z-index: 3; /* Đảm bảo rằng search-container nằm trên hero-section */
+}
+
+.tab-content .form-group {
+    margin-bottom: 15px;
+}
+
+.product-section {
+    padding: 40px 0;
+}
+
+/* Màu nền mặc định cho tab đang hoạt động */
+.nav-tabs .nav-link.active {
+    background-color: #FFA500; /* Màu vàng cam */
+    color: white;
+}
+
+/* Màu nền cho tab được chọn khi di chuột */
+.nav-tabs .nav-link:hover {
+    background-color: #FFB347; /* Màu vàng cam nhạt hơn */
+    color: white;
+}
+
+/* Màu nền cho các tab chưa được chọn */
+.nav-tabs .nav-link {
+    color: #333;
+    background-color: #f8f9fa; /* Màu xám nhạt cho tab chưa được chọn */
+    border-color: #dee2e6 #dee2e6 #fff; /* Đường viền */
+}
+
+/* Cách thêm khoảng cách cho tab để dễ nhìn hơn */
+.nav-tabs {
+    margin-bottom: 20px;
+}
+/* Container căn giữa tiêu đề */
+.category-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.category-title h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+/*card km */
+.promotion-card {
+    background-color: #FFE4B5; /* Màu cam nhạt */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px; /* Chiều cao cố định */
+    width: 400px; /* Chiều rộng cố định */
+    border:1px solid;
+    border-bottom-color:#009900; /* Green */
+    border-top-color:#FF0000;    /* Red */
+    border-left-color:#330000;   /* Black */
+    border-right-color:#0000CC;  /* Blue */
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h3, p {
+        margin: 0;
+        color: #333;
+    }
+
+    /* Khung cho name và description */
+    .info {
+        margin-bottom: 5px;
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fa0400; /* Màu cam đậm hơn */
+        }
+
+        p {
+            font-size: 1rem;
+            color: #333;
+        }
+        .description {
+            font-size: 0.8rem; /* Cỡ chữ nhỏ hơn cho description */
+            color: #666; /* Màu xám đậm hơn */
+        }
+    }
+
+    /* Khung cho code */
+    .code {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #8B4513; /* Màu cam nâu */
+        border:1px solid;
+        border-bottom-color:#009900; /* Green */
+        border-top-color:#FF0000;    /* Red */
+        border-left-color:#330000;   /* Black */
+        border-right-color:#0000CC;  /* Blue */
+    }
+
+    /* Khung cho status */
+    .status {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #006400; /* Màu xanh lá cây cho 'Hoạt động' */
+        &.inactive {
+            color: #B22222; /* Màu đỏ cho 'Hết hạn' */
+        }
+    }
+}
+
+/* Card sản phẩm */
+.product-card {
+    position: relative;
+    background-color: white;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.product-image {
+    width: 100%;          // Chiều rộng tối đa
+    height: 200px;         // Chiều cao cố định
+    object-fit: cover;     // Đảm bảo ảnh lấp đầy khung mà không thay đổi tỷ lệ
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.discount-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #FF4500;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.price-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #FF4500;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.current-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.old-price {
+    font-size: 0.8rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.product-info {
+    text-align: center;
+    color: #333;
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.product-info p {
+    font-size: 0.9rem;
+    color: #434343;
+    text-align: left;
+}
+//phân trang
+.pagination .page-item.active .page-link {
+    background-color: #007bff; // Màu nền cho trang hiện tại
+    color: #fff; // Màu chữ cho trang hiện tại
+    font-weight: bold; // Làm chữ đậm
+    border-color: #007bff;
+}
+
+.pagination .page-link {
+    color: #007bff;
+}
+//hiệu ứng slider
+.slider {
+    position: relative;
+    width: 80%; /* Hoặc đặt chiều rộng cụ thể, ví dụ: 800px */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    height: 400px;
+    margin: 0 auto; /* Căn giữa phần tử */
+    overflow: hidden;
+    
+}
+
+.slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    animation: slideAnimation 12s infinite;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    background-size: cover; /* Đảm bảo toàn bộ ảnh nằm trong khung */
+    background-position: center;
+    background-repeat: no-repeat; /* Tránh việc ảnh bị lặp */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.4); /* Nền mờ */
+    text-align: center;
+  }
+  
+  .overlay h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  .overlay p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  .overlay button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 1em;
+  }
+  
+  .overlay button:hover {
+    background-color: #e64a19;
+  }
+.slide1 {
+    background-image: url('../../assets/images/image_da_lat.jpg');
+    animation-delay: 0s;
+}
+
+.slide2 {
+    background-image: url('../../assets/images/image_da_nang.jpg');
+    animation-delay: 3s;
+}
+.slide3 {
+    background-image: url('../../assets/images/image_sapa.jpg');
+    animation-delay: 3s;
+}
+.slide4 {
+    background-image: url('../../assets/images/image_vungtau.jpg');
+    animation-delay: 3s;
+}
+.slide5 {
+    background-image: url('../../assets/images/image_hue.jpg');
+    animation-delay: 3s;
+}
+/* Animation cho các slide */
+@keyframes slideAnimation {
+    0% { transform: translateX(0%); }
+    20% { transform: translateX(0%); }
+    25% { transform: translateX(-100%); }
+    40% { transform: translateX(-100%); }
+    45% { transform: translateX(-200%); }
+    60% { transform: translateX(-200%); }
+    65% { transform: translateX(-300%); }
+    80% { transform: translateX(-300%); }
+    85% { transform: translateX(-400%); }
+    100% { transform: translateX(0%); }
+  }
+
+.footer {
+padding: 20px 0;
+margin-top: 50px;
+text-align: left;
+background-image: url('https://img.freepik.com/free-psd/gradient-wavy-border-design_23-2151320985.jpg?t=st=1731694010~exp=1731697610~hmac=70acd2a8a3271d42acd45258328d781ec8750e8de80b90a173e0ccaa56f2dbed&w=996'); /* Đặt URL ảnh nền ở đây */
+position: relative;
+background-size: cover;         /* Làm cho ảnh nền phủ kín khu vực */
+background-position: center;    /* Căn giữa ảnh nền */
+background-attachment: fixed;   /* Giữ ảnh nền cố định khi cuộn */
+height: 350px;                  /* Chiều cao của header */
+color: black;
+width: 100%;
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    margin-left: 100px;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 10px;
+    min-width: 200px;
+
+    h3, h4 {
+    margin-bottom: 10px;
+    }
+
+    ul {
+    list-style: none;
+    padding: 0;
+    li {
+        margin: 8px 0;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+        
+        &:hover {
+        text-decoration: underline;
+        }
+    }
+    }
+
+    .social-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    a {
+        color: #db4913;
+        font-size: 1.5em;
+        
+        &:hover {
+        color: #4caf50; // màu thay đổi khi hover
+        }
+    }
+    }
+    // Thêm đường phân cách giữa các footer section
+    &:not(:last-child) {
+        border-right: 1px solid #cacaca; // Đường thẳng phân cách
+        padding-right: 20px; // Giãn cách để đường thẳng không quá gần nội dung
+        }
+}
+
+    
+.footer-bottom {
+    text-align: center;
+    color: grey;
+    padding: 10px 0;
+    font-size: 0.9em;
+    margin-top: 50px;
+}
+}

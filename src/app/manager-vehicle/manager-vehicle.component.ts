@@ -9,7 +9,8 @@ import { ManagerUserService } from '../../service/manager-user.service';
 @Component({
   selector: 'app-manager-vehicle',
   templateUrl: './manager-vehicle.component.html',
-  styleUrl: './manager-vehicle.component.scss'
+  styleUrl: './manager-vehicle.component.scss',
+  
 })
 export class ManagerVehicleComponent implements OnInit {
 

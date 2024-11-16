@@ -36,9 +36,10 @@
 
     <div *ngIf="isAddPromotionVisible || isEditPromotionVisible">
         <app-add-promotion
-        *ngIf="isAddPromotionVisible"
-        [generatedIdPromotion]="newPromotionId"
-        (promotionAdded)="onPromotionAdded()"></app-add-promotion>
+            *ngIf="isAddPromotionVisible"
+            [generatedIdPromotion]="newPromotionId"
+            (promotionAdded)="onPromotionAdded()">
+        </app-add-promotion>
         <div id="editForm" *ngIf="isEditPromotionVisible">
             <app-editpromo
                 [selectedPromotion]="selectedPromotion"
