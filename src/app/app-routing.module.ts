@@ -30,13 +30,14 @@ import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
-
+import { InfoUserComponent } from './info-user/info-user.component';
 
 
 const routes: Routes = [
 
 {path: '', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
+{path: 'infouser', component : InfoUserComponent},
 {
   path: 'admin',
   component: AdminComponent,

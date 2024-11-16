@@ -1,0 +1,25 @@
+.container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row; /* Sử dụng flex-direction row để căn chỉnh các phần tử theo chiều ngang */
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.avatar-img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%; /* Làm cho hình ảnh thành hình tròn */
+  margin-right: 30px; /* Khoảng cách giữa ảnh và thông tin người dùng */
+  margin-top: 100px;
+  object-fit: cover;
+}
+
+.info-user {
+  margin: 50px;
+  width: 100%;
+}
+
+.name-user{
+  font-size: 30px;
+  font-weight: bold;
+}

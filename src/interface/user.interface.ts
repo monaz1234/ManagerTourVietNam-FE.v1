@@ -8,4 +8,10 @@ export interface User {
   salary: number;
   reward: string;
   status: string;
+  typeUser: {
+    idtypeuser: string;
+    name_type: string;
+    status: number;
+    salary: number;
+  };
 }

@@ -32,6 +32,7 @@ import { EditAccountComponent } from './account/edit-account/edit-account.compon
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
+import { InfoUserComponent } from './info-user/info-user.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     AdminComponent,
     RegisterComponent,
+    InfoUserComponent,
   ],
   imports: [
     BrowserModule,

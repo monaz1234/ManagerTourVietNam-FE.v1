@@ -220,11 +220,11 @@ generateNewUserId() {
   }
 
   if (userCount < 10) {
-    this.newUserId = `Y00${userCount}`;  // Định dạng Y00X nếu nhỏ hơn 10
+    this.newUserId = `U00${userCount}`;  // Định dạng Y00X nếu nhỏ hơn 10
   } else if (userCount < 100) {
-    this.newUserId = `Y0${userCount}`;   // Định dạng Y0XX nếu nhỏ hơn 100
+    this.newUserId = `U0${userCount}`;   // Định dạng Y0XX nếu nhỏ hơn 100
   } else if (userCount < 1000) {
-    this.newUserId = `Y${userCount}`;    // Định dạng YXXX nếu nhỏ hơn 1000
+    this.newUserId = `U${userCount}`;    // Định dạng YXXX nếu nhỏ hơn 1000
   } else {
     console.error("Số lượng người dùng vượt quá giới hạn 999");
   }
