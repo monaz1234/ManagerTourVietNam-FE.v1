@@ -286,10 +286,12 @@ generateNewUserId(): void {
       throw new Error('Unable to generate new ID');
     }
 
+
     // Tạo ID mới
     this.newUserId = `Y${missingId.toString().padStart(3, '0')}`;
     console.log(this.newUserId)
   });
+
 }
 
 
