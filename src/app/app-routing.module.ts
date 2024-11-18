@@ -34,6 +34,7 @@ import { RegisterComponent } from './register/register.component';
 import { InfoUserComponent } from './info-user/info-user.component';
 import { CustomerComponent} from './customer/customer.component';
 import { CustomerdetailComponent} from './customerdetail/customerdetail.component';
+import { BookComponent } from './book/book.component';
 
 const routes: Routes = [
 
@@ -110,6 +111,11 @@ const routes: Routes = [
         { path: 'add', component: AddAccountComponent },
         { path: 'edit', component: EditAccountComponent },
       ],
+    },
+    {
+      path: 'book',
+      component: BookComponent
+
     },
   ],
 },

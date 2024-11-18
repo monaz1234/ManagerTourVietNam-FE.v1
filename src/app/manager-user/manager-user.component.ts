@@ -27,7 +27,7 @@ export class ManagerUserComponent implements OnInit{
 
   currentPage: number = 1; // Trang hiện tại
   currentUsers: User[] = []; // Danh sách người dùng hiện tại
-  itemsPerPage: number = 5; // Số lượng người dùng trên mỗi trang
+  itemsPerPage: number = 10; // Số lượng người dùng trên mỗi trang
   totalItems: number = 0; // Tổng số người dùng
   pages: (string | number)[] = [];
 
@@ -288,7 +288,7 @@ generateNewUserId(): void {
 
 
     // Tạo ID mới
-    this.newUserId = `Y${missingId.toString().padStart(3, '0')}`;
+    this.newUserId = `U${missingId.toString().padStart(3, '0')}`;
     console.log(this.newUserId)
   });
 

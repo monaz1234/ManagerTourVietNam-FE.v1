@@ -2,12 +2,17 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Account } from '../../interface/account.interface';
 import { AccountService } from '../../service/account/account.service';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+
+  imagePath01: string = '../../assets/images/leaf_01.png';
+
   // Thuộc tính cho form
   username: string = '';
   password: string = '';
