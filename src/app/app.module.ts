@@ -42,6 +42,7 @@ import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CustomerdetailComponent } from './customerdetail/customerdetail.component';
+import { BookComponent } from './book/book.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { CustomerdetailComponent } from './customerdetail/customerdetail.compone
     AdminComponent,
     RegisterComponent,
     InfoUserComponent,
-    CustomerdetailComponent
+    CustomerdetailComponent,
+    BookComponent
 
   ],
   imports: [
