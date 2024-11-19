@@ -93,4 +93,14 @@ export class AccountService {
   }
 
 
+  // login(account: Account): Observable<Account> {
+  //   return this.http.post<Account>(`http://localhost:9000//api/account/login`, account);
+  // }
+
+  login(username: string, password: string): Observable<Account | null> {
+    const loginPayload = { username, password };
+    return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
+  }
+
+
 }
