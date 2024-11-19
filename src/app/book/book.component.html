@@ -44,11 +44,11 @@
 
 
   <div *ngIf="isAddBookVisible || isEditBookVisible">
-    <!-- <app-add
+    <!-- <app-addbook
     *ngIf="isAddBookVisible"
-    [generatedIdUser]="newBookId"
+    [generatedIdBook]="newBookId"
     (bookAdded)="onBookAdded($event)">
-  </app-add> -->
+  </app-addbook> -->
 
     <!-- <div id="editForm" *ngIf="isEditBookVisible">
       <app-edit *ngIf="selectedBook" [selectedBook]="selectedBook"
@@ -76,8 +76,8 @@
         <tr *ngFor="let book of filteredBooks; let i = index">
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
           <td>{{book.idbook}}</td>
-          <td>{{book.idaccount?.username}}</td>
-          <td>{{book.idtour?.tourname}}</td>
+          <td>{{book.account?.username}}</td>
+          <td>{{book.tour?.tourname}}</td>
           <td>
             <span [ngClass]="{
               'text-success': book.status === 1,

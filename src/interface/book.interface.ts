@@ -3,7 +3,7 @@ import { Tour } from "./tour.interface";
 
 export interface Book {
     idbook:string;
-    idaccount: Account | null;
-    idtour: Tour | null;
+    account: Account | null;
+    tour: Tour | null;
     status: boolean;
   }

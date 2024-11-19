@@ -94,6 +94,7 @@ toggleAddBook(): void {
   constructor(private bookService : BookService, private router : Router , private tourService : TourService, private accountService : AccountService){}
   ngOnInit(): void {
       this.loadBooks();
+      console.log(this.filteredBooks);
   }
 
   loadBooks(): void {
@@ -303,14 +304,14 @@ searchAcrossPages(query: string, pageNumber: number = 0): void {
 
 onStatusChange(event: Event): void {
   const selectedStatus = (event.target as HTMLSelectElement).value;
-  this.filteredBooks = this.filterUsers(selectedStatus, this.selectedSalary);
+  this.filteredBooks = this.filterBooks(selectedStatus, this.selectedSalary);
 
   this.calculatePages(); // Cập nhật số trang
   this.updateCurrentPageBooks(); // Cập nhật danh sách người dùng hiển thị
 }
 
 
-filterUsers(selectedStatus: string, selectedSalary: string) {
+filterBooks(selectedStatus: string, selectedSalary: string) {
   return this.books.filter(book => {
     const matchesStatus = selectedStatus ? book.status.toString() === selectedStatus : true;
     return matchesStatus;
@@ -335,10 +336,12 @@ handleCloseEditForm() {
     const query = this.searchQuery.trim().toLowerCase();
 
     this.filteredBooks = this.books.filter((book) => {
+      console.log(book.account?.username);
+      console.log(book.tour?.tourname);
       const matchesSearchQuery =
         book.idbook.toLowerCase().includes(query) ||
-        book.idaccount?.username.toLowerCase().includes(query) ||
-        book.idtour?.tourname.toLowerCase().includes(query);
+        book.account?.username.toLowerCase().includes(query) ||
+        book.tour?.tourname.toLowerCase().includes(query);
       const matchesStatus =
         !this.statusFilter || book.status.toString() === this.statusFilter;
 
