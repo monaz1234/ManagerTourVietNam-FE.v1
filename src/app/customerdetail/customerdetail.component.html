@@ -1,0 +1,156 @@
+<section class="ftco-section">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tour du lịch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customerdetail">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tours</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Khách sạn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+                    <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
+                    <li class="nav-item" *ngIf="username">
+                        <span class="nav-link">Xin chào: {{ username }}</span>
+                    </li>
+                    <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
+    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Khám phá địa điểm yêu thích của bạn với chúng tôi</h1>
+        </div>
+    </div>
+    <!-- Section chi tiết tour -->
+    <div *ngIf="tourDetails.length > 0">
+        <h1 class="TieudeTour" style="margin-left: 5px;">{{ tourDetails[0].tour.tourname }}</h1>
+        <div class="tour-details-container">
+            <img [src]="'../../assets/images/' + tourDetails[0].tour.image" alt="{{ tourDetails[0].tour.tourname }}">
+            <div class="info-container">
+                <p class="GiaTong"><strong>Giá tổng:</strong> {{ tourDetails[0].total_price | currency:'VND' }}</p>
+                <button>Đặt ngay</button>
+            </div>
+        </div>
+        <p style="margin-left: 10px;"><b>Gói của tour bao gồm:</b></p>
+        <table style="margin-left: 10px;">
+            <tr>
+                <th>Hành trình</th>
+                <td>{{ tourDetails[0].tour.tourname }}</td>
+            </tr>
+            <tr>
+                <th>Xuất phát</th>
+                <td>{{tourDetails[0].tour.location}}</td>
+            </tr>
+            <tr>
+                <th>Khởi hành</th>
+                <td>{{tourDetails[0].depart | date:'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+                <th>Phương tiện</th>
+                <td>{{tourDetails[0].vehicles.name_vehicles}}</td>
+            </tr>
+            <tr>
+                <th>Khách sạn</th>
+                <td>{{tourDetails[0].hotel.name_hotel}}</td>
+            </tr>
+            <tr>
+                <th>Dịch vụ</th>
+                <td>{{tourDetails[0].service.name_service}}</td>
+            </tr>
+        </table>
+        <p class="description" style="margin-left: 10px;" >
+            <b style="margin-bottom:10px;">Giới thiệu tour: </b><br>
+            <span [innerHTML]="sanitizeDescription(tourDetails[0].tour.description)"></span>
+        </p>
+        <!-- Hiển thị tất cả ảnh của vehicles -->
+        <div class="dv-images">
+            <p style="margin-left: 10px;"><b>Phương tiện di chuyển:</b></p>
+            <div *ngFor="let image of vehicleImages">
+            <img [src]="'../../assets/images/' + image" [alt]="'Ảnh phương tiện: ' + image">
+            </div>
+        </div>
+          <!-- Hiển thị tất cả ảnh của hotel -->
+        <div class="dv-images">
+            <p style="margin-left: 10px;"><b>Khách sạn lưu trú:</b></p>
+            <div *ngFor="let image of hotelImages">
+            <img [src]="'../../assets/images/' + image" [alt]="'Ảnh khách sạn: ' + image">
+            </div>
+        </div>
+    </div>
+      
+    <hr  style="margin-left: 400px;width: 50%;"    />
+    <!-- END nav -->
+    <div class="slider">
+    <div class="slides">
+        <div class="slide slide1"></div>
+        <div class="slide slide2"></div>
+        <div class="slide slide3"></div>
+        <div class="slide slide4"></div>
+        <div class="slide slide5"></div>
+            <!-- Thêm các slide khác nếu cần -->
+    </div>
+    <div class="overlay">
+        <h2>CHÚNG TÔI LÀ CÔNG TY DU LỊCH VIETNAMTOUR</h2>
+        <p>Chúng tôi sẽ mang đến cho quý khách những trải nghiệm tuyệt vời nhất</p>
+        <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
+    </div>
+    </div>
+    
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+        <h3>Giới thiệu</h3>
+        <p>Website VietNamTour cho phép đặt các tour du lịch khắp mọi nơi trong nước.</p>
+        </div>
+        <div class="footer-section">
+        <h4>Thông tin</h4>
+        <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Chính sách và quyền riêng tư</a></li>
+            <li><a href="#">Liên hệ với chúng tôi</a></li>
+        </ul>
+        </div>
+        <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <ul>
+            <li>Địa chỉ: 273 An Dương Vương, Tp.HCM</li>
+            <li>Số điện thoại: (+84) 123-456-789</li>
+            <li>Email: admin&#64;gmail.com</li>
+        </ul>
+        </div>
+        <div class="footer-section">
+        <h4>Theo dõi chúng tôi</h4>
+        <div class="social-icons">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        Copyright &copy;2024
+    </div>
+    </footer>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+    </section>
+    
+    
+    
+    
+    
+    
+    

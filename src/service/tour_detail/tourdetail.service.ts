@@ -20,7 +20,7 @@ export class TourDetailService {
       tap(toursdetail => this.tourdetailSubject.next(toursdetail)) // Cập nhật danh sách tour trong BehaviorSubject
     );
   }
-  
+
   getServicePrice(): Observable<TourDetail[]> {
     return this.http.get<TourDetail[]>('http://localhost:9000/api/tour_detail/service_price').pipe(
       tap(serviceprice => this.tourdetailSubject.next(serviceprice)) // Cập nhật danh sách tour trong BehaviorSubject

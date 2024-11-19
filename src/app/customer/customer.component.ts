@@ -53,8 +53,9 @@ export class CustomerComponent implements OnInit {
     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
   }
   // Phương thức điều hướng đến trang chi tiết tour
-  goToTourDetail(tourId: string): void {
-    this.router.navigate(['/customer/tour', tourId]); // Điều hướng đến URL chi tiết tour
+  // Điều hướng đến trang chi tiết tour
+  goToTourDetail(idtour: string): void {
+    this.router.navigate(['/customer/tour', idtour]);
   }
 
   searchTours(): void {
