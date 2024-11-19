@@ -44,6 +44,13 @@ const routes: Routes = [
 {
   path: 'customer',
   component : CustomerComponent,
+<<<<<<< Updated upstream
+},
+{
+  path: 'customer/tour/:id',
+  component: CustomerdetailComponent,
+}, // Route cho chi tiết tour
+=======
   children: [
     {
       path: 'login',
@@ -53,13 +60,11 @@ const routes: Routes = [
       path: 'register',
       component: RegisterComponent,
     },
-    {
-      path: 'customer/tour/:id',
-      component: CustomerdetailComponent,
-    }, // Route cho chi tiết tour
+   
   ],
 },
-
+{ path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
+>>>>>>> Stashed changes
 {
   path: 'admin',
   component: AdminComponent,

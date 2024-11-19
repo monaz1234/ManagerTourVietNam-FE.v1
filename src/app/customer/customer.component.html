@@ -118,7 +118,7 @@
                 <img [src]="'../../assets/images/' + tour.image" alt="{{ tour.tourname }}" class="product-image">
                 <div class="product-info">
                     <h3>{{ tour.tourname }}</h3>
-                    <p>Địa điểm: {{ tour.location }}</p>
+                    <p>Xuất phát: {{ tour.location }}</p>
                     <p>Ngày khởi hành: {{ getTourDetailById(tour.idtour)?.depart | date:'dd/MM/yyyy' }}</p>
                     <p>Số chỗ: {{ getTourDetailById(tour.idtour)?.place }}</p>
                 </div>
@@ -144,7 +144,7 @@
         </ul>
     </nav>
 </div>
-
+<hr  style="margin-left: 400px;width: 50%;"    />
 <!-- Promotion Section -->
 <div class="container product-section">
     <div class="category-title">
@@ -184,7 +184,7 @@
         </ul>
     </nav>
 </div>
-
+<hr  style="margin-left: 400px;width: 50%;"    />
 <!-- END nav -->
 <div class="slider">
 <div class="slides">
@@ -238,7 +238,9 @@
     Copyright &copy;2024
 </div>
 </footer>
-
+<div class="container">
+	<router-outlet></router-outlet>
+</div>
 </section>
 
 
