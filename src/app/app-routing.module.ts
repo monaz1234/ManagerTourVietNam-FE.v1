@@ -44,22 +44,11 @@ const routes: Routes = [
 {
   path: 'customer',
   component : CustomerComponent,
-  children: [
-    {
-      path: 'login',
-      component: LoginComponent,
-    },
-    {
-      path: 'register',
-      component: RegisterComponent,
-    },
-    {
-      path: 'customer/tour/:id',
-      component: CustomerdetailComponent,
-    }, // Route cho chi tiết tour
-  ],
 },
-
+{
+  path: 'customer/tour/:id',
+  component: CustomerdetailComponent,
+}, // Route cho chi tiết tour
 {
   path: 'admin',
   component: AdminComponent,
