@@ -158,7 +158,7 @@ export class RegisterComponent {
       reward: 0,
       status: 1,
       typeUser: {
-        idtypeuser: 'T001',
+        idtypeuser: 'T003',
         name_type: 'khach hang',
         status: 1,
         salary: 0
@@ -186,7 +186,7 @@ export class RegisterComponent {
       status: 1,
       image: '',
       typeUser: {
-        idtypeuser: 'T001',
+        idtypeuser: 'T003',
         name_type: 'khach hang',
         status: 1,
         salary: 0
@@ -202,7 +202,7 @@ export class RegisterComponent {
         reward: 0,
         status: 1,
         typeUser: {
-          idtypeuser: 'T001',
+          idtypeuser: 'T003',
           name_type: 'khach hang',
           status: 1,
           salary: 0
@@ -212,7 +212,7 @@ export class RegisterComponent {
     this.accountService.addAccount(this.newAccount).subscribe({
       next: (data) => {
         console.log('Thêm tài khoản thành công:', data);
-        window.location.href = '/';
+        window.location.href = '/login';
       },
       error: (error) => {
         console.error('Lỗi khi thêm tài khoản:', error);

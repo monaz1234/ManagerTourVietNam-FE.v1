@@ -32,37 +32,56 @@ export class LoginComponent {
   }
 
 
-  loadData() {
+  loadData(): void {
     this.accountService.account$.subscribe((data: Account[]) => {
-      this.accounts = data; // Cập nhật danh sách người dùng
-
+      this.accounts = data; // Cập nhật danh sách tài khoản
     });
   }
 
+  // Xử lý đăng nhập
   login(): void {
     // Kiểm tra nếu username hoặc password bị bỏ trống
     if (!this.username || !this.password) {
       this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
       return;
     }
-    const account = this.accounts.find(
-      (acc) => acc.username === this.username && acc.password === this.password
-    );
-    // Kiểm tra đăng nhập admin
-    if (account?.typeUser?.idtypeuser === "T001") {
-      this.errorMessage = '';
-      localStorage.setItem('username', this.username);
-      this.router.navigate(['/admin']); // Điều hướng đến trang admin
-    } else if (account?.typeUser?.idtypeuser === "T002") {
-      this.errorMessage = 'Đăng nhập thành công!';
-      localStorage.setItem('username', this.username);
-      this.router.navigate(['/admin']); // Điều hướng đến trang customer
-    } else (account?.typeUser?.idtypeuser === "T003")
-      localStorage.setItem('username', this.username);
-      this.router.navigate(['/customer']); // Điều hướng đến trang customer
 
+    // Gửi thông tin username và password đến server qua service
+    this.accountService.login(this.username, this.password).subscribe({
+      next: (account) => {
+        if (account) {
+          // Kiểm tra quyền của tài khoản
+          console.log("Thông tin đăng nhập là :"  +this.username , this.password);
+          switch (account.typeUser?.idtypeuser) {
+            case 'T001': // Quản trị viên
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/admin']);
+              break;
+
+            case 'T002': // Người dùng thông thường
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/admin']);
+              break;
+
+            case 'T003': // Người dùng khác
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/customer']);
+              break;
+
+            default:
+              this.errorMessage = 'Loại tài khoản không hợp lệ.';
+
+          }
+        } else {
+          this.errorMessage = 'Thông tin đăng nhập không chính xác.';
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.';
+        console.error(err);
+      }
+    });
   }
-
 
 
 
