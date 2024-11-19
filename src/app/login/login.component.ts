@@ -45,26 +45,26 @@ export class LoginComponent {
       this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
       return;
     }
-
-    // Kiểm tra đăng nhập admin
-    if (this.username === 'admin' && this.password === 'password123') {
-      this.errorMessage = '';
-      localStorage.setItem('username', this.username);
-      this.router.navigate(['/admin']); // Điều hướng đến trang admin
-      return;
-    }
-
-    // Tìm kiếm tài khoản trong danh sách
     const account = this.accounts.find(
       (acc) => acc.username === this.username && acc.password === this.password
     );
-
-    if (account) {
+    // Kiểm tra đăng nhập admin
+    if (account?.typeUser?.idtypeuser === "T001") {
+      this.errorMessage = '';
+      localStorage.setItem('username', this.username);
+      this.router.navigate(['/admin']); // Điều hướng đến trang admin
+    } else if (account?.typeUser?.idtypeuser === "T002") {
       this.errorMessage = 'Đăng nhập thành công!';
       localStorage.setItem('username', this.username);
+      this.router.navigate(['/admin']); // Điều hướng đến trang customer
+    } else (account?.typeUser?.idtypeuser === "T003")
+      localStorage.setItem('username', this.username);
       this.router.navigate(['/customer']); // Điều hướng đến trang customer
-    } else {
-      this.errorMessage = 'Thông tin đăng nhập không chính xác.';
-    }
+
   }
+
+
+
+
+
 }
