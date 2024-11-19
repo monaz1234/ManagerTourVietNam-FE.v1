@@ -43,6 +43,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CustomerdetailComponent } from './customerdetail/customerdetail.component';
 import { BookComponent } from './book/book.component';
+import { AddbookComponent } from './book/addbook/addbook.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { BookComponent } from './book/book.component';
     RegisterComponent,
     InfoUserComponent,
     CustomerdetailComponent,
-    BookComponent
+    BookComponent,
+    AddbookComponent
 
   ],
   imports: [
