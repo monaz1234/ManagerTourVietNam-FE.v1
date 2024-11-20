@@ -44,11 +44,12 @@
 
 
   <div *ngIf="isAddBookVisible || isEditBookVisible">
-    <!-- <app-addbook
+    <app-addbook
     *ngIf="isAddBookVisible"
     [generatedIdBook]="newBookId"
-    (bookAdded)="onBookAdded($event)">
-  </app-addbook> -->
+    (bookAdded)="onBookAdded($event)"
+    >
+  </app-addbook>
 
     <!-- <div id="editForm" *ngIf="isEditBookVisible">
       <app-edit *ngIf="selectedBook" [selectedBook]="selectedBook"

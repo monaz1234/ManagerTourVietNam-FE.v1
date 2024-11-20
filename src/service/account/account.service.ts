@@ -27,7 +27,7 @@ export class AccountService {
     });
   }
 
-  getList_UserCopppy(): Observable<Account[]> {
+  getList_AccountCopppy(): Observable<Account[]> {
     return this.http.get<Account[]>(`http://localhost:9000/api/accounts`);
   }
 

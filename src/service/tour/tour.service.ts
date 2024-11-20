@@ -20,7 +20,7 @@ export class TourService {
       tap(tours => this.tourSubject.next(tours)) // Cập nhật danh sách tour trong BehaviorSubject
     );
   }
-  
+
   updateTours(idtour: string, toura: Tour): Observable<Tour> {
     return this.http.put<Tour>(`http://localhost:9000//tour/update_tour/${idtour}`, toura).pipe(
       tap(() => {
@@ -32,5 +32,11 @@ export class TourService {
   getTourById(idtour: string): Observable<Tour> {
     return this.http.get<Tour>(`http://localhost:9000/tour/${idtour}`); // Không cần sử dụng tap ở đây
   }
-  
+
+
+  getList_TourCopppy(): Observable<Tour[]> {
+    return this.http.get<Tour[]>(`http://localhost:9000/api/tour`);
+  }
+
+
 }

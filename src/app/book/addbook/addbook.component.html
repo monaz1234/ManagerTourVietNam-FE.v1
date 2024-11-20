@@ -1,1 +1,45 @@
-<p>addbook works!</p>
+<div *ngIf="isEditBookVisible" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Thêm Mới Book</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields; let i = index" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
+
+         <!-- Dropdown cho trường select -->
+            <select *ngIf="field.type === 'select'"
+            [id]="field.name"
+            class="form-control"
+            [(ngModel)]="newBook[field.name]"
+            [name]="field.name"
+            [required]="field.required"
+            (ngModelChange)="onSelectChange(newBook[field.name])">
+            <option value="">Chọn {{ field.label }}</option>
+            <option *ngFor="let option of field.options ?? []" [value]="option.value">
+            {{ option.label }}
+            </option>
+            </select>
+
+
+          <!-- Input thông thường -->
+          <input *ngIf="field.type !== 'select'" [id]="field.name" class="form-control"
+                 [type]="field.type"
+                 [(ngModel)]="newBook[field.name]"
+                 [name]="field.name"
+                 [required]="field.required"
+                 [readonly]="field.name === 'idbook'"
+                 [ngClass]="{'bg-gray': field.name === 'idbook'}">
+        </div>
+      </div>
+    </div>
+
+    <!-- Hiển thị lỗi nếu có -->
+    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+      <ul>
+        <li *ngFor="let error of errorMessages">{{ error }}</li>
+      </ul>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm Book</button>
+  </form>
+</div>
