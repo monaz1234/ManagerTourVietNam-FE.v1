@@ -176,13 +176,7 @@ export class AddAccountComponent {
     this.onTypeUserChange(selectedValue);
     this.onUserChange(selectedValue);
   }
-  getSelectedTypeUser() {
-    return this.typeUserOptions.find(option => option.idtypeuser === this.newAccount.id_type_user) || { idtypeuser: "", name_type: "", status: 0, salary: 0 };
-  }
 
-  getSelectedUser() {
-    return this.userOptions.find(option => option.iduser === this.newAccount.iduser) || { iduser: "", name: "", birth: "", email: "", phone: "", points: 0, salary: 0, reward: 0, status: 0, typeUser: "" };
-  }
   validateAccountData(): boolean {
     this.errorMessages = [];
     if (!this.newAccount.idaccount) this.errorMessages.push('ID tài khoản không được để trống.');
@@ -202,10 +196,8 @@ export class AddAccountComponent {
     this.newAccount = {
       ...this.newAccount,
       status: 1,
-      iduser: this.getSelectedUser().iduser,
-      id_type_user: this.getSelectedTypeUser().idtypeuser,
-      typeUser: this.getSelectedTypeUser(),
-      user: this.getSelectedUser()
+      iduser: this.newAccount.iduser,
+      id_type_user: this.newAccount.id_type_user,
     };
 
     this.accountService.addAccount(this.newAccount).subscribe({

@@ -38,7 +38,10 @@
   <div *ngIf="isAddAccountVisible || isEditAccountVisible">
     <app-add-account
       *ngIf="isAddAccountVisible"
-      [generatedIdAccount]="newAccountId">
+      [generatedIdAccount]="newAccountId"
+      (accountAdded)="onAccountAdded($event)"
+      >
+
     </app-add-account>
     <div id="editForm" *ngIf="isEditAccountVisible">
       <app-edit-account
@@ -84,7 +87,7 @@
       </span>
           </td>
           <td>
-            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditAccount(account.idaccount)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditAccountAuto(account.idaccount)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
             <button class="btn btn-danger" (click)="confirmDelete(account)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>
         </tr>
