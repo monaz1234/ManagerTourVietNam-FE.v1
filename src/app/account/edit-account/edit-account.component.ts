@@ -63,7 +63,10 @@ export class EditAccountComponent {
       this.selectedAccount.id_type_user = this.selectedAccount.typeUser?.idtypeuser || '';
       this.selectedAccount.iduser = this.selectedAccount.user?.iduser || '';
 
-      this.loadTypeUserOptions();
+      // this.loadTypeUserOptions();
+      const currentUserTypeId = this.selectedAccount.user?.typeUser?.idtypeuser;
+      console.log("Loại người dùng :" + currentUserTypeId) // Ví dụ: ID loại người hiện tại của user
+      this.loadTypeUserOptionsCopy(currentUserTypeId);
       this.loadUsersOptions();
     }
   }
@@ -82,10 +85,31 @@ export class EditAccountComponent {
     });
   }
 
+  loadTypeUserOptionsCopy(currentUserTypeId: string): void {
+    this.type_userService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
+      // Lọc các loại người dùng giống với loại người của user hiện tại
+      this.typeUserOptions = typeUsers
+        .filter(user =>
+          user.status !== 2 && // Loại bỏ loại người dùng không hoạt động
+          user.name_type !== 'Khách hàng' && // Loại bỏ "Khách hàng"
+          user.idtypeuser === currentUserTypeId // Chỉ giữ loại người giống với user hiện tại
+        )
+        .map(user => ({
+          value: user.idtypeuser,
+          label: user.name_type
+        }));
+
+      // Tìm trường 'id_type_user' và cập nhật options
+      const typeUserField = this.formFields.find(field => field.name === 'id_type_user');
+      if (typeUserField) typeUserField.options = this.typeUserOptions;
+    });
+  }
+
+
 
   loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
-      this.userOptions = users.filter(user => user.status !== 2 && user.name_type !== 'Khách hàng').map(user => ({
+      this.userOptions = users.filter(user => user.status !== 2 && user.type_user !== 'T003').map(user => ({
         value: user.iduser,
         label: user.name
       }));
