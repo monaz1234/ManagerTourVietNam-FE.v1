@@ -51,12 +51,12 @@
     >
   </app-addbook>
 
-    <!-- <div id="editForm" *ngIf="isEditBookVisible">
-      <app-edit *ngIf="selectedBook" [selectedBook]="selectedBook"
+    <div id="editForm" *ngIf="isEditBookVisible">
+      <app-editbook *ngIf="selectedBook" [selectedBook]="selectedBook"
       (closeForm)="handleCloseEditForm()"
       (bookUpdated)="onBookUpdated($event)">
-    </app-edit>
-    </div> -->
+    </app-editbook>
+    </div>
   </div>
 
   <hr>

@@ -265,6 +265,7 @@ deleteUser(id: string): void {
     next: () => {
       this.users = this.users.filter(user => user.iduser !== id); // Cập nhật danh sách người dùng
       console.log(`Đã xóa thông tin người dùng với id ${id}`);
+      this.loadUsers();
     },
     error: (error) => {
       console.error('Lỗi khi xóa người dùng:', error); // Xử lý lỗi nếu có

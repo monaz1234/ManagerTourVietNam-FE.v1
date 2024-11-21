@@ -1,5 +1,5 @@
-<div *ngIf="selectedAccount" class="container mt-4 bg-gray pb-4 pt-4 rounded">
-  <h2>Chỉnh Sửa Tài Khoản</h2>
+<div *ngIf="selectedBook" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Book</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="row d-flex flex-wrap">
       <div *ngFor="let field of formFields" class="col-md-4 mb-3">
@@ -10,7 +10,7 @@
           <select *ngIf="field.type === 'select'"
             [id]="field.name"
             class="form-control"
-            [(ngModel)]="selectedAccount[field.name]"
+            [(ngModel)]="selectedBook[field.name]"
             [name]="field.name"
             [required]="field.required">
             <option value="">Chọn {{ field.label }}</option>
@@ -22,11 +22,11 @@
                  [id]="field.name"
                  class="form-control"
                  [type]="field.type"
-                 [(ngModel)]="selectedAccount[field.name]"
+                 [(ngModel)]="selectedBook[field.name]"
                  [name]="field.name"
-                 [readonly]="field.name === 'idaccount'"
+                 [readonly]="field.name === 'idbook'"
                  [required]="field.required"
-                 [ngClass]="{'bg-gray': field.name === 'idaccount'}" />
+                 [ngClass]="{'bg-gray': field.name === 'idbook'}" />
         </div>
       </div>
     </div>

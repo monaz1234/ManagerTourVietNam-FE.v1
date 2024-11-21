@@ -59,11 +59,22 @@ export class AddAccountComponent {
   ngOnInit(): void {
     this.newAccount.idaccount = this.generatedIdAccount;
 
-    this.loadTypeUserOptions();
-    this.loadUsersOptions();
-    this.getTypeUserOptions()
-    this.getUserOptions();
+    // Kiểm tra và lấy ID loại người dùng hiện tại
+    const currentTypeId = this.newAccount.user?.typeUser?.idtypeuser // Ví dụ: ID của loại người hiện tại
+    console.log("Loại người dùng hiện tại:", currentTypeId);
+
+    // Gọi các hàm tải dữ liệu
+    this.loadUsersOptions(); // Tải danh sách người dùng
+    if (currentTypeId) {
+      this.loadTypeUserOptionsCopy(currentTypeId); // Lọc loại người dùng dựa trên ID hiện tại
+    }else{
+      this.loadTypeUserOptions();
+    }
+
+    this.getTypeUserOptions(); // Tải danh sách tất cả loại người dùng
+    this.getUserOptions(); // Tải danh sách tất cả người dùng
   }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['generatedIdAccount']) {
@@ -104,6 +115,51 @@ export class AddAccountComponent {
       }
     });
   }
+  loadTypeUserOptionsCopy(currentTypeUserId: string): void {
+    this.type_UserService.getListType_UserCopppy().subscribe((typeUsers: any[]) => {
+      // Lọc loại người dùng dựa trên ID loại người hiện tại
+      const activeTypeUsers = typeUsers.filter(
+        user => user.status !== 2 && user.idtypeuser === currentTypeUserId
+      );
+
+      // Tạo danh sách tùy chọn
+      const typeUserOptions = activeTypeUsers.map(user => ({
+        value: user.idtypeuser,
+        label: user.name_type
+      }));
+
+      // Tìm và cập nhật trường 'id_type_user' trong formFields
+      const field = this.formFields.find(field => field.name === 'id_type_user');
+      if (field) {
+        field.options = typeUserOptions;
+      }
+    });
+  }
+
+
+  loadUsersOptionsCopy(currentTypeId: string): void {
+    this.userService.getList_UserCopppy().subscribe((users: any[]) => {
+      // Lọc những người dùng thuộc loại người cụ thể và không phải "Khách hàng"
+      const activeUsers = users.filter(user =>
+        user.status !== 2 && // Loại bỏ người dùng bị khóa
+        user.type_user === currentTypeId && // Chỉ giữ người dùng thuộc loại người hiện tại
+        user.name_type !== 'Khách hàng' // Loại bỏ "Khách hàng" (nếu cần)
+      );
+
+      // Chuyển đổi danh sách người dùng thành options
+      const userOptions = activeUsers.map(user => ({
+        value: user.iduser,
+        label: user.name
+      }));
+
+      // Tìm và cập nhật options cho trường 'iduser'
+      const field = this.formFields.find(field => field.name === 'iduser');
+      if (field) {
+        field.options = userOptions;
+      }
+    });
+  }
+
 
   loadUsersOptions(): void {
     this.userService.getList_UserCopppy().subscribe((users: any[]) => {
@@ -119,6 +175,7 @@ export class AddAccountComponent {
       }
     });
   }
+
 
 
 
