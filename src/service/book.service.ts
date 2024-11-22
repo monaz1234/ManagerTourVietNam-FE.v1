@@ -67,7 +67,7 @@ export class BookService {
     return this.http.get<Book>(`http://localhost:9000/api/book/${id}`);
   }
 
-  updateUser(id: string, bookData: any): Observable<Book> {
+  updateBook(id: string, bookData: any): Observable<Book> {
     return this.http.put<Book>(`http://localhost:9000/api/book/${id}`, bookData).pipe(
       tap(() => {
         this.getList_Book(); // Cập nhật danh sách người dùng sau khi cập nhật
