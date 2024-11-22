@@ -36,6 +36,7 @@ import { CustomerComponent} from './customer/customer.component';
 import { CustomerdetailComponent} from './customerdetail/customerdetail.component';
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
+import { BookdetailComponent } from './bookdetail/bookdetail.component';
 
 const routes: Routes = [
 
@@ -123,6 +124,9 @@ const routes: Routes = [
 
       ]
 
+    },
+    {
+      path: 'detail_book', component: BookdetailComponent,
     },
   ],
 },
