@@ -44,6 +44,8 @@ import { CustomerComponent } from './customer/customer.component';
 import { CustomerdetailComponent } from './customerdetail/customerdetail.component';
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
+import { EditbookComponent } from './book/editbook/editbook.component';
+import { BookdetailComponent } from './bookdetail/bookdetail.component';
 
 
 @NgModule({
@@ -85,7 +87,9 @@ import { AddbookComponent } from './book/addbook/addbook.component';
     InfoUserComponent,
     CustomerdetailComponent,
     BookComponent,
-    AddbookComponent
+    AddbookComponent,
+    EditbookComponent,
+    BookdetailComponent
 
   ],
   imports: [

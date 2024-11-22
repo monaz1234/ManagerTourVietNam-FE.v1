@@ -35,6 +35,8 @@ import { InfoUserComponent } from './info-user/info-user.component';
 import { CustomerComponent} from './customer/customer.component';
 import { CustomerdetailComponent} from './customerdetail/customerdetail.component';
 import { BookComponent } from './book/book.component';
+import { AddbookComponent } from './book/addbook/addbook.component';
+import { BookdetailComponent } from './bookdetail/bookdetail.component';
 
 const routes: Routes = [
 
@@ -45,6 +47,7 @@ const routes: Routes = [
   path: 'customer',
   component : CustomerComponent,
 },
+
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
 {
   path: 'admin',
@@ -100,8 +103,14 @@ const routes: Routes = [
     },
     {
       path: 'book',
-      component: BookComponent
+      component: BookComponent, children: [
+        {path: 'add', component: AddbookComponent},
 
+      ]
+
+    },
+    {
+      path: 'detail_book', component: BookdetailComponent,
     },
   ],
 },

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { Book } from '../interface/book.interface';
 
 
@@ -41,12 +41,19 @@ export class BookService {
 
 
   addBook(book: Book): Observable<any> {
+    console.log('Book data:', book);  // In ra dữ liệu trước khi gửi
     return this.http.post<any>('http://localhost:9000/api/book', book).pipe(
       tap(() => {
-        this.getList_Book(); // Cập nhật danh sách người dùng sau khi thêm
+        this.getList_Book(); // Cập nhật danh sách sách sau khi thêm
+      }),
+      catchError(error => {
+        console.error('Error adding book:', error);
+        throw error; // Tiếp tục ném lỗi để xử lý ở nơi khác nếu cần
       })
     );
   }
+
+
 
   deleteBook(id: string): Observable<void> {
     return this.http.delete<void>(`http://localhost:9000/api/book/${id}`).pipe(
@@ -60,7 +67,7 @@ export class BookService {
     return this.http.get<Book>(`http://localhost:9000/api/book/${id}`);
   }
 
-  updateUser(id: string, bookData: any): Observable<Book> {
+  updateBook(id: string, bookData: any): Observable<Book> {
     return this.http.put<Book>(`http://localhost:9000/api/book/${id}`, bookData).pipe(
       tap(() => {
         this.getList_Book(); // Cập nhật danh sách người dùng sau khi cập nhật

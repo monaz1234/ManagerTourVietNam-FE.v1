@@ -180,7 +180,7 @@ export class AccountComponent implements OnInit {
     return status === '1'; // Giả sử '1' là trạng thái "Hoạt động"
   }
 
-  showFormEditUserAuto(id: string): void {
+  showFormEditAccountAuto(id: string): void {
     // Nếu form đang mở và ID người dùng giống nhau, chỉ cần đóng lại
     if (this.isEditAccountVisible && this.selectedAccount && this.selectedAccount.idaccount === id) {
       this.isEditAccountVisible = false;

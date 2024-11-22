@@ -228,10 +228,10 @@ toggleAddBook(): void {
 
 
     // Hàm xác nhận và xóa người dùng
-confirmDelete(user: any): void {
-  const confirmed = confirm(`Bạn có chắc chắn muốn xóa book này không ? ${user.name}?`);
+confirmDelete(books: any): void {
+  const confirmed = confirm(`Bạn có chắc chắn muốn xóa book này không ? ${books.idbook}?`);
   if (confirmed) {
-    this.deleteBook(user.iduser); // Gọi hàm xóa
+    this.deleteBook(books.idbook); // Gọi hàm xóa
   }
 }
 
@@ -241,6 +241,7 @@ deleteBook(id: string): void {
     next: () => {
       this.books = this.books.filter(book => book.idbook !== id); // Cập nhật danh sách người dùng
       console.log(`Đã xóa thông tin Book với id ${id}`);
+      this.loadBooks();
     },
     error: (error) => {
       console.error('Lỗi khi xóa Book:', error); // Xử lý lỗi nếu có
