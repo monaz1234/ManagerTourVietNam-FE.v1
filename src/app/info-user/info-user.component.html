@@ -1,24 +1,112 @@
+<div class="title">
+  <h1>About Me</h1>
+</div>
 <div class="container">
-  <!-- Hình ảnh người dùng -->
-  <div class="user-avatar">
-    <img
-      src="https://via.placeholder.com/150"
-      alt="User Avatar"
-      class="avatar-img"
-    />
-  </div>
-  <div class="info-user">
+
+ <!-- Hình ảnh người dùng -->
+<div class="user-avatar">
+  <!-- Hiển thị hình ảnh người dùng -->
+  <img [src]="userImageUrl" alt="User Avatar" class="avatar-img" />
+
+  <!-- Chỉ hiển thị ô chọn hình ảnh khi đang ở chế độ chỉnh sửa -->
+  <input
+    type="file"
+    id="avatar-file"
+    (change)="onImageChange($event)"
+    *ngIf="isEditing"
+    accept="image/png, image/jpeg"
+  />
+</div>
+
+  <!-- Thông tin người dùng trong form -->
+  <form class="info-user">
+    <div class="username-user">
+      <label for="username-user-text">Username:</label>
+      <input
+        type="text"
+        id="username-user-text"
+        class="form-control"
+        [(ngModel)]="username"
+        name="username"
+        placeholder="Username User"
+        readonly
+      />
+    </div>
     <div class="name-user">
-      <label for="name-user">Name:</label>
+      <label for="name-user-text">Name:</label>
       <input
         type="text"
         id="name-user-text"
         class="form-control"
         placeholder="Name User"
+        [(ngModel)]="nameuser"
+        name="nameuser"
+        [readOnly]="!isEditing"
+      />
+    </div>
+    <div class="email-user">
+      <label for="email-user-text">Email:</label>
+      <input
+        type="text"
+        id="email-user-text"
+        class="form-control"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Email User"
+        [readOnly]="!isEditing"
+        (input)="validateEmail()"
+
+      />
+      <div *ngIf="!isEmailValid" class="error-message">Email không hợp lệ!</div>
+    </div>
+    <div class="phone-user">
+      <label for="phone-user-text">Phone Number:</label>
+      <input
+        type="text"
+        id="phone-user-text"
+        class="form-control"
+        placeholder="Phone Number of User"
+        [(ngModel)]="phone"
+        name="phone"
+        [readOnly]="!isEditing"
+        (input)="validatePhone()"
+        pattern="[0-9]{10}"
+      />
+      <div *ngIf="!isPhoneValid" class="error-message">Số điện thoại phải có 10 chữ số!</div>
+    </div>
+    <div class="birthday-user">
+      <label for="birthday-user-text">Birthday:</label>
+      <input
+        type="date"
+        id="birthday-user-text"
+        class="form-control"
+        [(ngModel)]="birth"
+        name="birth"
+        [readOnly]="!isEditing"
+      />
+    </div>
+    <div class="points-user">
+      <label for="points-user-text">Points:</label>
+      <input
+        type="text"
+        id="points-user-text"
+        class="form-control"
+        [(ngModel)]="points"
+        name="points"
+        placeholder="Points of User"
+        readonly
       />
     </div>
 
-  </div>
+    <!-- Nút thay đổi -->
+    <div class="form-action">
+      <button type="button" class="btn btn-primary" (click)="toggleEdit()" *ngIf="!isEditing">
+        Thay đổi
+      </button>
+      <button type="button" class="btn btn-success" (click)="saveChanges()" *ngIf="isEditing">
+        Lưu
+      </button>
+
+    </div>
+  </form>
 </div>
-
-

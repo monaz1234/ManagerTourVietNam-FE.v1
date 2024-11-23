@@ -37,7 +37,7 @@ const routes: Routes = [
 
 {path: '', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
-{path: 'infouser', component : InfoUserComponent},
+{path: 'infouser/:iduser', component : InfoUserComponent},
 {
   path: 'admin',
   component: AdminComponent,
