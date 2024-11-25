@@ -37,6 +37,7 @@ import { CustomerdetailComponent} from './customerdetail/customerdetail.componen
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
 
 const routes: Routes = [
 
@@ -126,7 +127,9 @@ const routes: Routes = [
 
     },
     {
-      path: 'detail_book', component: BookdetailComponent,
+      path: 'detail_book', component: BookdetailComponent, children : [
+        {path : 'add', component : AddBookdetailComponent}
+      ]
     },
   ],
 },

@@ -90,7 +90,7 @@ export class AddbookComponent {
       account: '',
       tour: '',
       status: 1, // Gán trạng thái mặc định
-      typeUser: '',
+
     };
     this.errorMessages = [];
   }
