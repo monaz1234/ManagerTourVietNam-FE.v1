@@ -1,0 +1,136 @@
+<section class="ftco-section">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tour du lịch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="customer">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer">Tours</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer/hotel">Khách sạn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
+                    <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
+                    <li class="nav-item" *ngIf="username">
+                        <span class="nav-link">Xin chào: {{ username }}</span>
+                    </li>
+                    <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
+    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h6>Trang chủ ><br> <h1>Liên hệ</h1></h6>
+        </div>
+    </div>
+
+<div class="info-container">
+    <div class="info-box">
+        <div class="icon">
+        <i class="fa fa-map-marker"></i>
+        </div>
+        <h3>Địa chỉ</h3>
+        <p>273 An Dương Vương, Quận 5, TPHCM</p>
+    </div>
+    
+    <div class="info-box">
+        <div class="icon">
+        <i class="fa fa-phone"></i>
+        </div>
+        <h3>Số điện thoại liên hệ</h3>
+        <p>0123456789</p>
+    </div>
+    
+    <div class="info-box">
+        <div class="icon">
+        <i class="fa fa-envelope"></i>
+        </div>
+        <h3>Địa chỉ email</h3>
+        <p>admin&#64;gmail.com</p>
+    </div>
+    
+    <div class="info-box">
+        <div class="icon">
+        <i class="fa fa-globe"></i>
+        </div>
+        <h3>Website</h3>
+        <p>http://youtube.com</p>
+    </div>
+    </div>
+    
+    <div class="slider">
+        <div class="slides">
+            <div class="slide slide1"></div>
+            <div class="slide slide2"></div>
+            <div class="slide slide3"></div>
+            <div class="slide slide4"></div>
+            <div class="slide slide5"></div>
+                <!-- Thêm các slide khác nếu cần -->
+        </div>
+        <div class="overlay">
+            <h2>CHÚNG TÔI LÀ CÔNG TY DU LỊCH VIETNAMTOUR</h2>
+            <p>Chúng tôi sẽ mang đến cho quý khách những trải nghiệm tuyệt vời nhất</p>
+            <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
+        </div>
+        </div>
+        
+        <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+            <h3>Giới thiệu</h3>
+            <p>Website VietNamTour cho phép đặt các tour du lịch khắp mọi nơi trong nước.</p>
+            </div>
+            <div class="footer-section">
+            <h4>Thông tin</h4>
+            <ul>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Tin tức</a></li>
+                <li><a href="#">Chính sách và quyền riêng tư</a></li>
+                <li><a href="#">Liên hệ với chúng tôi</a></li>
+            </ul>
+            </div>
+            <div class="footer-section">
+            <h4>Liên hệ</h4>
+            <ul>
+                <li>Địa chỉ: 273 An Dương Vương, Tp.HCM</li>
+                <li>Số điện thoại: (+84) 123-456-789</li>
+                <li>Email: admin&#64;gmail.com</li>
+            </ul>
+            </div>
+            <div class="footer-section">
+            <h4>Theo dõi chúng tôi</h4>
+            <div class="social-icons">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright &copy;2024
+        </div>
+        </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>

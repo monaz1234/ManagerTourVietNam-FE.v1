@@ -39,8 +39,11 @@ export class ManagerUserService {
     return this.http.get<User[]>(`http://localhost:9000/api/users`);
   }
 
-
-
+  private apiUrl = 'http://localhost:9000/api/user'; // URL của API backend
+  // Phương thức lấy user theo username
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${username}`);
+  }
 
 
   addUser(user: User): Observable<any> {

@@ -29,89 +29,65 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <h6>Trang chủ > <br><h1>Tours</h1></h6>
+            <h6>Trang chủ > Hotel ><br><h1>Hotel</h1></h6>
         </div>
     </div>
-    <!-- Section chi tiết tour -->
-    <div *ngIf="tourDetails.length > 0">
-        <h1 class="TieudeTour" style="margin-left: 5px;">{{ tourDetails[0].tour.tourname }}</h1>
-        <div class="tour-details-container">
-            <img [src]="'../../assets/images/' + tourDetails[0].tour.image" alt="{{ tourDetails[0].tour.tourname }}">
-            <div class="info-container">
-                <p class="GiaTong"><strong>Giá tổng:</strong> {{ tourDetails[0].total_price | currency:'VND' }}</p>
-                
-                <div class="quantity-selector">
-                    <div class="quantity-item">
-                        <label for="adults">Số lượng</label>
-                        <div class="quantity-control">
-                            <button class="quantity-btn" onclick="decreaseQuantity('adults')">-</button>
-                            <input type="number" id="adults" value="1" min="1" max="10" readonly />
-                            <button class="quantity-btn" onclick="increaseQuantity('adults')">+</button>
-                        </div>
-                        <p class="min-quantity">Mua ít nhất</p>
-                    </div>
-                    <div class="promotions">
-                        <form class="selectPromotions">
-                            <h3>Ưu đãi:</h3>
-                            <input type="text" id="promo" placeholder="Nhập mã ưu đãi"/>
-                            <button class="promo-btn" onclick="">Áp dụng</button>
-                        </form>
-                    </div>
-                </div>
-                <button onclick="" class="BookBtn">Đặt ngay</button>
-            </div>
-        </div>
-        <p style="margin-left: 10px; font-size:larger;"><b>Gói của tour bao gồm:</b></p>
-        <table style="margin-left: 10px;">
-            <tr>
-                <th>Hành trình</th>
-                <td>{{ tourDetails[0].tour.tourname }}</td>
-            </tr>
-            <tr>
-                <th>Xuất phát</th>
-                <td>{{tourDetails[0].tour.location}}</td>
-            </tr>
-            <tr>
-                <th>Khởi hành</th>
-                <td>{{tourDetails[0].depart | date:'dd/MM/yyyy'}}</td>
-            </tr>
-            <tr>
-                <th>Phương tiện</th>
-                <td>{{tourDetails[0].vehicles.name_vehicles}}</td>
-            </tr>
-            <tr>
-                <th>Khách sạn</th>
-                <td>{{tourDetails[0].hotel.name_hotel}}</td>
-            </tr>
-            <tr>
-                <th>Dịch vụ</th>
-                <td>{{tourDetails[0].service.name_service}}</td>
-            </tr>
-        </table>
-        <p class="description" style="margin-left: 10px;" >
-            <b style="margin-bottom:10px; font-size:larger;">Giới thiệu tour: </b><br>
-            <span [innerHTML]="sanitizeDescription(tourDetails[0].tour.description)"></span>
-        </p>
-        <!-- Hiển thị tất cả ảnh của vehicles -->
-        <div class="dv-images">
-            <p style="margin-left: 10px;font-size:larger;"><b>Phương tiện di chuyển:</b></p>
-            <div *ngFor="let image of vehicleImages">
-            <img [src]="'../../assets/images/' + image" [alt]="'Ảnh phương tiện: ' + image">
-            </div>
-        </div>
-          <!-- Hiển thị tất cả ảnh của hotel -->
-        <div class="dv-images">
-            <p style="margin-left: 10px;font-size:larger;"><b>Khách sạn lưu trú:</b></p>
-            <div *ngFor="let image of hotelImages">
-            <img [src]="'../../assets/images/' + image" [alt]="'Ảnh khách sạn: ' + image">
-            </div>
-        </div>
-    </div>
+    <!-- Section chi tiết hotel -->
+    <section class="hotel-detail-section">
+        <div class="hotel-detail-header">
+            <h1>{{ hotel.name_hotel }}</h1>
+          </div>
+          
       
+        <!-- Ảnh chính -->
+        <div class="hotel-image-main">
+          <img [src]="'../../assets/images/' + hotel.image.split(',')[0].trim()" alt="{{ hotel.name_hotel }}" class="main-image" />
+        </div>
+      
+        <!-- Thông tin khách sạn -->
+        <div class="hotel-info">
+          <h2>Thông tin khách sạn</h2>
+          <p class=" GiaTong"><strong>Giá từ:</strong> {{ hotel.price | currency:'VND' }}</p>
+          <p [innerHTML]="sanitizeDescription(hotel.description)"></p>
+          <button class="contact-btn" (click)="contactHotel()">Liên hệ ngay</button>
+        </div>
+      
+        <!-- Hình ảnh thêm -->
+        <div class="hotel-gallery">
+          <h2>Thư viện ảnh</h2>
+          <div class="gallery">
+            <img *ngFor="let image of hotelImages" [src]="'../../assets/images/' + image" [alt]="'Ảnh khách sạn ' + image" class="gallery-image">
+          </div>
+        </div>
+      </section>
+      
+    <!-- phần khách sạn được gợi ý-->
+<div class="suggested-hotels" *ngIf="suggestedHotel?.length">
+    <h2 style="color: rgb(35, 145, 228);">Khách sạn được gợi ý</h2>
+    <div class="row">
+      <!-- Lặp qua tất cả các khách sạn gợi ý -->
+      <div class="col-md-4" *ngFor="let hotel of suggestedHotel">
+        <div class="product-card" (click)="goToHotelDetail(hotel.id_hotel)">
+          <div class="price-label">
+            <span class="price">{{ hotel.price | currency: 'VND' }}</span><br>
+          </div>
+          <img [src]="'../../assets/images/' + hotel.image.split(',')[0].trim()" alt="{{ hotel.name_hotel }}" class="product-image">
+          <div class="product-info">
+            <h3>{{ hotel.name_hotel }}</h3>
+            <p>{{ hotel.description }}</p>
+            <button (click)="goToHotelDetail(hotel.id_hotel)">Xem ngay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
     <hr  style="margin-left: 400px;width: 50%;"    />
 <!--Phần bình luận-->
 <div class="comment-section">
-    <h3>Bình luận về tour du lịch</h3>
+    <h3>Bình luận về Khách sạn</h3>
     <div class="comment-list">
         <div *ngFor="let comment of comments">
         <p> <span>
@@ -134,9 +110,7 @@
         <button type="submit" [disabled]="commentForm.invalid">Gửi bình luận</button>
     </form>
 </div>
-
-
-    <!-- END nav -->
+<hr  style="margin-left: 400px;width: 50%;"    />
     <div class="slider">
     <div class="slides">
         <div class="slide slide1"></div>
@@ -192,7 +166,8 @@
     <div class="container">
         <router-outlet></router-outlet>
     </div>
-    </section>
+
+</section>
     
     
     

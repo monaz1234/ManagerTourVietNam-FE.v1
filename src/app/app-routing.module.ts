@@ -1,6 +1,6 @@
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, ExtraOptions } from '@angular/router';
 
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AddComponent } from './manager-user/add/add.component';
@@ -37,6 +37,11 @@ import { CustomerdetailComponent} from './customerdetail/customerdetail.componen
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+import { ClientLienHeComponent } from './client-lienhe/client-lienhe.component';
+import { ClientHotelComponent } from './client-hotel/client-hotel.component';
+import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { NewsComponent } from './news/news.component';
 
 const routes: Routes = [
 
@@ -47,8 +52,16 @@ const routes: Routes = [
   path: 'customer',
   component : CustomerComponent,
 },
-
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
+
+{ path: 'customer/lienhe', component: ClientLienHeComponent }, // Route cho trang liên hệ
+
+{ path: 'customer/hotel', component: ClientHotelComponent }, // Route cho trang liên hệ
+{ path: 'customer/hotel/:id_hotel', component:ClienthoteldetailComponent }, // Route cho
+
+{ path: 'about-us', component: AboutUsComponent },
+{ path: 'news', component: NewsComponent },
+
 {
   path: 'admin',
   component: AdminComponent,
@@ -116,9 +129,11 @@ const routes: Routes = [
 },
 { path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần
 ];
-
+const routerOptions: ExtraOptions = {
+  onSameUrlNavigation: 'reload'
+};
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -9,12 +9,12 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="customerdetail">Giới thiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tours</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Khách sạn</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+                <li class="nav-item"><a class="nav-link active" href="customer">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="about-us">Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer">Tours</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer/hotel">Khách sạn</a></li>
+                <li class="nav-item"><a class="nav-link" href="news">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
                 <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
                 <li class="nav-item" *ngIf="username">
                     <span class="nav-link">Xin chào: {{ username }}</span>

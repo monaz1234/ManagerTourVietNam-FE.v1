@@ -102,5 +102,10 @@ export class AccountService {
     return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
   }
 
+  getIdUserByUsername(username: string): Observable<{ iduser: string }> {
+    return this.http.get<{ iduser: string }>(`http://localhost:9000/api/accounts/iduser?username=${username}`);
+  }
+  
+  
 
 }

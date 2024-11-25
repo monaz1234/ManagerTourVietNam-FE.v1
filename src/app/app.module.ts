@@ -46,6 +46,11 @@ import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { EditbookComponent } from './book/editbook/editbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+import { ClientLienHeComponent } from './client-lienhe/client-lienhe.component';
+import { ClientHotelComponent } from './client-hotel/client-hotel.component';
+import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { NewsComponent } from './news/news.component';
 
 
 @NgModule({
@@ -89,7 +94,14 @@ import { BookdetailComponent } from './bookdetail/bookdetail.component';
     BookComponent,
     AddbookComponent,
     EditbookComponent,
-    BookdetailComponent
+    BookdetailComponent,
+    ClientLienHeComponent,
+    ClientHotelComponent,
+    ClienthoteldetailComponent,
+    AboutUsComponent,
+    NewsComponent,
+
+    
 
   ],
   imports: [
