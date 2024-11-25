@@ -145,7 +145,7 @@ export class AddBookdetailComponent {
     })
   }
 
-  onBoookChange(selectBookId : string){
+  onBookChange(selectBookId : string){
     const selectBookUser = this.bookOptions.find(
       (book) => book.idbook === selectBookId
     );
@@ -158,10 +158,27 @@ export class AddBookdetailComponent {
         status : selectBookUser.status,
 
       };
-      // this.newBookDetail.idbook = selectBookUser.tour?.tourname;
-      // console.log('Sách đã chọn:', selectBookUser.tour?.tourname);
+      this.newBookDetail.idbook = selectBookUser;
+      console.log('Sách đã chọn:',  this.newBookDetail.idbook);
     }
   }
+
+  // onBookChange(selectBookId: string) {
+  //   // Tìm đối tượng book đã chọn trong danh sách bookOptions
+  //   const selectedBook = this.bookOptions.find((book) => book.idbook === selectBookId);
+
+  //   if (selectedBook) {
+  //     // Cập nhật `newBookDetail` với thông tin đầy đủ
+  //     this.newBookDetail.idbook = selectedBook.idbook;
+  //     this.newBookDetail.bookName = selectedBook.tour?.tourname || ''; // Nếu cần thêm thông tin bookName
+  //     this.newBookDetail.account = selectedBook.account || ''; // Ví dụ thêm thông tin account
+
+  //     console.log('Thông tin book đã chọn:', selectedBook); // Kiểm tra dữ liệu trong console
+  //   } else {
+  //     console.warn('Không tìm thấy book với ID:', selectBookId);
+  //   }
+  // }
+
 
   getPromotionOptions(){
     this.promotionService.getList_PromotionCopppy().subscribe((data : any)=>{
@@ -182,20 +199,59 @@ export class AddBookdetailComponent {
         status : selectPromotionUser.status,
 
       };
-      // this.newBookDetail.promotion_code = selectPromotionUser.description;
+      this.newBookDetail.promotion_code = selectPromotionUser;
+      console.log(this.newBookDetail.promotion_code);
     }
   }
 
-  onSelectChange(selectedValue: any) {
-    // onSelectChange(selectedValue: any, fieldName: string) {
+  // onPromotionChange(selectPromotionCode: string) {
+  //   // Tìm đối tượng promotion đã chọn trong danh sách promotionOptions
+  //   const selectPromotionUser = this.promotionOptions.find(
+  //     (promotion) => promotion.promotion_code === selectPromotionCode
+  //   );
 
-      this.onBoookChange(selectedValue);
+  //   if (selectPromotionUser) {
+  //     // Lưu toàn bộ thông tin của promotion đã chọn
+  //     this.newBookDetail.promotion_code = selectPromotionUser.promotion_code; // Lưu mã promotion
+  //     this.newBookDetail.promotionName = selectPromotionUser.name; // Lưu tên promotion (nếu cần)
 
-      this.onPromotionChange(selectedValue);
+  //     console.log('Thông tin promotion đã chọn:', selectPromotionUser); // Kiểm tra thông tin trong console
+  //   } else {
+  //     console.warn('Không tìm thấy promotion với mã:', selectPromotionCode);
+  //   }
+  // }
 
-      // this.newBookDetail[fieldName] = selectedValue;
 
+  onSelectChange(selectedValue: any, fieldName: string): void {
+    if (!selectedValue) {
+      console.warn(`Không có giá trị chọn cho trường: ${fieldName}`);
+      return; // Nếu không có giá trị, dừng thực hiện
+    }
+
+    // Dựa vào fieldName để quyết định gọi hàm xử lý thích hợp
+    switch (fieldName) {
+      case 'idbook':
+        this.handleBookChange(selectedValue);
+        break;
+      case 'promotion_code':
+        this.handlePromotionChange(selectedValue);
+        break;
+      default:
+        console.warn(`Không xử lý được trường hợp: ${fieldName}`);
+        break;
+    }
   }
+
+  handleBookChange(selectedBookId: string): void {
+    // Logic xử lý khi chọn một cuốn sách
+    this.onBookChange(selectedBookId);
+  }
+
+  handlePromotionChange(selectedPromotionCode: string): void {
+    // Logic xử lý khi chọn một mã khuyến mãi
+    this.onPromotionChange(selectedPromotionCode);
+  }
+
 
 
 

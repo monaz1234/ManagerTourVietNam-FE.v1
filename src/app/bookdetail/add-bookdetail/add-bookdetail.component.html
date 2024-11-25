@@ -8,17 +8,18 @@
 
           <!-- Dropdown cho trường select -->
           <select *ngIf="field.type === 'select'"
-                  [id]="field.name"
-                  class="form-control"
-                  [(ngModel)]="newBookDetail[field.name]"
-                  [name]="field.name"
-                  [required]="field.required"
-                  (ngModelChange)="onSelectChange(newBookDetail[field.name])">
-                  <option value="">Chọn {{ field.label }}</option>
-                  <option *ngFor="let option of field.options ?? []" [value]="option.value">
-                    {{ option.label }}
-                  </option>
-          </select>
+          [id]="field.name"
+          class="form-control"
+          [(ngModel)]="newBookDetail[field.name]"
+          [name]="field.name"
+          [required]="field.required"
+          (ngModelChange)="onSelectChange(newBookDetail[field.name], field.name)">
+          <option value="">Chọn {{ field.label }}</option>
+          <option *ngFor="let option of field.options ?? []" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+
 
           <!-- Input thông thường -->
           <input *ngIf="field.type !== 'select'"
