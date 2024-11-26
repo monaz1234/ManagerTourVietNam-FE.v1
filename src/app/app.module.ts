@@ -33,6 +33,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 import { InfoUserComponent } from './info-user/info-user.component';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -70,11 +71,28 @@ import { InfoUserComponent } from './info-user/info-user.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SocialLoginModule
 
   ],
   providers: [
-    provideHttpClient()
+    provideHttpClient(),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1130182508724914')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ],
+
 
   bootstrap: [AppComponent]
 })
