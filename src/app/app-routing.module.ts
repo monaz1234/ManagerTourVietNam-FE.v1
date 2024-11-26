@@ -38,6 +38,7 @@ import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
 import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
+import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
 
 const routes: Routes = [
 
@@ -131,6 +132,12 @@ const routes: Routes = [
         {path : 'add', component : AddBookdetailComponent}
       ]
     },
+
+    {
+      path:'service', component: ManagerServiceComponent, children : [
+        // {path : 'add'}
+      ]
+    }
   ],
 },
 { path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần

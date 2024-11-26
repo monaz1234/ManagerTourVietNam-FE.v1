@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BookdetailService } from '../../../service/bookdetail/bookdetail.service';
 import { BookService } from '../../../service/book.service';
 import { ManagerPromotionService } from '../../../service/promotion/manager-promotion.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './edit-book-detail.component.html',
   styleUrl: './edit-book-detail.component.scss'
 })
-export class EditBookDetailComponent {
+export class EditBookDetailComponent implements OnInit{
 
 
   @Input() selectedBookDetail : any;
@@ -56,6 +56,9 @@ export class EditBookDetailComponent {
 
       this.loadBookOptions();
       this.loadPromotionOptions();
+
+      this.getBookOptions();
+      this.getPromotionOptions();
     }
   }
 
@@ -90,6 +93,16 @@ export class EditBookDetailComponent {
       }
     });
   }
+  getPromotionOptions(){
+    this.promotionService.getList_PromotionCopppy().subscribe((data : any)=>{
+      this.promotionOptions = data;
+    })
+  }
+  getBookOptions(){
+    this.bookService.getList_BookCopppy().subscribe((data : any)=>{
+      this.bookOptions = data;
+    })
+  }
 
   onSubmit(): void{
     this.selectedBookDetail.idbook = {
@@ -105,7 +118,7 @@ export class EditBookDetailComponent {
       // status: 1
     };     // Kiểm tra giá trị của idtour
     // Call service to update the account
-    this.bookService.updateBook(this.selectedBookDetail.idbookdetail, this.selectedBookDetail).subscribe({
+    this.bookDetailService.updateBookDetail(this.selectedBookDetail.idbookdetail, this.selectedBookDetail).subscribe({
       next: (response) => {
         console.log('Chỉnh sửa thành công', response);
         this.bookDetailUpdated.emit(this.selectedBookDetail);

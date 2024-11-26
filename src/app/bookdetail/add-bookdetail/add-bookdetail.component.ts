@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, OnInit } from '@angular/core';
 import { bookdetail } from '../../../interface/bookdetail.interface';
 import { Book } from '../../../interface/book.interface';
 import { Promotion } from '../../../interface/promotion.interface';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-bookdetail.component.html',
   styleUrl: './add-bookdetail.component.scss'
 })
-export class AddBookdetailComponent {
+export class AddBookdetailComponent implements OnInit{
 
   isEditBookDetailVisible = true;
   closeForm() {
