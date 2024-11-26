@@ -30,19 +30,19 @@
 
 
   <div *ngIf="isAddBookDetailVisible || isEditBookDetailVisible">
-    <app-add-account
+    <app-add-bookdetail
       *ngIf="isAddBookDetailVisible"
-      [generatedIdAccount]="newBookDetail"
-      (BookDetailAdded)="onBookDetailUpdated($event)"
+      [generatedIdBookDetail]="newBookDetail"
+      (BookDetailAdded)="onBookDetailAdd($event)"
       >
 
-    </app-add-account>
+    </app-add-bookdetail>
     <div id="editForm" *ngIf="isEditBookDetailVisible">
-      <app-edit-account
-        [selectedAccount]="selectedBookDetail"
+      <app-edit-book-detail
+        [selectedBookDetail]="selectedBookDetail"
         (closeForm)="handleCloseEditForm()"
-        (accountUserUpdated)="onBookDetailUpdated($event)">
-      </app-edit-account>
+        (bookDetailUpdated)="onBookDetailUpdated($event)">
+      </app-edit-book-detail>
     </div>
   </div>
 

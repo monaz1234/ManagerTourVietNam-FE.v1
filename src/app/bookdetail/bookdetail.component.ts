@@ -106,7 +106,7 @@ export class BookdetailComponent implements OnInit{
 
       const matchesSearchQuery =
       bookdetail.idbook?.tour?.tourname.toLowerCase().includes(query) ||
-      bookdetail.promotions_code?.name.toLowerCase().includes(query) ||
+      bookdetail.promotion_code?.name.toLowerCase().includes(query) ||
       bookdetail.idbookdetail.toLowerCase().includes(query);
 
       return matchesSearchQuery;
@@ -192,6 +192,12 @@ private scrollToAndFocusForm(): void {
       }
     }
   }, 100); // Timeout nhỏ để đảm bảo DOM được render đầy đủ
+}
+
+onBookDetailAdd(book_detail : bookdetail){
+  console.log('Người dùng mới:', book_detail );
+  this.isAddBookDetailVisible = false; // Ẩn form sau khi thêm
+  this.loadBookDetail();
 }
 
 

@@ -332,25 +332,6 @@ onUserUpdated(updatedUser: any): void {
   }
 }
 
-
-
-
-// onSearch(): void {
-//   const query = this.searchQuery.trim().toLowerCase();
-
-//   this.filteredUsers = this.users.filter(user =>
-//     user.name.toLowerCase().includes(query) ||
-//     user.email.toLowerCase().includes(query)||
-//     user.iduser.toLowerCase().includes(query)||
-//     user.phone.toLowerCase().includes(query)||
-//     user.typeUser?.name_type.toLowerCase().includes(query)
-//   );
-
-//   this.calculatePages();  // Recalculate pages if needed
-//   this.updateCurrentPageUsers();
-// }
-
-// Hàm tìm kiếm người dùng
 onSearch(query: string): void {
   if (query) {
     this.managerService.getUsersBySearch(query).subscribe({

@@ -37,12 +37,14 @@ import { CustomerdetailComponent} from './customerdetail/customerdetail.componen
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
+import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
 
 const routes: Routes = [
 
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
-{path: 'infouser', component : InfoUserComponent},
+{path: 'infouser/:iduser', component : InfoUserComponent},
 {
   path: 'customer',
   component : CustomerComponent,
@@ -126,8 +128,16 @@ const routes: Routes = [
 
     },
     {
-      path: 'detail_book', component: BookdetailComponent,
+      path: 'detail_book', component: BookdetailComponent, children : [
+        {path : 'add', component : AddBookdetailComponent}
+      ]
     },
+
+    {
+      path:'service', component: ManagerServiceComponent, children : [
+        // {path : 'add'}
+      ]
+    }
   ],
 },
 { path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần
