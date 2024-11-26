@@ -57,7 +57,7 @@ import { ManagerServiceComponent } from './ManagerService/manager-service/manage
     AppComponent,
     AdminComponent, // Thêm AdminComponent vào đây
     CustomerComponent,
-
+    LoginComponent,
     ManagerUserComponent,
     AddComponent,
     EditComponent,
