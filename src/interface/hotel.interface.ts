@@ -4,4 +4,5 @@ export interface Hotel {
   description:string;
   image: string;
   status: string;
+  price: number;
 }

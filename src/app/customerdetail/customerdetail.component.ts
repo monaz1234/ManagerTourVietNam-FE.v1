@@ -5,6 +5,12 @@ import { TourDetailService } from '../../service/tour_detail/tourdetail.service'
 import { Tour } from '../../interface/tour.interface'; // Import interface tour
 import { TourDetail } from '../../interface/tourdetail.interface'; // Import tour detail
 import { Router } from '@angular/router';
+import { CommentService } from '../../service/comment.service';
+import { AccountService } from '../../service/account/account.service';
+import { Comment } from '../../interface/comment.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BookService } from '../../service/book.service';
+import { BookdetailService } from '../../service/bookdetail/bookdetail.service';
 @Component({
   selector: 'app-customerdetail',
   templateUrl: './customerdetail.component.html',
@@ -14,25 +20,97 @@ export class CustomerdetailComponent implements OnInit{
   tourId: string | null = null; // Lưu ID của tour
   tourDetails: TourDetail[] = [];
   username: string | null = null; // Biến để lưu tên tài khoản
+  Iduser: string | null = null; //
   vehicleImages: string[] = [];
   hotelImages: string[] = []; // Mảng chứa danh sách ảnh của khách sạn
+  comments: Comment[] = [];
+  commentForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private tourService: TourService,
     private tourDetailService: TourDetailService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private commentService: CommentService,
+    private accountService: AccountService,
+    private fb: FormBuilder
+  ) {
+    this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
+    this.tourId = this.route.snapshot.paramMap.get('idtour');// Get tour ID from the route
+    this.commentForm = this.fb.group({
+      content: ['', [Validators.required, Validators.minLength(5)]],
+    });
+  }
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
-    // Get tour ID from the route
-    this.tourId = this.route.snapshot.paramMap.get('idtour');
+    // Lấy Iduser từ server dựa trên username
+    if (this.username) {
+      // Lấy Iduser từ server dựa trên username
+      this.accountService.getIdUserByUsername(this.username!).subscribe(
+        (response) => {
+          console.log('Response iduser:', response); // Object như { iduser: "U007" }
+          this.Iduser = response.iduser;
+          this.loadTourDetails(this.tourId!);
+          this.loadComments();
+        },
+        (error) => {
+          console.error('Error fetching IDUser:', error);
+        }
+      );
+    } else {
+      console.error('Username is null. Redirecting to login...');
+      this.router.navigate(['/login']); // Điều hướng người dùng đến trang đăng nhập
+    }
+    
     if (this.tourId) {
       // Fetch the tour details for the given tour ID
       this.loadTourDetails(this.tourId);
+      this.loadComments();
+    }
+
+  }
+  //Phần comment
+  loadComments(): void {
+    if (this.tourId) {
+      this.commentService.getComments(this.tourId).subscribe(
+        (data) => {
+          console.log('Fetched comments:', data);
+          this.comments = data;
+        },
+        (error) => {
+          console.error('Error fetching comments:', error);
+        }
+      );
+    } else {
+      console.error('Tour ID is null or undefined');
     }
   }
+  onSubmit(event: Event): void {
+    event.preventDefault();  // Ngăn chặn hành động mặc định của form (nếu cần)
+    console.log('Form values:', this.commentForm.value);
+    console.log('Username:', this.username, 'Tour ID:', this.tourId, 'User ID:', this.Iduser);
+    if (this.commentForm.valid && this.username && this.tourId && this.Iduser) {
+      const newComment: Partial<Comment> = {
+        content: this.commentForm.value.content,
+        iduser: this.Iduser, 
+        idtour: this.tourId, // Thêm idtour vào bình luận
+        created_at: new Date().toISOString() // Lấy thời gian hiện tại theo định dạng ISO 8601
+      };
+      console.log('Sending comment:', newComment);
+      this.commentService.addComment(newComment).subscribe({
+        next: (data) => {
+          this.comments.push(data); // Thêm bình luận vào danh sách hiện tại
+          this.loadComments(); // Tải lại danh sách bình luận
+          this.commentForm.reset(); // Reset form
+        },
+        error: (error) => {
+          console.error('Lỗi khi thêm bình luận:', error);
+          alert('Có lỗi xảy ra khi gửi bình luận');
+        }
+      });
+    }
+}
+
   sanitizeDescription(description: string): string {
     // Thay thế \n bằng <br> để HTML nhận diện xuống dòng
     return description.replace(/\n/g, '<br>');
@@ -65,4 +143,6 @@ export class CustomerdetailComponent implements OnInit{
   navigateToMessenger(): void {
     window.location.href = 'https://www.facebook.com/messages/t/100022817763633'; // Thay 'yourpage' bằng đường dẫn Messenger của bạn
   }
+
+
 }
