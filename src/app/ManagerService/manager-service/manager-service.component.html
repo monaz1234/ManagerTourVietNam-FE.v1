@@ -44,11 +44,11 @@
 
 
   <div *ngIf="isAddServiceVisible || isEditServiceVisible">
-    <!-- <app-add
+    <app-add-service
     *ngIf="isAddServiceVisible"
-    [generatedIdUser]="newUserId"
-    (userAdded)="onServiceAdded($event)">
-  </app-add> -->
+    [generatedIdService]="newServiceId"
+    (serviceAdd)="onServiceAdded($event)">
+  </app-add-service>
 
     <div id="editForm" *ngIf="isEditServiceVisible">
       <!-- <app-edit *ngIf="selectedService" [selectedUser]="selectedService"

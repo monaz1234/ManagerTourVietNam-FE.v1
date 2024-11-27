@@ -50,6 +50,7 @@ import { BookdetailComponent } from './bookdetail/bookdetail.component';
 import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
 import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
 import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
+import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
 
 
 @NgModule({
@@ -95,7 +96,9 @@ import { ManagerServiceComponent } from './ManagerService/manager-service/manage
     BookdetailComponent,
     AddBookdetailComponent,
     EditBookDetailComponent,
-    ManagerServiceComponent
+    ManagerServiceComponent,
+    AddServiceComponent,
+
 
   ],
   imports: [

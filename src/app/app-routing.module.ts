@@ -39,6 +39,8 @@ import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
 import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
 import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
+import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
+import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
 
 const routes: Routes = [
 
@@ -129,13 +131,14 @@ const routes: Routes = [
     },
     {
       path: 'detail_book', component: BookdetailComponent, children : [
-        {path : 'add', component : AddBookdetailComponent}
+        {path : 'add', component : AddBookdetailComponent},
+        {path : 'edit', component : EditBookDetailComponent},
       ]
     },
 
     {
       path:'service', component: ManagerServiceComponent, children : [
-        // {path : 'add'}
+        {path : 'add', component : AddServiceComponent}
       ]
     }
   ],
