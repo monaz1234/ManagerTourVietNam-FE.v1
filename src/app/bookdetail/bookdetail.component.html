@@ -70,7 +70,7 @@
           <td>{{book_detail.idbook?.tour?.tourname}}</td>
           <td>{{book_detail.quantity}}</td>
           <td>{{book_detail.participant}}</td>
-          <td>{{book_detail.time_book}}</td>
+          <td>{{book_detail.time_book | date: 'dd/MM/yyyy' }}</td>
           <td>{{book_detail.promotion_code?.name}}</td>
 
           <!-- <td>{{account.birth | date: 'dd/MM/yyyy' }}</td> -->

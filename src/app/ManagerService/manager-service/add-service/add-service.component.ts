@@ -40,9 +40,9 @@ export class AddServiceComponent {
   }[] = [
     { name: 'id_service', label: 'Id thông tin dịch', type: 'text', required: true },
     { name: 'name_service', label: 'Tên dịch vụ', type: 'text', required: false },
-    { name: 'description', label: 'Tên dịch vụ', type: 'textarea', required: false },
+    { name: 'description', label: 'Mô tả dịch vụ', type: 'textarea', required: false },
     { name: 'time_start', label: 'Thời gian bắt đầu', type: 'date', required: false },
-    { name: 'time_start', label: 'Thời gian bắt đầu', type: 'date', required: false },
+    { name: 'time_end', label: 'Thời gian kết thúc', type: 'date', required: false },
     { name: 'plant', label: 'Kế hoạch', type: 'textarea', required: false },
     { name: 'price', label: 'Giá cả', type: 'number', required: false },
   ];
@@ -55,7 +55,7 @@ export class AddServiceComponent {
 ngOnInit(): void {
   console.log('ID nhận từ cha', this.generatedIdService);
   this.newService.id_service = this.generatedIdService;
-  // this.loadSalaryOptions();
+
 }
 
 ngOnChanges(changes: SimpleChanges): void {
@@ -78,6 +78,36 @@ resetForm() {
     status: true,
   };
   this.errorMessages = []; // Reset thông báo lỗi
+}
+
+onSubmit(){
+  console.log('Dữ liệu gửi lên', this.newService);
+  this.errorMessages = [];
+  this.newService.status = 1;
+
+  this.newService = {
+    id_service : this.newService.id_service,
+    name_service : this.newService.name_service,
+    description : this.newService.description,
+    time_start : this.newService.time_start,
+    time_end : this.newService.time_end,
+    plant : this.newService.plant,
+    price : this.newService.price,
+    status : this.newService.status,
+  };
+
+  this.serviceService.addService(this.newService).subscribe({
+    next : (response) =>{
+      this.serviceAdd.emit(this.newService);
+      this.closeForm();
+      this.resetForm();
+      this.router.navigate(['admin/service/add']);
+    },
+    error : (error) =>{
+      console.error('Lỗi khi thêm thông loại người dùng', error);
+    }
+  });
+
 }
 
 

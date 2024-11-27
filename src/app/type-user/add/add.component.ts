@@ -68,7 +68,7 @@ export class AddTypeComponent {
 
           this.closeForm();
           this.resetForm();
-          this.router.navigate(['/type_user/add']);
+          this.router.navigate(['admin/type_user/add']);
         },
         error : (error) =>{
           console.error('Lỗi khi thêm thông loại người dùng', error);

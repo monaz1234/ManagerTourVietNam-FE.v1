@@ -32,7 +32,7 @@ export class ServiceService {
   }
 
   addService(service : Service): Observable<any>{
-    return this.http.post<any>(`http://localhost:9000/service`, service).pipe(
+    return this.http.post<any>(`http://localhost:9000/api/service`, service).pipe(
       tap(() => {
         this.getList_Service(); // Cập nhật danh sách người dùng sau khi thêm
       })
@@ -40,7 +40,7 @@ export class ServiceService {
   }
 
   deleteService(id: string): Observable<void> {
-    return this.http.delete<void>(`http://localhost:9000//service/{${id}`).pipe(
+    return this.http.delete<void>(`http://localhost:9000/api/service/${id}`).pipe(
       tap(() => {
         this.getList_Service(); // Cập nhật danh sách người dùng sau khi xóa
       })
@@ -48,11 +48,11 @@ export class ServiceService {
   }
 
   findService(id : string): Observable<Service>{
-    return this.http.get<Service>(`http://localhost:9000//service/${id}`);
+    return this.http.get<Service>(`http://localhost:9000/api/service/${id}`);
   }
 
   updateService(id: string, serviceData: any): Observable<Service> {
-    return this.http.put<Service>(`http://localhost:9000//service/${id}`, serviceData).pipe(
+    return this.http.put<Service>(`http://localhost:9000/api/service/${id}`, serviceData).pipe(
       tap(() => {
         this.getList_Service(); // Cập nhật danh sách người dùng sau khi cập nhật
       })
@@ -67,12 +67,11 @@ export class ServiceService {
 
     return this.http.get<any>('http://localhost:9000/api/service/phantrang',  
    { params }).pipe(
-        tap(
+          tap(
             (response) => {
-                console.log('Received data:', response); // Thêm log để kiểm tra dữ liệu
                 if (response.content) {
                     this.serviceSubject.next(response.content);
-                    this.totalPagesSubject.next(response.totalPages);
+                    this.totalPagesSubject.next(response.totalPages || 0); // Đảm bảo totalPages không undefined
                 } else {
                     console.error('Content is undefined', response);
                 }
@@ -81,6 +80,7 @@ export class ServiceService {
                 console.error('Error fetching data', error);
             }
         )
+
     );
   }
 

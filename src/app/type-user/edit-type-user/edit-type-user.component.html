@@ -26,7 +26,8 @@
                  [name]="field.name"
                  [readonly]="field.name === 'idtypeuser'"
                  [required]="field.required"
-                 [ngClass]="{'bg-gray': field.name === 'idtypeuser'}" />
+                 [ngClass]="{'bg-gray': field.name === 'idtypeuser'}"
+                 (ngModelChange)="field.name === 'salary' && onPriceInput($event)" />
         </div>
       </div>
     </div>

@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           console.log('Token verified successfully:', response);
           // Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
+          console.log('Thông tin đăng nhập là:', this.username, this.password);
           localStorage.setItem('username', this.username);
           this.router.navigate(['/customer']); // Chuyển hướng khi xác thực thành công
         },

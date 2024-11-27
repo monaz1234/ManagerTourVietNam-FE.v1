@@ -50,11 +50,12 @@
     (serviceAdd)="onServiceAdded($event)">
   </app-add-service>
 
-    <div id="editForm" *ngIf="isEditServiceVisible">
-      <!-- <app-edit *ngIf="selectedService" [selectedUser]="selectedService"
+    <div id="editFormService" *ngIf="isEditServiceVisible">
+      <app-edit-service *ngIf="selectedService" [selectedServiceUser]="selectedService"
       (closeForm)="handleCloseEditForm()"
-      (userUpdated)="onServiceUpdated($event)">
-    </app-edit> -->
+      (ServiceUpdated)="onServiceUpdated($event)">
+    </app-edit-service>
+
     </div>
   </div>
 
@@ -70,7 +71,6 @@
           <!-- <th>Mô tả</th> -->
           <th>Bắt đầu</th>
           <th>Kết thúc</th>
-          <th>Kế hoạch</th>
           <th>Lương</th>
           <th>Trạng thái</th>
           <th>Hành động</th>
@@ -84,20 +84,17 @@
           <!-- <td>{{service.description}}</td> -->
           <td>{{ service.time_start | date: 'dd/MM/yyyy' }}</td>
           <td>{{ service.time_end | date: 'dd/MM/yyyy' }}</td>
-          <td>{{service.plant}}</td>
           <td>{{ formatSalary(service.price) }}</td>
           <td>
             <span [ngClass]="{
-              'text-success': service.status === 1,
-              'text-danger': service.status === 2,
-              'text-warning': service.status === 3
+              'text-success': service.status === true,
+              'text-danger': service.status === false,
             }">
-              {{ service.status === 1 ? 'Active' : (service.status === 2 ? 'Stopped' : (service.status === 3 ? 'Wait Report' : '')) }}
+              {{ service.status === true ? 'Active' : (service.status === false ? 'Stopped' : (service.status === false ? 'Wait Report' : '')) }}
             </span>
           </td>
           <td>
-            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditService(service.id_service)">
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <button class="btnEdit btn btn-success mr-3" (click)="showFormEditServiceAuto(service.id_service)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
             <button class="btn btn-danger" (click)="confirmDelete(service)">
               <i class="fa fa-trash" aria-hidden="true"></i>
