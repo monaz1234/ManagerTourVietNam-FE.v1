@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Service } from '../../../../interface/service.interface';
 import { ServiceService } from '../../../../service/ServiceService/service.service';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class AddServiceComponent {
     time_start:'',
     time_end:'',
     plant: '',
-    price: '',
+    price: 0,
     status: true,
   }
   errorMessages: string[] = [];
@@ -55,15 +55,33 @@ export class AddServiceComponent {
 ngOnInit(): void {
   console.log('ID nhận từ cha', this.generatedIdService);
   this.newService.id_service = this.generatedIdService;
-  this.loadSalaryOptions();
+  // this.loadSalaryOptions();
 }
 
 ngOnChanges(changes: SimpleChanges): void {
-  if (changes['generatedIdUser']) {
-    console.log('ID nhận được:', changes['generatedIdUser'].currentValue);
-    this.newUser.iduser = changes['generatedIdUser'].currentValue;
+  if (changes['generatedIdService']) {
+    console.log('ID nhận được:', changes['generatedIdService'].currentValue);
+    this.newService.id_service = changes['generatedIdService'].currentValue;
   }
 }
+
+
+resetForm() {
+  this.newService = {
+    id_service: this.generatedIdService,
+    name_service: '',
+    description: '',
+    time_start:'',
+    time_end:'',
+    plant: '',
+    price: 0,
+    status: true,
+  };
+  this.errorMessages = []; // Reset thông báo lỗi
+}
+
+
+
 
 
 
