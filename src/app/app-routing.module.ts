@@ -39,12 +39,13 @@ import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
 import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
 import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
+import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
+import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
 
 const routes: Routes = [
 
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
-{path: 'infouser/:iduser', component : InfoUserComponent},
 {
   path: 'customer',
   component : CustomerComponent,
@@ -62,6 +63,8 @@ const routes: Routes = [
       component: CustomerdetailComponent,
     }, // Route cho chi tiết tour
 
+    {path: 'infouser/:iduser', component : InfoUserComponent},
+
   ],
 },
 
@@ -77,6 +80,7 @@ const routes: Routes = [
       children: [
         { path: 'add', component: AddComponent },
         { path: 'edit/:iduser', component: EditComponent },
+
       ],
     },
     {
@@ -129,13 +133,14 @@ const routes: Routes = [
     },
     {
       path: 'detail_book', component: BookdetailComponent, children : [
-        {path : 'add', component : AddBookdetailComponent}
+        {path : 'add', component : AddBookdetailComponent},
+        {path : 'edit', component : EditBookDetailComponent},
       ]
     },
 
     {
       path:'service', component: ManagerServiceComponent, children : [
-        // {path : 'add'}
+        {path : 'add', component : AddServiceComponent}
       ]
     }
   ],
