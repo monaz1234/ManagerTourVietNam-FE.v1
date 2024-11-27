@@ -13,7 +13,9 @@ import { ManagerHotelService } from '../../service/hotel/manager-hotel.service';
   styleUrl: './client-hotel.component.scss'
 })
 export class ClientHotelComponent implements OnInit{
-
+  
+  hotelSearchCriteriaName: { name: string } = { name: '' };
+  hotelSearchCriteriaPrice: { priceRange: string } = { priceRange: '' };
   currentPage: number = 1;
   itemsPerPage: number = 12;  // Số lượng items cho Tour
   totalItems: number = 0;
@@ -38,7 +40,20 @@ export class ClientHotelComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params)=> {
+      this.hotelSearchCriteriaName.name = params['name'] || '';
+      this.hotelSearchCriteriaPrice.priceRange = params['priceRange'] || '';
+      this.searchHotelDestination = this.hotelSearchCriteriaName.name; // Đồng bộ giá trị
+      this.searchPriceRange = this.hotelSearchCriteriaPrice.priceRange; // Đồng bộ giá trị
+      console.log('Hotel Search Criteria:', this.hotelSearchCriteriaName, this.hotelSearchCriteriaPrice);
+      // Gọi searchHotels() sau khi dữ liệu đã đồng bộ
+      setTimeout(() => {
+        this.searchHotels();  // Gọi tìm kiếm lại ngay sau khi nhận dữ liệu từ queryParams
+      }, 0);
+
+    });
     this.loadHotels();
+    this.searchHotels();
     //this.loadHotelDetails();
     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
   }
@@ -51,9 +66,10 @@ export class ClientHotelComponent implements OnInit{
   searchHotels(): void {
     this.hotelService.getHotels().subscribe(hotels => {
       let filteredHotels = hotels;
-  
       // Lọc theo tên khách sạn
       if (this.searchHotelDestination) {
+        console.log('Searching hotels with hotelSearchCriteriaName:', this.hotelSearchCriteriaName);
+        console.log('dữ liệu searchhotel:', this.searchHotelDestination);
         filteredHotels = filteredHotels.filter(hotel =>
           hotel.name_hotel.toLowerCase().includes(this.searchHotelDestination.toLowerCase())
         );
@@ -61,6 +77,8 @@ export class ClientHotelComponent implements OnInit{
   
       // Lọc theo khoảng giá
       if (this.searchPriceRange) {
+        console.log('Searching hotels with criteria:', this.hotelSearchCriteriaPrice);
+        console.log('dữ liệu searchpricehotel:', this.searchPriceRange);
         filteredHotels = filteredHotels.filter(hotel => {
           const price = hotel.price;
           switch (this.searchPriceRange) {

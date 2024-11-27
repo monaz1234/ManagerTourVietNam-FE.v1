@@ -32,21 +32,27 @@
         </div>
     </div>
     <div class="search-bar">
-        <form class="mt-3" (ngSubmit)="searchHotels()">
+        <form class="mt-3">
             <div class="search-item">
                 <label for="hotel">KHÁCH SẠN</label>
-                <input type="text" id="hotel" [(ngModel)]="searchHotelDestination" name="hotelDestination" placeholder="Tên khách sạn" />
+                <input type="text" id="hotel" 
+                [(ngModel)]="searchHotelDestination" 
+                name="hotelDestination" 
+                (ngModelChange)="searchHotels()"
+                placeholder="Tên khách sạn" />
             </div>
             <div class="search-item">
                 <label for="price-range">KHOẢNG GIÁ</label>
-                <select id="price-range" [(ngModel)]="searchPriceRange" name="priceRange">
+                <select id="price-range" 
+                [(ngModel)]="searchPriceRange"
+                (ngModelChange)="searchHotels()" 
+                name="priceRange">
                     <option>Chọn khoảng giá</option>
                     <option value="Dưới 3 triệu">Dưới 3 triệu</option>
                     <option value="3-5 triệu">3-5 triệu</option>
                     <option value="Trên 5 triệu">Trên 5 triệu</option>
                 </select>
             </div>
-            <button type="submit" class="search-btn">Tìm kiếm</button>            
         </form>
     </div>
     

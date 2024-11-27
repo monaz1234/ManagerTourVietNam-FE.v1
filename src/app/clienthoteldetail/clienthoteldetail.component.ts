@@ -20,24 +20,17 @@ export class ClienthoteldetailComponent implements OnInit{
   username: string | null = null; // Biến để lưu tên tài khoản
   Iduser: string | null = null; //
   hotelImages: string[] = []; // Mảng chứa danh sách ảnh của khách sạn
-  comments: Comment[] = [];
-  commentForm: FormGroup;
   hotels$: Observable<Hotel[]>; // Thay đổi để sử dụng observable
   // Các biến đã có
   suggestedHotel: Hotel[] = []; // Khách sạn gợi ý
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private commentService: CommentService,
     private accountService: AccountService,
-    private fb: FormBuilder,
     private hotelService: ManagerHotelService
   ) {
     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
     this.hotelId = this.route.snapshot.paramMap.get('id_hotel');// Get tour ID from the route
-    this.commentForm = this.fb.group({
-      content: ['', [Validators.required, Validators.minLength(5)]],
-    });
     this.hotels$ = this.hotelService.hotels$; // Gán hotels$ từ service
   }
   ngOnInit(): void {
@@ -49,7 +42,6 @@ export class ClienthoteldetailComponent implements OnInit{
           console.log('Response iduser:', response); // Object như { iduser: "U007" }
           this.Iduser = response.iduser;
           this.loadHotels();
-          this.loadComments();
         },
         (error) => {
           console.error('Error fetching IDUser:', error);
@@ -63,7 +55,6 @@ export class ClienthoteldetailComponent implements OnInit{
     if (this.hotelId) {
       // Fetch the tour details for the given tour ID
       this.loadHotels();
-      this.loadComments();
       this.loadSuggestedHotel();
     }
     
@@ -115,47 +106,6 @@ export class ClienthoteldetailComponent implements OnInit{
   contactHotel(): void {
     window.location.href = 'https://www.youtube.com/';
   }
-  //Phần comment
-  loadComments(): void {
-    if (this.hotelId) {
-      this.commentService.getComments(this.hotelId).subscribe(
-        (data) => {
-          console.log('Fetched comments:', data);
-          this.comments = data;
-        },
-        (error) => {
-          console.error('Error fetching comments:', error);
-        }
-      );
-    } else {
-      console.error('Tour ID is null or undefined');
-    }
-  }
-  onSubmit(event: Event): void {
-    event.preventDefault();  // Ngăn chặn hành động mặc định của form (nếu cần)
-    console.log('Form values:', this.commentForm.value);
-    console.log('Username:', this.username, 'Hotel ID:', this.hotelId, 'User ID:', this.Iduser);
-    if (this.commentForm.valid && this.username && this.hotelId && this.Iduser) {
-      const newComment: Partial<Comment> = {
-        content: this.commentForm.value.content,
-        iduser: this.Iduser, 
-        id_hotel: this.hotelId, // Thêm idtour vào bình luận
-        created_at: new Date().toISOString() // Lấy thời gian hiện tại theo định dạng ISO 8601
-      };
-      console.log('Sending comment:', newComment);
-      this.commentService.addComment(newComment).subscribe({
-        next: (data) => {
-          this.comments.push(data); // Thêm bình luận vào danh sách hiện tại
-          this.loadComments(); // Tải lại danh sách bình luận
-          this.commentForm.reset(); // Reset form
-        },
-        error: (error) => {
-          console.error('Lỗi khi thêm bình luận:', error);
-          alert('Có lỗi xảy ra khi gửi bình luận');
-        }
-      });
-    }
-}
 
 sanitizeDescription(description: string): string {
   // Thay thế \n bằng <br> để HTML nhận diện xuống dòng

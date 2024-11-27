@@ -85,32 +85,7 @@
   
 
     <hr  style="margin-left: 400px;width: 50%;"    />
-<!--Phần bình luận-->
-<div class="comment-section">
-    <h3>Bình luận về Khách sạn</h3>
-    <div class="comment-list">
-        <div *ngFor="let comment of comments">
-        <p> <span>
-                <img [src]="'../../assets/images/user.png'">
-                <strong>{{ comment.account?.username || 'Người dùng ẩn danh' }}:</strong>
-                {{ comment.content }}
-            </span>
-        </p>
-        <p><em>{{ comment.created_at | date:'dd/MM/yyyy' }}</em></p>
-    </div>
-    </div>
-    <form [formGroup]="commentForm" (ngSubmit)="onSubmit($event)">
-        <div>
-            <textarea
-                formControlName="content"
-                placeholder="Nhập nội dung bình luận"
-                rows="5"
-            ></textarea>            
-        </div>
-        <button type="submit" [disabled]="commentForm.invalid">Gửi bình luận</button>
-    </form>
-</div>
-<hr  style="margin-left: 400px;width: 50%;"    />
+
     <div class="slider">
     <div class="slides">
         <div class="slide slide1"></div>

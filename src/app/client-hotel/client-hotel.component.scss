@@ -23,9 +23,9 @@
       min-width: 200px; /* Đảm bảo mỗi phần tử có chiều rộng tối thiểu */
   
       label {
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 600;
-        color: #ff6600;
+        color: #ff1100;
         margin-bottom: 5px;
       }
   
@@ -99,10 +99,8 @@
     font-weight: bold;
 }
 
-
-
 .product-section {
-    padding: 40px 10px;
+    padding: 40px 0;
 }
 
 /* Container căn giữa tiêu đề */
@@ -126,6 +124,7 @@
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    overflow: hidden;
     &:hover {
         transform: scale(1.05);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -159,7 +158,7 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        -webkit-line-clamp: 2; /* Giới hạn số dòng hiển thị */
+        -webkit-line-clamp: 1; /* Giới hạn số dòng hiển thị */
         text-overflow: ellipsis;
     }
     .product-image {
@@ -206,14 +205,12 @@
     overflow: hidden;
     
 }
-
 .slides {
     display: flex;
     width: 100%;
     height: 100%;
     animation: slideAnimation 12s infinite;
 }
-
 .slide {
     min-width: 100%;
     height: 100%;
@@ -221,7 +218,6 @@
     background-position: center;
     background-repeat: no-repeat; /* Tránh việc ảnh bị lặp */
 }
-
 .overlay {
     position: absolute;
     top: 0;
@@ -235,36 +231,31 @@
     color: white;
     background: rgba(0, 0, 0, 0.4); /* Nền mờ */
     text-align: center;
-  }
-  
-  .overlay h2 {
-    font-size: 2em;
-    margin-bottom: 10px;
-  }
-  
-  .overlay p {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-  }
-  
-  .overlay button {
-    padding: 10px 20px;
-    background-color: #ff5722;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    font-size: 1em;
-  }
-  
-  .overlay button:hover {
-    background-color: #e64a19;
-  }
+}
+.overlay h2 {
+font-size: 2em;
+margin-bottom: 10px;
+}
+.overlay p {
+font-size: 1.2em;
+margin-bottom: 20px;
+}
+.overlay button {
+padding: 10px 20px;
+background-color: #ff5722;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+color: white;
+font-size: 1em;
+}
+.overlay button:hover {
+background-color: #e64a19;
+}
 .slide1 {
     background-image: url('../../assets/images/image_da_lat.jpg');
     animation-delay: 0s;
 }
-
 .slide2 {
     background-image: url('../../assets/images/image_da_nang.jpg');
     animation-delay: 3s;

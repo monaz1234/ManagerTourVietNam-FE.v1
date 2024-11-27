@@ -56,20 +56,17 @@ body {
     background-color: #FFA500; /* Màu vàng cam */
     color: white;
 }
-
 /* Màu nền cho tab được chọn khi di chuột */
 .nav-tabs .nav-link:hover {
     background-color: #FFB347; /* Màu vàng cam nhạt hơn */
     color: white;
 }
-
 /* Màu nền cho các tab chưa được chọn */
 .nav-tabs .nav-link {
     color: #333;
     background-color: #f8f9fa; /* Màu xám nhạt cho tab chưa được chọn */
     border-color: #dee2e6 #dee2e6 #fff; /* Đường viền */
 }
-
 /* Cách thêm khoảng cách cho tab để dễ nhìn hơn */
 .nav-tabs {
     margin-bottom: 20px;
@@ -180,18 +177,6 @@ body {
     margin-bottom: 10px;
 }
 
-.discount-label {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #FF4500;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
 .price-label {
     position: absolute;
     top: 10px;
@@ -203,17 +188,6 @@ body {
     font-size: 0.9rem;
     font-weight: bold;
     text-align: center;
-}
-
-.current-price {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.old-price {
-    font-size: 0.8rem;
-    color: #999;
-    text-decoration: line-through;
 }
 
 .product-info {
