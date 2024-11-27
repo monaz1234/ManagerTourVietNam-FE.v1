@@ -9,12 +9,12 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="customerdetail">Giới thiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tours</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Khách sạn</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+                <li class="nav-item"><a class="nav-link active" href="customer">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="about-us">Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer">Tours</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer/hotel">Khách sạn</a></li>
+                <li class="nav-item"><a class="nav-link" href="news">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
                 <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
                 <li class="nav-item" *ngIf="username">
                     <span class="nav-link">Xin chào: {{ username }}</span>
@@ -78,28 +78,29 @@
 
         <!-- Hotel Search Form -->
         <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
-            <form class="mt-3">
+            <form class="mt-3" (ngSubmit)="onHotelSearch()">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="hotelLocation">Địa điểm</label>
-                            <input type="text" class="form-control" id="hotelLocation" placeholder="Tìm kiếm khách sạn...">
+                            <label for="hotelLocation">Tên khách sạn</label>
+                            <input type="text" class="form-control" id="hotelLocation" placeholder="Tìm kiếm khách sạn..."
+                                [(ngModel)]="hotelSearchCriteriaName.name" name="hotelName">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="priceRange">Khoảng giá</label>
-                            <select class="form-control" id="priceRange">
+                            <select class="form-control" id="priceRange" [(ngModel)]="hotelSearchCriteriaPrice.priceRange" name="priceRange">
                                 <option>Chọn khoảng giá</option>
-                                <option>Dưới 1 triệu</option>
-                                <option>1-3 triệu</option>
-                                <option>Trên 3 triệu</option>
+                                <option value="Dưới 3 triệu">Dưới 3 triệu</option>
+                                <option value="3-5 triệu">3-5 triệu</option>
+                                <option value="Trên 5 triệu">Trên 5 triệu</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
-            </form>
+            </form>            
         </div>
     </div>
 </div>

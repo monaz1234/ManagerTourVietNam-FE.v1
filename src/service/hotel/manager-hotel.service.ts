@@ -15,11 +15,12 @@ export class ManagerHotelService {
   constructor(private http : HttpClient) {
     this.getList_Hotel(); // Tải danh sách người dùng ngay khi khởi tạo service
   }
-
-
+  getHotels(): Observable<Hotel[]> {
+    return this.http.get<Hotel[]>('http://localhost:9000/api/hotels'); //lấy danh sách hotel ở client
+  }
   getList_Hotel(): void {
     this.http.get<Hotel[]>('http://localhost:9000/api/hotels').subscribe((data) => {
-      this.hotelsSubject.next(data); // Cập nhật danh sách xe
+      this.hotelsSubject.next(data); 
     });
   }
 
@@ -45,7 +46,6 @@ export class ManagerHotelService {
             console.error('Có lỗi xảy ra khi xóa hình ảnh:', error);
         });
   }
-
 
   deleteHotel(id: string): Observable<void> {
     return this.http.delete<void>(`http://localhost:9000/api/hotel/${id}`).pipe(

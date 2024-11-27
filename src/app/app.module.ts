@@ -47,11 +47,18 @@ import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { EditbookComponent } from './book/editbook/editbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+
 import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
 import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
 import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
 import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
 import { EditServiceComponent } from './ManagerService/manager-service/edit-service/edit-service.component';
+
+import { ClientLienHeComponent } from './client-lienhe/client-lienhe.component';
+import { ClientHotelComponent } from './client-hotel/client-hotel.component';
+import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { NewsComponent } from './news/news.component';
 
 @NgModule({
   declarations: [
@@ -94,11 +101,21 @@ import { EditServiceComponent } from './ManagerService/manager-service/edit-serv
     AddbookComponent,
     EditbookComponent,
     BookdetailComponent,
+
     AddBookdetailComponent,
     EditBookDetailComponent,
     ManagerServiceComponent,
     AddServiceComponent,
-    EditServiceComponent
+    EditServiceComponent,
+
+
+
+    ClientLienHeComponent,
+    ClientHotelComponent,
+    ClienthoteldetailComponent,
+    AboutUsComponent,
+    NewsComponent,
+
 
 
 

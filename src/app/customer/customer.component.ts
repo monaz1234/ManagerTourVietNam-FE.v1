@@ -36,7 +36,9 @@ export class CustomerComponent implements OnInit {
   searchTourDestination: string = '';  // Lưu giá trị tìm kiếm tên tour
   searchDepartureDate: string = '';  // Lưu giá trị ngày khởi hành
   searchPriceRange: string = '';     // Lưu giá trị khoảng giá
-
+  
+  hotelSearchCriteriaName = { name: '' };
+  hotelSearchCriteriaPrice = { priceRange: '' };
   constructor(
     private tourService: TourService , 
     private tourDetailService: TourDetailService,
@@ -57,7 +59,15 @@ export class CustomerComponent implements OnInit {
   goToTourDetail(idtour: string): void {
     this.router.navigate(['/customer/tour', idtour]);
   }
-
+  onHotelSearch(): void {
+    // Điều hướng kèm theo dữ liệu tìm kiếm
+    this.router.navigate(['/customer/hotel'], {
+      queryParams: {
+        name: this.hotelSearchCriteriaName.name,
+        priceRange: this.hotelSearchCriteriaPrice.priceRange
+      }
+    });
+  }
   searchTours(): void {
     this.tourService.getTours().subscribe(tours => {
       this.tourDetailService.getTours().subscribe(tourDetails => {
@@ -104,7 +114,6 @@ export class CustomerComponent implements OnInit {
       });
     });
   }
-  
   loadTours(): void {
     this.tourService.getTours().subscribe(tours => {
       this.totalTourItems = tours.length;
@@ -112,7 +121,6 @@ export class CustomerComponent implements OnInit {
       this.getPagedTours();
     });
   }
-
   loadTourDetails(): void {
     this.tourDetailService.getTours().subscribe(details => {
       this.tourDetails = details;
