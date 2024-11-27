@@ -29,7 +29,7 @@ export class EditComponent implements OnInit {
       required: false,
       options: []
     },
-    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false },
+    { name: 'salary', label: 'Lương của người dùng', type: 'text', required: false },
     { name: 'reward', label: 'Thưởng của người dùng', type: 'number', required: false },
     {
       name: 'status',
@@ -101,6 +101,18 @@ export class EditComponent implements OnInit {
       this.selectedUser.name_type = '';
     }
   }
+
+  onSalaryInput(value: string) {
+    // Loại bỏ ký tự không hợp lệ
+    const rawValue = value.replace(/\./g, '').replace(/[^0-9]/g, '');
+    // Chuyển thành số nguyên
+    const numericValue = rawValue ? parseInt(rawValue, 10) : 0;
+    // Định dạng lại giá trị
+    this.selectedUser.salary = numericValue;
+    // Cập nhật định dạng hiển thị
+    this.selectedUser.salaryFormatted = new Intl.NumberFormat('vi-VN').format(numericValue);
+  }
+
 
   onSubmit(): void {
     // Làm trống danh sách lỗi trước khi kiểm tra
@@ -175,7 +187,9 @@ export class EditComponent implements OnInit {
       // Nếu không tìm thấy, gán giá trị mặc định cho typeUser
       this.selectedUser = {
         ...this.selectedUser,
-        typeUser: { idtypeuser: "", name_type: "", salary: 0, status: 1 }
+
+        typeUser: { idtypeuser: "", name_type: "", salary: 0, status: 1 },
+        salaryFormatted: "" // Giá trị hiển thị định dạng
       };
     }
 

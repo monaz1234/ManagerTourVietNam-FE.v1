@@ -23,7 +23,7 @@ export class EditTypeUserComponent {
   formFields = [
     {name : 'idtypeuser', label : 'Id loại thông tin người dùng', type: 'text', required: true},
     {name : 'name_type', label: 'Tên loại người dùng', type : 'text', required : true},
-    {name: 'salary', label : 'Lương loại người dùng', type: 'number', required : false },
+    {name: 'salary', label : 'Lương loại người dùng', type: 'text', required : false },
     {
       name: 'status',
       label: 'Trạng thái của người dùng',
@@ -43,6 +43,14 @@ export class EditTypeUserComponent {
       salary:0
     }
   }
+  onPriceInput(value: string) {
+    // Loại bỏ dấu chấm hoặc ký tự không phải số
+    const rawValue = value.replace(/\./g, '').replace(/[^0-9]/g, '');
+    // Định dạng lại giá trị
+    this.selectedTypeUser.salary = rawValue ? parseInt(rawValue, 10) : 0;
+    // Hiển thị giá tiền được định dạng
+    this.selectedTypeUser.salary = new Intl.NumberFormat('vi-VN').format(this.selectedTypeUser.salary);
+  }
 
   refreshTypeUserData(){
     this.typeUserService.findTypeUser(this.selectedTypeUser.idtypeuser).subscribe(typeUser =>{
@@ -51,7 +59,13 @@ export class EditTypeUserComponent {
     });
   }
   onSubmit(){
-    this.typeUserService.updateTypeUser(this.selectedTypeUser.idtypeuser, this.selectedTypeUser).subscribe({
+    const payload = {
+      ...this.selectedTypeUser,
+      salary: parseInt(this.selectedTypeUser.salary.replace(/\./g, ''), 10)
+    };
+
+
+    this.typeUserService.updateTypeUser(this.selectedTypeUser.idtypeuser, payload).subscribe({
       next : (response) =>{
         console.log('Chinh sua thanh cong', response);
         this.refreshTypeUserData();

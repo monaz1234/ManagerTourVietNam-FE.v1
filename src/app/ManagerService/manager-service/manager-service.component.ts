@@ -33,12 +33,14 @@ export class ManagerServiceComponent implements OnInit{
 
 
 
-  filteredServices: any[] = []; // Danh sách đã lọc
+  filteredServices: Service[] = []; // Định nghĩa rõ kiểu dữ liệu
   statusFilter: string = ''; // Trạng thái hiện tại được lọc
-  selectedStatus: string = ''; // Biến để lưu trữ trạng thái đã chọn
-  selectedSalary: string = ''; // Biến để lưu trữ giá trị lương đã chọn
-  searchQuery: string = ''; // Định nghĩa biến searchQuery
+  selectedStatus: string = ''; // Trạng thái đã chọn
+  searchQuery: string = ''; // Biến tìm kiếm
 
+
+
+  selectedSalary: string = ''; // Biến để lưu trữ giá trị lương đã chọn
 
 
   isAddServiceVisible = false; // Biến để theo dõi trạng thái hiển thị
@@ -52,13 +54,19 @@ export class ManagerServiceComponent implements OnInit{
     this.isEditServiceVisible = false;
   }
 
-  showFormEditService(service: any): void {
-    console.log(service.status); // Kiểm tra giá trị của user.status
-    this.selectedService = { ...service};  // Cập nhật selectedUser
-    console.log(this.selectedService); // Kiểm tra giá trị của selectedUser
-    this.isAddServiceVisible = false;
-    this.isEditServiceVisible = true;
+  showFormServiceUser(service: any): void {
+    if (service) {
+      this.selectedService = { ...service};  // Cập nhật selectedUser
+      this.isAddServiceVisible = false;
+      this.isEditServiceVisible = true;
+    } else {
+      console.error('Service data is undefined or null');
+    }
+
+
   }
+
+
 
   formatSalary(salary: number): string {
     return salary.toLocaleString('vi-VN') + ' đ';
@@ -115,23 +123,19 @@ export class ManagerServiceComponent implements OnInit{
 
   applyFilters(): void {
     const query = this.searchQuery.trim().toLowerCase();
-
-    this.filteredServices = this.services.filter((service) => {
+    this.filteredServices = this.services.filter(service => {
       const matchesSearchQuery =
-      service.name_service.toLowerCase().includes(query) ||
-      service.description.toLowerCase().includes(query) ||
-      service.plant.toLowerCase().includes(query)
+        service.name_service.toLowerCase().includes(query) ||
+        service.description.toLowerCase().includes(query) ||
+        service.plant.toLowerCase().includes(query);
       const matchesStatus =
         !this.statusFilter || service.status.toString() === this.statusFilter;
-
       return matchesSearchQuery && matchesStatus;
     });
-
-    this.totalItems = this.filteredServices.length; // Cập nhật tổng số người dùng sau khi lọc
-    this.calculatePages(); // Tính lại số trang
-    this.updateCurrentPageServices(); // Cập nhật danh sách hiển thị
+    this.totalItems = this.filteredServices.length;
+    this.calculatePages();
+    this.updateCurrentPageServices();
   }
-
 
 
   updateCurrentPageServices(): void {
@@ -204,7 +208,7 @@ export class ManagerServiceComponent implements OnInit{
   // Hàm cuộn đến form và focus vào ô nhập đầu tiên
   private scrollToAndFocusForm(): void {
     setTimeout(() => {
-      const editFormElement = document.getElementById('editForm');
+      const editFormElement = document.getElementById('editFormService');
       if (editFormElement) {
         const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({ top: elementPosition, behavior: 'smooth' });
@@ -234,6 +238,7 @@ export class ManagerServiceComponent implements OnInit{
         this.selectedService = service; // Gán thông tin người dùng vào selectedUser
         this.isAddServiceVisible = false;
         this.isEditServiceVisible = true;
+        this.loadServices();
       },
       error: (error) => {
         console.error('Lỗi khi lấy thông tin người dùng:', error);
@@ -242,8 +247,9 @@ export class ManagerServiceComponent implements OnInit{
   }
 
   confirmDelete(service: any): void {
-    const confirmed = confirm(`Bạn có chắc chắn muốn xóa người dùng ${service.name_service}?`);
+    const confirmed = confirm(`Bạn có chắc chắn muốn xóa dịch vụ ${service.name_service}?`);
     if (confirmed) {
+      console.log(`Đang gửi yêu cầu xóa ID: ${service.id_service}`);
       this.deleteService(service.id_service); // Gọi hàm xóa
     }
   }
@@ -252,15 +258,19 @@ export class ManagerServiceComponent implements OnInit{
   deleteService(id: string): void {
     this.managarService.deleteService(id).subscribe({
       next: () => {
-        this.services = this.services.filter(service => service.id_service !== id); // Cập nhật danh sách người dùng
-        console.log(`Đã xóa thông tin người dùng với id ${id}`);
+        console.log(`Đã xóa dịch vụ với id ${id}`);
+        // Cập nhật danh sách người dùng trên giao diện
+        this.services = this.services.filter(service => service.id_service !== id);
+        console.log('Danh sách sau khi xóa:', this.services);
         this.loadServices();
       },
       error: (error) => {
-        console.error('Lỗi khi xóa người dùng:', error); // Xử lý lỗi nếu có
+        console.error('Lỗi khi xóa dịch vụ:', error); // Xử lý lỗi nếu có
+        alert('Xóa không thành công, vui lòng thử lại.');
       }
-    });
+    })
   }
+
 
   generateNewServiceId(): void {
     this.managarService.getServiceIds().subscribe(existingIds => {
@@ -301,19 +311,18 @@ export class ManagerServiceComponent implements OnInit{
   onSearch(query: string): void {
     if (query) {
       this.managarService.getServicesBySearch(query).subscribe({
-        next: (results) => {
-          this.filteredServices = results; // Cập nhật danh sách người dùng đã lọc
-          this.isSearchCompleted = true; // Đánh dấu kết quả tìm kiếm đã hoàn tất
-          console.log('Kết quả tìm kiếm:', results);
+        next: (results: Service[]) => {
+          this.filteredServices = results;
+          this.isSearchCompleted = true;
         },
         error: (err) => {
           console.error('Lỗi khi tìm kiếm:', err);
-          this.isSearchCompleted = false; // Nếu có lỗi, ẩn kết quả tìm kiếm
+          this.isSearchCompleted = false;
         }
       });
     } else {
-      this.filteredServices = this.services;  // Nếu không có tìm kiếm, hiển thị tất cả
-      this.isSearchCompleted = false; // Chưa tìm kiếm
+      this.filteredServices = this.services;
+      this.isSearchCompleted = false;
     }
   }
 
