@@ -53,6 +53,7 @@ const routes: Routes = [
 
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
+{path: 'infouser/:iduser', component : InfoUserComponent},
 {
   path: 'customer',
   component : CustomerComponent,
@@ -71,7 +72,7 @@ const routes: Routes = [
       component: CustomerdetailComponent,
     }, // Route cho chi tiết tour
 
-    {path: 'infouser/:iduser', component : InfoUserComponent},
+
 
   ],
 
