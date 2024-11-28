@@ -30,18 +30,65 @@ export class InfoUserComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ){}
-  ngOnInit(): void {
-    // Lấy id từ route (dưới dạng chuỗi)
-    const userId = this.route.snapshot.paramMap.get('iduser');
+  // ngOnInit(): void {
+  //   // // Lấy id từ route (dưới dạng chuỗi)
+  //   // const userId = this.route.snapshot.paramMap.get('iduser');
 
-    console.log(userId);
+  //   // console.log(userId);
+
+  //   // if (userId) {
+  //   //   this.loadDataUserById(userId);
+  //   //   const accountId = 'A' + userId.slice(1); // id người dùng từ route (ví dụ: "U001")
+  //   //   this.loadDataAccountById(accountId);
+  //   // }
+  //   const userId = this.route.snapshot.paramMap.get('iduser'); // Lấy iduser từ route
+
+  //   console.log('User ID: ', userId); // Kiểm tra giá trị iduser trong console
+
+  //   if (userId) {
+  //     // Gọi API để lấy accountId từ userId
+  //     const accountId = this.managerAccountService.getAccountByIduser(userId);
+  //     console.log("Thông tin tài khoản" + accountId);
+
+  //     // console.log(this.loadDataAccountById(userId));
+  //     // this.loadDataAccountById(accountId);
+  //     // Nếu cần, gọi thêm các hàm khác, ví dụ như loadDataUserById
+  //     this.loadDataUserById(userId);
+  //   }
+  // }
+  ngOnInit(): void {
+    const userId = this.route.snapshot.paramMap.get('iduser'); // Lấy iduser từ route
+
+    console.log('User ID: ', userId); // Kiểm tra giá trị iduser trong console
 
     if (userId) {
-      this.loadDataUserById(userId);
-      const accountId = 'A' + userId.slice(1); // id người dùng từ route (ví dụ: "U001")
-      this.loadDataAccountById(accountId);
+      // Gọi API để lấy accountId từ userId và xử lý dữ liệu trả về
+      this.managerAccountService.getAccountByIduser(userId).subscribe(
+        (response) => {
+          console.log("Thông tin tài khoản: ", response); // In ra accountId (A001)
+          this.loadDataAccountById(response); // Sử dụng accountId để load thông tin tài khoản
+
+          // Sử dụng Observable để lấy iduser từ accountId
+          this.managerAccountService.getAccountByIduserNew(response).subscribe(
+            (idUserResponse) => {
+              // Gọi hàm loadDataUserById với iduser lấy được từ accountId
+              console.log("Thông tin iduser từ accountId: ", idUserResponse);
+              this.loadDataUserById(idUserResponse); // Gọi loadDataUserById với iduser mới
+            },
+            (error) => {
+              console.error("Lỗi khi lấy iduser từ accountId: ", error);
+            }
+          );
+        },
+        (error) => {
+          console.error("Lỗi khi lấy thông tin tài khoản: ", error);
+        }
+      );
     }
   }
+
+
+
   getImageHotelUrl(imageName: string): void {
     this.userImageUrl = `http://localhost:9000/api/account/images/${imageName}`;
   }
@@ -67,31 +114,37 @@ export class InfoUserComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  loadDataUserById(id:string): void {
+  loadDataUserById(id: string): void {
     this.managerUserService.findUser(id).subscribe(
       (data: any) => {
         if (!Array.isArray(data)) {
-          this.user = [data]; // Chuyển đối tượng thành mảng
+          this.user = [data]; // Chuyển đối tượng thành mảng nếu cần
         } else {
           this.user = data;
         }
         console.log(this.user[0]);
-        this.nameuser = this.user[0].name;
-        this.email = this.user[0].email;
-        this.phone = this.user[0].phone;
-        // Định dạng ngày tháng
-        // Chỉ lấy phần ngày tháng theo định dạng yyyy-MM-dd
-        const birthDate = new Date(this.user[0].birth);
-        this.birth = this.formatDate(birthDate);  // Đảm bảo giá trị là chuỗi "yyyy-MM-dd"
+
+        // Kiểm tra và gán giá trị cho các thuộc tính
+        this.nameuser = this.user[0].name || 'Chưa có tên';
+        this.email = this.user[0].email || 'Chưa có email';
+        this.phone = this.user[0].phone || 'Chưa có số điện thoại';
+
+        // Xử lý trường hợp birth là null
+        if (this.user[0].birth) {
+          const birthDate = new Date(this.user[0].birth);
+          this.birth = this.formatDate(birthDate); // Đảm bảo giá trị là chuỗi "yyyy-MM-dd"
+        } else {
+          this.birth = 'Chưa có ngày sinh'; // Đặt giá trị mặc định nếu birth là null
+        }
+
         this.points = this.user[0].points;
-
-
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu người dùng:', error);
       }
     );
   }
+
   loadDataAccountById(id:string): void {
     this.managerAccountService.findAccount(id).subscribe(
       (data :any) => {
@@ -107,6 +160,7 @@ export class InfoUserComponent implements OnInit {
 
         console.log(this.account[0].image);
         const imageString=this.account[0].image+".png";
+        console.log(imageString);
 
         this.getImageHotelUrl(imageString);
       },

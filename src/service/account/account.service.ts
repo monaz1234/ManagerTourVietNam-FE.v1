@@ -120,7 +120,20 @@ export class AccountService {
   getIdUserByUsername(username: string): Observable<{ iduser: string }> {
     return this.http.get<{ iduser: string }>(`http://localhost:9000/api/accounts/iduser?username=${username}`);
   }
-  
-  
+
+  getAccountByIduserNew(idaccount: string): Observable<string> {
+    return this.http.get<string>(`http://localhost:9000/api/account/${idaccount}/iduser`, { responseType: 'text' as 'json' });
+  }
+
+
+  getAccountByIduser(iduser: string): Observable<string> {
+    return this.http.get<string>(`http://localhost:9000/api/account/${iduser}/idaccount`, { responseType: 'text' as 'json' });
+  }
+
+
+
+
+
+
 
 }
