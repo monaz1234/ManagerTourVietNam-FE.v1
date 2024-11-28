@@ -4,4 +4,5 @@ export interface Promotion {
     name:string;
     description:string;
     status: boolean;
+    discount: string;
   }

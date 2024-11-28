@@ -29,6 +29,7 @@ export class EditPromoComponent{
         { name: 'code', label: 'Mã của khuyến mãi', type: 'text', required: false },
         { name: 'name', label: 'Tên của khuyến mãi', type: 'text', required: false },
         { name: 'description', label: 'Mô tả của khuyến mãi', type: 'text', required: false },
+        { name: 'discount', label: 'Phần trăm giảm của khuyến mãi', type: 'text', required: false },
         {
             name: 'status',
             label: 'Trạng thái của khuyến mãi',
@@ -48,6 +49,7 @@ export class EditPromoComponent{
         code: '',
         name: '',
         description: '',
+        discount: '',
         status: true
         };
     }

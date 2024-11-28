@@ -61,6 +61,7 @@
                     <th>Code</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Discount</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
@@ -72,6 +73,7 @@
                     <td>{{ promotion.code }}</td>
                     <td>{{ promotion.name }}</td>
                     <td>{{ promotion.description }}</td>
+                    <td>{{ promotion.discount }}</td>
                     <td>
                         <span [ngClass]="{
                             'text-success': promotion.status,
