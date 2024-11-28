@@ -103,9 +103,12 @@ export class InfoUserComponent implements OnInit {
         }
         console.log(this.account[0]);
         this.username = this.account[0].username;
-        console.log(this.account[0].image);
 
-        this.getImageHotelUrl(this.account[0].image);
+
+        console.log(this.account[0].image);
+        const imageString=this.account[0].image+".png";
+
+        this.getImageHotelUrl(imageString);
       },
       (error) => {
          console.error('Lỗi khi lấy dữ liệu người dùng:', error)
@@ -119,7 +122,25 @@ export class InfoUserComponent implements OnInit {
 
   saveUserData(): void {
 
+    const imageString = "img_"+this.account[0].idaccount;
+    const updatedAccount: Account = {
+      idaccount: this.account[0].idaccount,        // Lấy ID tài khoản hiện tại
+      username: this.username,       // Tên tài khoản
+      password: this.account[0].password, // Mật khẩu (giữ nguyên từ dữ liệu ban đầu)
+      image: imageString,  // Hình ảnh (giữ nguyên từ dữ liệu ban đầu)
+      typeUser: this.account[0].typeUser, // Thông tin loại người dùng (giữ nguyên từ dữ liệu ban đầu)
+      status: this.account[0].status, // Trạng thái (giữ nguyên từ dữ liệu ban đầu)
+      user: this.account[0].user // Người dùng (giữ nguyên từ dữ liệu ban đầu)
+    };
 
+    this.managerAccountService.updateAccount(this.account[0].idaccount, updatedAccount).subscribe(
+      (response: any) => {
+        console.log('Account data updated successfully', response);
+      },
+      (error) => {
+        console.error('Error updating account data:', error);
+      }
+    );
 
 
     const updatedUser: User = {
