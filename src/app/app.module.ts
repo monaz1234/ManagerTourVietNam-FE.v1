@@ -36,6 +36,7 @@ import { EditPromoComponent } from './manager-promotion/edit-promotion/edit-prom
 import { RegisterComponent } from './register/register.component';
 
 import { InfoUserComponent } from './info-user/info-user.component';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
@@ -46,25 +47,31 @@ import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { EditbookComponent } from './book/editbook/editbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+
+import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
+import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
+import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
+import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
+import { EditServiceComponent } from './ManagerService/manager-service/edit-service/edit-service.component';
+
 import { ClientLienHeComponent } from './client-lienhe/client-lienhe.component';
 import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent, // Thêm AdminComponent vào đây
     CustomerComponent,
-
+    LoginComponent,
     ManagerUserComponent,
     AddComponent,
     EditComponent,
 
     RegisterComponent,
-    LoginComponent,
+
 
     ManagerVehicleComponent,
     AddVehicleComponent,
@@ -86,7 +93,6 @@ import { NewsComponent } from './news/news.component';
     AddAccountComponent,
     EditAccountComponent,
 
-    LoginComponent,
     AdminComponent,
     RegisterComponent,
     InfoUserComponent,
@@ -95,13 +101,23 @@ import { NewsComponent } from './news/news.component';
     AddbookComponent,
     EditbookComponent,
     BookdetailComponent,
+
+    AddBookdetailComponent,
+    EditBookDetailComponent,
+    ManagerServiceComponent,
+    AddServiceComponent,
+    EditServiceComponent,
+
+
+
     ClientLienHeComponent,
     ClientHotelComponent,
     ClienthoteldetailComponent,
     AboutUsComponent,
     NewsComponent,
 
-    
+
+
 
   ],
   imports: [
@@ -110,12 +126,32 @@ import { NewsComponent } from './news/news.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
     RouterModule, // Thêm RouterModule
+
+    SocialLoginModule
+
 
   ],
   providers: [
-    provideHttpClient()
+    provideHttpClient(),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1130182508724914')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ],
+
 
   bootstrap: [AppComponent]
 })

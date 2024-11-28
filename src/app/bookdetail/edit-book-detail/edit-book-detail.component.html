@@ -1,33 +1,32 @@
-<div *ngIf="selectedTypeUser" class="container mt-4 bg-gray pb-4 pt-4 rounded">
-  <h2>Chỉnh Sửa Người Dùng</h2>
+<div *ngIf="selectedBookDetail" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Book</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="row d-flex flex-wrap">
       <div *ngFor="let field of formFields" class="col-md-4 mb-3">
         <div class="form-group">
           <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
 
-          <!-- Nếu trường là select, hiển thị dropdown -->
+          <!-- Hiển thị dropdown nếu trường là iduser hoặc id_type_user -->
           <select *ngIf="field.type === 'select'"
-                  [id]="field.name"
-                  class="form-control"
-                  [(ngModel)]="selectedTypeUser[field.name]"
-                  [name]="field.name"
-                  [required]="field.required">
-            <option value="">Chọn trạng thái</option> <!-- Tuỳ chọn rỗng -->
+            [id]="field.name"
+            class="form-control"
+            [(ngModel)]="selectedBookDetail[field.name]"
+            [name]="field.name"
+            [required]="field.required">
+            <option value="">Chọn {{ field.label }}</option>
             <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
-          </select>
+        </select>
 
           <!-- Nếu trường không phải là select, hiển thị textbox -->
           <input *ngIf="field.type !== 'select'"
                  [id]="field.name"
                  class="form-control"
                  [type]="field.type"
-                 [(ngModel)]="selectedTypeUser[field.name]"
+                 [(ngModel)]="selectedBookDetail[field.name]"
                  [name]="field.name"
-                 [readonly]="field.name === 'idtypeuser'"
+                 [readonly]="field.name === 'idbookdetail'"
                  [required]="field.required"
-                 [ngClass]="{'bg-gray': field.name === 'idtypeuser'}"
-                 (ngModelChange)="field.name === 'salary' && onPriceInput($event)" />
+                 [ngClass]="{'bg-gray': field.name === 'idbookdetail'}" />
         </div>
       </div>
     </div>

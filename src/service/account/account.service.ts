@@ -100,6 +100,21 @@ export class AccountService {
   login(username: string, password: string): Observable<Account | null> {
     const loginPayload = { username, password };
     return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
+
+  }
+
+  addImageAccountToBackend(formData: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:9000/api/account/image/upload', formData).pipe(
+    );
+  }
+  deleteImage(imageName: string): void {
+    this.http.delete(`http://localhost:9000/api/account/images/${imageName}`)
+        .subscribe(response => {
+            console.log('Hình ảnh đã được xóa:', response);
+        }, error => {
+            console.error('Có lỗi xảy ra khi xóa hình ảnh:', error);
+        });
+
   }
 
   getIdUserByUsername(username: string): Observable<{ iduser: string }> {

@@ -37,6 +37,12 @@ import { CustomerdetailComponent} from './customerdetail/customerdetail.componen
 import { BookComponent } from './book/book.component';
 import { AddbookComponent } from './book/addbook/addbook.component';
 import { BookdetailComponent } from './bookdetail/bookdetail.component';
+
+import { AddBookdetailComponent } from './bookdetail/add-bookdetail/add-bookdetail.component';
+import { ManagerServiceComponent } from './ManagerService/manager-service/manager-service.component';
+import { AddServiceComponent } from './ManagerService/manager-service/add-service/add-service.component';
+import { EditBookDetailComponent } from './bookdetail/edit-book-detail/edit-book-detail.component';
+
 import { ClientLienHeComponent } from './client-lienhe/client-lienhe.component';
 import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
@@ -47,10 +53,28 @@ const routes: Routes = [
 
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
-{path: 'infouser', component : InfoUserComponent},
 {
   path: 'customer',
   component : CustomerComponent,
+
+  children: [
+    {
+      path: 'login',
+      component: LoginComponent,
+    },
+    {
+      path: 'register',
+      component: RegisterComponent,
+    },
+    {
+      path: 'customer/tour/:id',
+      component: CustomerdetailComponent,
+    }, // Route cho chi tiết tour
+
+    {path: 'infouser/:iduser', component : InfoUserComponent},
+
+  ],
+
 },
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
 
@@ -72,6 +96,7 @@ const routes: Routes = [
       children: [
         { path: 'add', component: AddComponent },
         { path: 'edit/:iduser', component: EditComponent },
+
       ],
     },
     {
@@ -123,8 +148,17 @@ const routes: Routes = [
 
     },
     {
-      path: 'detail_book', component: BookdetailComponent,
+      path: 'detail_book', component: BookdetailComponent, children : [
+        {path : 'add', component : AddBookdetailComponent},
+        {path : 'edit', component : EditBookDetailComponent},
+      ]
     },
+
+    {
+      path:'service', component: ManagerServiceComponent, children : [
+        {path : 'add', component : AddServiceComponent}
+      ]
+    }
   ],
 },
 { path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần

@@ -1,44 +1,70 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Account } from '../../interface/account.interface';
 import { AccountService } from '../../service/account/account.service';
+import { HttpClient } from '@angular/common/http';
 
+declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
   imagePath01: string = '../../assets/images/leaf_01.png';
-
-  // Thuộc tính cho form
   username: string = '';
   password: string = '';
   errorMessage: string = '';
-  accounts : Account[] = [];
+  accounts: Account[] = [];
+  user: any;
 
   constructor(
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private http: HttpClient // Thêm HttpClient vào constructor
   ) {}
 
-
-
   ngOnInit(): void {
-    // Tải danh sách tài khoản ngay khi component được khởi tạo
-    this.loadData();
-  }
+    console.log(window.location.origin); // In ra origin hiện tại trong console
 
-
-  loadData(): void {
-    this.accountService.account$.subscribe((data: Account[]) => {
-      this.accounts = data; // Cập nhật danh sách tài khoản
+    // Initialize Google login
+    google.accounts.id.initialize({
+      client_id: '194956155091-rvbqge5cnpv1u0mdqimkssankmvpmuu5.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      callback: this.handleCredentialResponse.bind(this),
     });
+
+
+    google.accounts.id.renderButton(
+      document.getElementById('googleSignInDiv')!,
+      { theme: 'outline', size: 'large' }
+    );
   }
 
-  // Xử lý đăng nhập
+  handleCredentialResponse(response: any): void {
+    const token = response.credential; // Lấy token từ Google
+    console.log('Token:', token);
+    this.sendTokenToBackend(token);
+  }
+
+  sendTokenToBackend(token: string): void {
+    // Gửi token lên API backend (cập nhật endpoint của bạn)
+    this.http.post('http://localhost:9000/api/auth/google', { token })
+      .subscribe({
+        next: (response) => {
+          console.log('Token verified successfully:', response);
+          // Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
+          console.log('Thông tin đăng nhập là:', this.username, this.password);
+          localStorage.setItem('username', this.username);
+          this.router.navigate(['/customer']); // Chuyển hướng khi xác thực thành công
+        },
+        error: (error) => {
+          console.error('Token verification failed:', error);
+          this.errorMessage = 'Xác thực với Google thất bại.';
+        }
+      });
+  }
+
   login(): void {
     // Kiểm tra nếu username hoặc password bị bỏ trống
     if (!this.username || !this.password) {
@@ -46,12 +72,12 @@ export class LoginComponent {
       return;
     }
 
-    // Gửi thông tin username và password đến server qua service
+    // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
       next: (account) => {
         if (account) {
           // Kiểm tra quyền của tài khoản
-          console.log("Thông tin đăng nhập là :"  +this.username , this.password);
+          console.log('Thông tin đăng nhập là:', this.username, this.password);
           switch (account.typeUser?.idtypeuser) {
             case 'T001': // Quản trị viên
               localStorage.setItem('username', this.username);
@@ -70,7 +96,6 @@ export class LoginComponent {
 
             default:
               this.errorMessage = 'Loại tài khoản không hợp lệ.';
-
           }
         } else {
           this.errorMessage = 'Thông tin đăng nhập không chính xác.';
@@ -83,7 +108,9 @@ export class LoginComponent {
     });
   }
 
-
-
-
+  loadData() {
+    this.accountService.account$.subscribe((data: Account[]) => {
+      this.accounts = data; // Cập nhật danh sách người dùng
+    });
+  }
 }

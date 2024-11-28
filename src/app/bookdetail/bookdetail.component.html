@@ -30,19 +30,19 @@
 
 
   <div *ngIf="isAddBookDetailVisible || isEditBookDetailVisible">
-    <app-add-account
+    <app-add-bookdetail
       *ngIf="isAddBookDetailVisible"
-      [generatedIdAccount]="newBookDetail"
-      (BookDetailAdded)="onBookDetailUpdated($event)"
+      [generatedIdBookDetail]="newBookDetail"
+      (BookDetailAdded)="onBookDetailAdd($event)"
       >
 
-    </app-add-account>
+    </app-add-bookdetail>
     <div id="editForm" *ngIf="isEditBookDetailVisible">
-      <app-edit-account
-        [selectedAccount]="selectedBookDetail"
+      <app-edit-book-detail
+        [selectedBookDetail]="selectedBookDetail"
         (closeForm)="handleCloseEditForm()"
-        (accountUserUpdated)="onBookDetailUpdated($event)">
-      </app-edit-account>
+        (bookDetailUpdated)="onBookDetailUpdated($event)">
+      </app-edit-book-detail>
     </div>
   </div>
 
@@ -70,7 +70,7 @@
           <td>{{book_detail.idbook?.tour?.tourname}}</td>
           <td>{{book_detail.quantity}}</td>
           <td>{{book_detail.participant}}</td>
-          <td>{{book_detail.time_book}}</td>
+          <td>{{book_detail.time_book | date: 'dd/MM/yyyy' }}</td>
           <td>{{book_detail.promotion_code?.name}}</td>
 
           <!-- <td>{{account.birth | date: 'dd/MM/yyyy' }}</td> -->

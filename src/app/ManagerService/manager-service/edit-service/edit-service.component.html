@@ -1,0 +1,47 @@
+<div *ngIf="selectedServiceUser" class="container mt-4 bg-gray pb-4 pt-4 rounded">
+  <h2>Chỉnh Sửa Service</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row d-flex flex-wrap">
+      <div *ngFor="let field of formFields" class="col-md-4 mb-3">
+        <div class="form-group">
+          <label class="font-weight-600" [for]="field.name">{{ field.label }}:</label>
+
+                    <!-- Hiển thị select -->
+            <select *ngIf="field.type === 'select'"
+            [id]="field.name"
+            class="form-control"
+            [(ngModel)]="selectedServiceUser[field.name]"
+            [name]="field.name"
+            [required]="field.required">
+              <option value="">Chọn loại người dùng</option>
+              <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+          </select>
+
+          <!-- Hiển thị textarea -->
+          <textarea *ngIf="field.type === 'textarea'"
+                    [id]="field.name"
+                    class="form-control"
+                    [(ngModel)]="selectedServiceUser[field.name]"
+                    [name]="field.name"
+                    [required]="field.required">
+          </textarea>
+
+          <!-- Hiển thị input -->
+          <input *ngIf="field.type !== 'select' && field.type !== 'textarea'"
+                [id]="field.name"
+                class="form-control"
+                [type]="field.name === 'price' ? 'text' : field.type"
+                [(ngModel)]="selectedServiceUser[field.name]"
+                [name]="field.name"
+                [readonly]="field.name === 'id_service'"
+                [required]="field.required"
+                [ngClass]="{'bg-gray': field.name === 'id_service'}"
+                (ngModelChange)="field.name === 'price' && onPriceInput($event)" />
+
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+  </form>
+</div>

@@ -21,6 +21,11 @@ export class ManagerPromotionService {
     );
   }
 
+  getList_PromotionCopppy(): Observable<Promotion[]> {
+    return this.http.get<Promotion[]>(`http://localhost:9000/api/promotions`);
+  }
+
+
   addPromotion(promotion: Promotion): Observable<any> {
     return this.http.post<any>('http://localhost:9000/api/promotions', promotion).pipe(
       tap(() => {
