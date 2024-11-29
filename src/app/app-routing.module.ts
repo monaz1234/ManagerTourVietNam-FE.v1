@@ -31,6 +31,7 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 
+
 import { InfoUserComponent } from './info-user/info-user.component';
 import { CustomerComponent} from './customer/customer.component';
 import { CustomerdetailComponent} from './customerdetail/customerdetail.component';
@@ -48,6 +49,10 @@ import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
+
+
+import { ReportComponent } from './report/report.component';
+
 
 const routes: Routes = [
 
@@ -141,6 +146,7 @@ const routes: Routes = [
       ],
     },
     {
+
       path: 'book',
       component: BookComponent, children: [
         {path: 'add', component: AddbookComponent},
@@ -159,7 +165,14 @@ const routes: Routes = [
       path:'service', component: ManagerServiceComponent, children : [
         {path : 'add', component : AddServiceComponent}
       ]
+    },
+
+    {
+      path: 'report',
+      component: ReportComponent,
     }
+
+
   ],
 },
 { path: '', redirectTo: '/customer', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần

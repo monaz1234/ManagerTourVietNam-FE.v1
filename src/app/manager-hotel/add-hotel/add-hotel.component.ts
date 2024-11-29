@@ -30,7 +30,8 @@ formFields = [
   {name: 'name_hotel', label: 'Tên của khách sạn', type: 'text', require: true},
   {name: 'description', label: 'Mô tả', type: 'text', require: true},
 
-  {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'}
+  {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'},
+  {name:'price', label: 'Giá', type: 'number', require: true},
 ];
 
 constructor(
@@ -119,6 +120,7 @@ addHotel (){
     name_hotel: this.newHotel.name_hotel,
     description: this.newHotel.description,
     image: '',
+    price:this.newHotel.price,
     status: true
   };
 }
@@ -126,7 +128,7 @@ onFileChange(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     this.file = input.files[0];
-    this.newHotel.image = `img_${this.newHotel.id_hotel}.png`; // Gán file đã chọn vào newVehicle.image
+    this.newHotel.image = `img_${this.newHotel.id_hotel}`; // Gán file đã chọn vào newVehicle.image
   }
 }
 
