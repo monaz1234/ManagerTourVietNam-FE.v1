@@ -31,7 +31,7 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 import { InfoUserComponent } from './info-user/info-user.component';
-
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
 
@@ -90,6 +90,11 @@ const routes: Routes = [
         { path: 'edit', component: EditAccountComponent },
       ],
     },
+    {
+      path: 'report',
+      component: ReportComponent,
+    }
+
   ],
 },
 { path: '', redirectTo: '/admin', pathMatch: 'full' }, // Điều hướng mặc định tới admin nếu cần

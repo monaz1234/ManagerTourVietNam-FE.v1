@@ -51,6 +51,7 @@ export class AddVehicleComponent {
       accept: '.png, .jpg, .jpeg' // Chỉ cho phép tải lên hình ảnh PNG hoặc JPG
     },
     { name: 'description', label: 'Mô tả', type: 'text', require: true },
+    { name: 'price', label: 'Giá tiền', type: 'number', require: true },
   ];
 
   constructor(
@@ -152,6 +153,7 @@ addVehicle() {
         driver: this.newVehicle.driver,
         image:'',
         description: this.newVehicle.description,
+        price:this.newVehicle.price,
         status: true
     };
 }
@@ -160,7 +162,7 @@ addVehicle() {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.file = input.files[0];
-      this.newVehicle.image = `img_${this.newVehicle.id_vehicles}.png`; // Gán file đã chọn vào newVehicle.image
+      this.newVehicle.image = `img_${this.newVehicle.id_vehicles}`; // Gán file đã chọn vào newVehicle.image
     }
   }
 

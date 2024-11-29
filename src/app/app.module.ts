@@ -34,6 +34,7 @@ import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 import { InfoUserComponent } from './info-user/info-user.component';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } fro
     AdminComponent,
     RegisterComponent,
     InfoUserComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,

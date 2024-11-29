@@ -67,6 +67,7 @@ export class EditVehicleComponent  {
       accept: '.png, .jpg' // Chỉ cho phép tải lên hình ảnh PNG hoặc JPG
     },
     { name: 'description', label: 'Mô tả', type: 'text', require: true },
+    { name: 'price', label: 'Giá tiền', type: 'number', require: true },
   ];
   resetForm() {
     this.selectedVehicle = {
@@ -76,6 +77,7 @@ export class EditVehicleComponent  {
       driver: '',
       image: '',
       description: '',
+      price:0,
       status: true // Gán trạng thái mặc định
     };
   }
@@ -94,21 +96,7 @@ export class EditVehicleComponent  {
     }
 
     console.log('Dữ liệu cần cập nhật:', this.selectedVehicle);
-    // console.log('Ảnh cần cập nhật:', this.previewImage?.length);
-    // console.log("File anh",this.file);
-    // if(this.previewImage?.length != 0) {
-    //   const formData = new FormData();
-    // if (this.file) {
-    //     formData.append('file', this.file);
-    //     formData.append('vehicleName', this.selectedVehicle.id_vehicles); // file được chọn
-    //     console.log("Data can truyen:",formData);
 
-    // }
-    // else {
-    //   console.log("Khong co cap nhat anh");
-
-    // }
-  // }
 
     // Gửi yêu cầu cập nhật phương tiện
     this.vehicleService.updateVehicle(this.selectedVehicle.id_vehicles, this.selectedVehicle).subscribe({
@@ -170,6 +158,7 @@ export class EditVehicleComponent  {
     }
   }
   getImageUrl(imageName: string): string {
-    return `http://localhost:9000/api/vehicle/images/${imageName}`;
+    const imageString =imageName+".png";
+    return `http://localhost:9000/api/vehicle/images/${imageString}`;
   }
 }

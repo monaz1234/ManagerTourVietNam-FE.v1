@@ -79,7 +79,8 @@ export class ManagerVehicleComponent implements OnInit {
     this.getListUser();
   }
   getImageUrl(imageName: string): string {
-    return `http://localhost:9000/api/vehicle/images/${imageName}`;
+    const imageString =imageName+".png";
+    return `http://localhost:9000/api/vehicle/images/${imageString}`;
   }
 
 
