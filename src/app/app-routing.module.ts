@@ -49,6 +49,7 @@ import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 
 import { ReportComponent } from './report/report.component';
@@ -167,9 +168,16 @@ const routes: Routes = [
       ]
     },
 
+
     {
       path: 'report',
       component: ReportComponent,
+
+    },
+
+    {
+      path: 'invoice',component: InvoiceComponent
+
     }
 
 
