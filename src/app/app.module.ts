@@ -63,6 +63,8 @@ import { NewsComponent } from './news/news.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
+import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
+import { TourDetailComponent } from './tour-detail/tour-detail.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,8 @@ import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.
     InvoiceComponent,
       ManagerTourComponent,
       AddTourComponent,
+      EditTourComponent,
+      TourDetailComponent,
 
 
 

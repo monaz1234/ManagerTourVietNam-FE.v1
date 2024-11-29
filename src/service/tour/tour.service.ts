@@ -23,8 +23,8 @@ export class TourService {
     );
   }
 
-  updateTours(idtour: string, toura: Tour): Observable<Tour> {
-    return this.http.put<Tour>(`http://localhost:9000//tour/update_tour/${idtour}`, toura).pipe(
+  updateTours(idtour: string, tour: Tour): Observable<Tour> {
+    return this.http.put<Tour>(`http://localhost:9000/api/tour/update_tour/${idtour}`, tour).pipe(
       tap(() => {
         this.getTours().subscribe();; // Cập nhật danh sách người dùng sau khi cập nhật
       })
@@ -61,7 +61,7 @@ export class TourService {
   }
 
   findTour(id : string): Observable<Tour>{
-    return this.http.get<Tour>(`http://localhost:9000/api/tour/${id}`);
+    return this.http.get<Tour>(`http://localhost:9000/api/tourcheck/${id}`);
   }
 
 

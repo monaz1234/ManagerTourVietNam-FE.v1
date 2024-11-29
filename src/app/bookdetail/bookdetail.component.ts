@@ -158,7 +158,7 @@ export class BookdetailComponent implements OnInit{
 
       const matchesSearchQuery =
       bookdetail.idbook?.tour?.tourname.toLowerCase().includes(query) ||
-      bookdetail.promotion_code?.name.toLowerCase().includes(query) ||
+      // bookdetail.promotion_code?.name.toLowerCase().includes(query) ||
       bookdetail.idbookdetail.toLowerCase().includes(query);
 
       return matchesSearchQuery;

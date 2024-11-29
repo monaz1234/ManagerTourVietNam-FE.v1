@@ -12,7 +12,7 @@ export class TourDetailService {
   tour$: Observable<TourDetail[]> = this.tourdetailSubject.asObservable(); // Observable để các component có thể lắng nghe
 
   constructor(private http: HttpClient) {
-    this.getTours(); 
+    this.getTours();
   }
 
   getTours(): Observable<TourDetail[]> {
@@ -44,4 +44,12 @@ export class TourDetailService {
       tap(totalprice => this.tourdetailSubject.next(totalprice)) // Cập nhật danh sách tour trong BehaviorSubject
     );
   }
+  findTourDetail(id: string): Observable<TourDetail> {
+    return this.http.get<TourDetail>(`http://localhost:9000/api/tour_detail/${id}`);
+  }
+
+  getTourDetailsByTour(idtour: string): Observable<TourDetail[]> {
+    return this.http.get<TourDetail[]>(`http://localhost:9000/api/tourdetailbyidtour/${idtour}`);
+  }
+
 }
