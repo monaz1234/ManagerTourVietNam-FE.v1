@@ -94,6 +94,11 @@ toggleAddTour(): void {
 
   }
 
+  viewTourDetail(idtour: string): void {
+    this.router.navigate(['/admin/tour/detail/',idtour]);
+    console.log("Đã click vào: " + idtour);
+  }
+
   loadTours(): void {
     this.isLoading = true;
 
@@ -209,7 +214,7 @@ toggleAddTour(): void {
    // Hàm cuộn đến form và focus vào ô nhập đầu tiên
    private scrollToAndFocusForm(): void {
     setTimeout(() => {
-      const editFormElement = document.getElementById('editForm');
+      const editFormElement = document.getElementById('editFormTour');
       if (editFormElement) {
         const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({ top: elementPosition, behavior: 'smooth' });

@@ -50,11 +50,11 @@
     (tourAdd)="onTourAdded($event)">
   </app-add-tour>
 
-    <div id="editForm" *ngIf="isEditTourVisible">
-      <app-edit *ngIf="selectedTour" [selectedUser]="selectedTour"
+    <div id="editFormTour" *ngIf="isEditTourVisible">
+      <app-edit-tour *ngIf="selectedTour" [selectedToured]="selectedTour"
       (closeForm)="handleCloseEditForm()"
-      (userUpdated)="onTourUpdated($event)">
-    </app-edit>
+      (TouredUpdated)="onTourUpdated($event)">
+    </app-edit-tour>
     </div>
   </div>
 
@@ -90,7 +90,12 @@
               {{ tour.status === true ? 'Active' : (tour.status === false ? 'Stopped' : 'Unknown') }}
             </span>
           </td>
-          <td>Chi tiết</td>
+          <td>
+            <button
+            class="btn btn-info"
+            (click)="viewTourDetail(tour.idtour)">
+            Xem chi tiết
+          </button>
           <td>
             <button class="btnEdit btn btn-success mr-3" (click)="showFormEditTourAuto(tour.idtour)">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

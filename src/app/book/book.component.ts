@@ -100,7 +100,7 @@ toggleAddBook(): void {
   }
 
   viewBookDetail(idbook: string): void {
-    this.router.navigate(['/admin/book/detail', idbook]);
+    this.router.navigate(['/admin/book/detail/', idbook]);
     console.log("Đã click vào: " + idbook);
   }
 
