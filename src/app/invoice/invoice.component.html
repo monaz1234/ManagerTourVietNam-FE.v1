@@ -1,3 +1,4 @@
+
 <div class="mt-1">
   <!-- Form tìm kiếm -->
   <form class="form-inline mb-4" action="" method="post" role="form">
@@ -16,37 +17,27 @@
             name="searchQuery" />
         </div>
 
-        <button type="button" class="btn btn-primary mr-2" (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
-         <a (click)="toggleAddHotel()" routerLink="add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
+
       </div>
 
       <!-- Right container for status filter dropdown -->
-      <div>
+      <!-- <div>
         <select class="form-control" (change)="onStatusChange($event)">
           <option value="">Lọc theo trạng thái</option>
           <option value="1">Hoạt động</option>
           <option value="2">Không hoạt động</option>
         </select>
-      </div>
+      </div> -->
 
 
 
     </div>
+
+
 
   </form>
 
-  <div *ngIf="isAddHotelVisible || isEditHotelVisible">
-    <app-add-hotel
-      *ngIf="isAddHotelVisible"
-      [generatedIdHotel]="newHotelId"></app-add-hotel>
-    <div id="editForm" *ngIf="isEditHotelVisible">
-      <app-edit-hotel
-      [selectedHotel]="selectedHotel"
-      (closeForm)="handleCloseEditForm()"
-      (userUpdated)="onHotelUpdated($event)">
-    ></app-edit-hotel>
-    </div>
-  </div>
+
 
 
 
@@ -58,38 +49,38 @@
       <thead class="thead-dark">
         <tr>
           <th>STT</th>
-          <th>ID Hotel</th>
-          <th>Tên khách sạn</th>
-          <th>Giới thiệu</th>
-          <th>Hình ảnh khác sạn</th>
-          <th>Giá tiền</th>
+          <th>ID Invoice</th>
+          <th>ID Account</th>
+          <th>Thời gian cập nhật</th>
+          <th>Total</th>
           <th>Trạng thái</th>
-          <th>Hành động</th>
+
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let hotel of filteredHotels; let i = index">
+        <tr *ngFor="let invoice of filteredInvoices; let i = index">
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
-          <td>{{hotel.id_hotel}}</td>
-          <td>{{hotel.name_hotel}}</td>
-          <td>{{hotel.description}}</td>
+          <td>{{invoice.idinvoice}}</td>
+          <td>{{invoice.idaccount.idaccount}}</td>
+          <td>{{invoice.payment_time}}</td>
+          <td>{{invoice.total_amount}}</td>
           <td>
-            <img [src]="getImageHotelUrl(hotel.image)"
-                 alt="Hình ảnh của khách sạn"
-                 style="width: 100px; height: auto;">
-          </td>
-          <td>{{hotel.price}}</td>
-          <td>
-            <span [ngClass]="{'text-success': isActive(hotel.status), 'text-danger': !isActive(hotel.status)}">
-              {{ isActive(hotel.status) ? 'Hoạt động' : 'Đã dừng' }}
+            <span [ngClass]="{'text-success': isActive(invoice.status), 'text-danger': !isActive(invoice.status)}">
+              <ng-container *ngIf="isActive(invoice.status); else notPaidStatus">
+                <!-- Hiển thị "Đã thanh toán" khi trạng thái đúng -->
+                <span class="text-success font-weight-bold">Đã thanh toán</span>
+              </ng-container>
+              <!-- Hiển thị nút khi trạng thái sai -->
+              <ng-template #notPaidStatus>
+                <button class="btn btn-warning mr-2" (click)="confirmPayment(invoice)">
+                  Xác nhận thanh toán
+                </button>
+              </ng-template>
             </span>
           </td>
-          <td>
-            <!-- <button class="btn btn-success mr-2" (click)="editUser(user)">Chỉnh sửa</button>-->
-            <button class="btn btn-success mr-2" (click)="showFormEditHotelAuto(hotel.id_hotel)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-            <button class="btn btn-danger" (click)="confirmDeleteHotel(hotel)"><i class="fa fa-trash" aria-hidden="true"></i></button>
 
-          </td>
+
+
         </tr>
       </tbody>
     </table>

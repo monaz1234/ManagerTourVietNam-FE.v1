@@ -70,7 +70,8 @@ export class ManagerHotelComponent implements OnInit{
   }
 
   getImageHotelUrl(imageName: string): string {
-    return `http://localhost:9000/api/hotel/images/${imageName}`;
+    const imageString = imageName + ".png";
+    return `http://localhost:9000/api/hotel/images/${imageString}`;
   }
 
   getListHotel(){

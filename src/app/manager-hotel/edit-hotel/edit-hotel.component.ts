@@ -44,7 +44,8 @@ export class EditHotelComponent {
     {name: 'id_hotel', label: 'Id của khách sạn', type: 'text', require: true},
     {name: 'name_hotel', label: 'Tên của khách sạn', type: 'text', require: true},
     {name: 'description', label: 'Mô tả', type: 'text', require: true},
-    {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'}
+    {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'},
+    {name:'price', label: 'Giá', type: 'number', require: true},
   ];
 
 
@@ -54,6 +55,7 @@ export class EditHotelComponent {
       name_hotel: '',
       description: '',
       image: '',
+      price:0,
       status:true
     };
   }
@@ -132,7 +134,8 @@ export class EditHotelComponent {
     }
   }
   getImageUrl(imageName: string): string {
-    return `http://localhost:9000/api/hotel/images/${imageName}`;
+    const imageString = imageName+".png";
+    return `http://localhost:9000/api/hotel/images/${imageString}`;
   }
 
 

@@ -105,5 +105,9 @@ export class BookService {
     return this.http.get<Book[]>(url);
   }
 
+  getBookById(id: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:9000/api/books/${id}`);
+  }
+
 
 }
