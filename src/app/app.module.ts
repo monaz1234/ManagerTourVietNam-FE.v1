@@ -61,6 +61,7 @@ import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetai
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
     ReportComponent,
 
     InvoiceComponent,
+      ManagerTourComponent,
 
 
 

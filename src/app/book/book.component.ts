@@ -76,6 +76,8 @@ export class BookComponent implements OnInit{
 
 
 
+
+
   // Hàm hiển thị form thêm người dùng và tạo id mới
 toggleAddBook(): void {
   this.isAddBookVisible = !this.isAddBookVisible;
@@ -96,6 +98,12 @@ toggleAddBook(): void {
       this.loadBooks();
       console.log(this.filteredBooks);
   }
+
+  viewBookDetail(idbook: string): void {
+    this.router.navigate(['/admin/book/detail', idbook]);
+    console.log("Đã click vào: " + idbook);
+  }
+
 
   loadBooks(): void {
     this.isLoading = true;
@@ -355,6 +363,7 @@ handleCloseEditForm() {
   }
 
 
+
   generateNewBookId(): void {
     this.bookService.getBookIds().subscribe(existingIds => {
       // Loại bỏ chữ 'Y' và chuyển đổi thành số
@@ -374,6 +383,8 @@ handleCloseEditForm() {
       this.newBookId = `B${missingId.toString().padStart(3, '0')}`;
       console.log(this.newBookId)
     });
+
+
 
   }
 

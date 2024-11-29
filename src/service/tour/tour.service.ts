@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,6 +10,8 @@ import { Tour } from '../../interface/tour.interface';
 export class TourService {
   public tourSubject: BehaviorSubject<Tour[]> = new BehaviorSubject<Tour[]>([]);
   tour$: Observable<Tour[]> = this.tourSubject.asObservable(); // Observable để các component có thể lắng nghe
+  private totalPagesSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  totalPages$: Observable<number> = this.totalPagesSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.getTours(); // Tải danh sách khuyến mãi ngay khi khởi tạo service
@@ -33,10 +35,78 @@ export class TourService {
     return this.http.get<Tour>(`http://localhost:9000/tour/${idtour}`); // Không cần sử dụng tap ở đây
   }
 
+  getTourIds(): Observable<string[]>{
+    return this.http.get<string[]>('http://localhost:9000/api/tour-ids');
+  }
+
 
   getList_TourCopppy(): Observable<Tour[]> {
     return this.http.get<Tour[]>(`http://localhost:9000/api/tour`);
   }
+
+  addTour(tour : Tour): Observable<any>{
+    return this.http.post<any>(`http://localhost:9000/api/tour`, tour).pipe(
+      tap(() => {
+        this.getTours(); // Cập nhật danh sách người dùng sau khi thêm
+      })
+    );
+  }
+
+  deleteTour(id: string): Observable<void> {
+    return this.http.delete<void>(`http://localhost:9000/api/tour/${id}`).pipe(
+      tap(() => {
+        this.getTours(); // Cập nhật danh sách người dùng sau khi xóa
+      })
+    );
+  }
+
+  findTour(id : string): Observable<Tour>{
+    return this.http.get<Tour>(`http://localhost:9000/api/tour/${id}`);
+  }
+
+
+  updateTour(id: string, tourData: any): Observable<Tour> {
+    return this.http.put<Tour>(`http://localhost:9000/api/tour/${id}`, tourData).pipe(
+      tap(() => {
+        this.getTours(); // Cập nhật danh sách người dùng sau khi cập nhật
+      })
+    );
+  }
+
+
+  getToursWithPagination(page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+        .set('page', (page).toString())
+        .set('pageSize', pageSize.toString());
+
+    return this.http.get<any>('http://localhost:9000/api/tour/phantrang',  
+   { params }).pipe(
+          tap(
+            (response) => {
+                if (response.content) {
+                    this.tourSubject.next(response.content);
+                    this.totalPagesSubject.next(response.totalPages || 0); // Đảm bảo totalPages không undefined
+                } else {
+                    console.error('Content is undefined', response);
+                }
+            },
+            (error) => {
+                console.error('Error fetching data', error);
+            }
+        )
+
+    );
+  }
+
+  // getToursBySearch(query: string): Observable<Tour[]> {
+  //   const url = `http://localhost:9000/api/tours/search?query=${query}`;
+  //   return this.http.get<Tour[]>(url);
+  // }
+
+
+
+
+
 
 
 }

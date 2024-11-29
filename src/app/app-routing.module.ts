@@ -53,6 +53,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 
 
 import { ReportComponent } from './report/report.component';
+import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 
 
 const routes: Routes = [
@@ -92,6 +93,7 @@ const routes: Routes = [
 
 { path: 'about-us', component: AboutUsComponent },
 { path: 'news', component: NewsComponent },
+{ path: 'admin/book/detail/:id', component: BookdetailComponent },
 
 {
   path: 'admin',
@@ -147,20 +149,25 @@ const routes: Routes = [
       ],
     },
     {
-
       path: 'book',
-      component: BookComponent, children: [
-        {path: 'add', component: AddbookComponent},
-
+      component: BookComponent,
+      children: [
+        { path: 'add', component: AddbookComponent },
+        // { path: 'detail/:id', component: BookdetailComponent }  // Đảm bảo rằng đường dẫn này đúng
       ]
-
     },
     {
-      path: 'detail_book', component: BookdetailComponent, children : [
-        {path : 'add', component : AddBookdetailComponent},
-        {path : 'edit', component : EditBookDetailComponent},
-      ]
+      path: 'tour', component: ManagerTourComponent
     },
+
+      // {path: 'detail/:id', component: BookdetailComponent },
+
+    // {
+    //   path: 'detail_book', component: BookdetailComponent, children : [
+    //     {path : 'add', component : AddBookdetailComponent},
+    //     {path : 'edit', component : EditBookDetailComponent},
+    //   ]
+    // },
 
     {
       path:'service', component: ManagerServiceComponent, children : [
