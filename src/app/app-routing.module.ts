@@ -48,6 +48,7 @@ import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
 
@@ -159,6 +160,9 @@ const routes: Routes = [
       path:'service', component: ManagerServiceComponent, children : [
         {path : 'add', component : AddServiceComponent}
       ]
+    },
+    {
+      path: 'invoice',component: InvoiceComponent
     }
   ],
 },

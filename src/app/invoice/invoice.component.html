@@ -1,0 +1,107 @@
+
+<div class="mt-1">
+  <!-- Form tìm kiếm -->
+  <form class="form-inline mb-4" action="" method="post" role="form">
+    <!-- <div class="form-group mr-3">
+      <label for="search" class="mr-2">Tìm kiếm</label>
+      <input type="text" id="search" name="search" class="form-control" placeholder="Nhập tên hoặc email">
+    </div> -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center"> <!-- Left container for search and add button -->
+        <div class="mr-2"> <!-- Input with right margin -->
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchQuery"
+            placeholder="Nhập tên hoặc email"
+            name="searchQuery" />
+        </div>
+
+
+      </div>
+
+      <!-- Right container for status filter dropdown -->
+      <!-- <div>
+        <select class="form-control" (change)="onStatusChange($event)">
+          <option value="">Lọc theo trạng thái</option>
+          <option value="1">Hoạt động</option>
+          <option value="2">Không hoạt động</option>
+        </select>
+      </div> -->
+
+
+
+    </div>
+
+
+
+  </form>
+
+
+
+
+
+  <hr>
+
+  <!-- Bảng dữ liệu phuong tien -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>STT</th>
+          <th>ID Invoice</th>
+          <th>ID Account</th>
+          <th>Thời gian cập nhật</th>
+          <th>Total</th>
+          <th>Trạng thái</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of filteredInvoices; let i = index">
+          <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
+          <td>{{invoice.idinvoice}}</td>
+          <td>{{invoice.idaccount.idaccount}}</td>
+          <td>{{invoice.payment_time}}</td>
+          <td>{{invoice.total_amount}}</td>
+          <td>
+            <span [ngClass]="{'text-success': isActive(invoice.status), 'text-danger': !isActive(invoice.status)}">
+              <ng-container *ngIf="isActive(invoice.status); else notPaidStatus">
+                <!-- Hiển thị "Đã thanh toán" khi trạng thái đúng -->
+                <span class="text-success font-weight-bold">Đã thanh toán</span>
+              </ng-container>
+              <!-- Hiển thị nút khi trạng thái sai -->
+              <ng-template #notPaidStatus>
+                <button class="btn btn-warning mr-2" (click)="confirmPayment(invoice)">
+                  Xác nhận thanh toán
+                </button>
+              </ng-template>
+            </span>
+          </td>
+
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <Phân trang  -->
+   <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" href="javascript:void(0)" aria-label="Previous" (click)="previousPage()">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages">
+        <a class="page-link" href="javascript:void(0)" (click)="goToPage(page)">{{page}}</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="javascript:void(0)" aria-label="Next" (click)="nextPage()">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
