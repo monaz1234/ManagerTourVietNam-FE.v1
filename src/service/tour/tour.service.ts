@@ -32,7 +32,7 @@ export class TourService {
   }
 
   getTourById(idtour: string): Observable<Tour> {
-    return this.http.get<Tour>(`http://localhost:9000/tour/${idtour}`); // Không cần sử dụng tap ở đây
+    return this.http.get<Tour>(`http://localhost:9000/api/tour/${idtour}`); // Không cần sử dụng tap ở đây
   }
 
   getTourIds(): Observable<string[]>{
@@ -45,7 +45,7 @@ export class TourService {
   }
 
   addTour(tour : Tour): Observable<any>{
-    return this.http.post<any>(`http://localhost:9000/api/tour`, tour).pipe(
+    return this.http.post<any>(`http://localhost:9000/api/tour/add_tour`, tour).pipe(
       tap(() => {
         this.getTours(); // Cập nhật danh sách người dùng sau khi thêm
       })

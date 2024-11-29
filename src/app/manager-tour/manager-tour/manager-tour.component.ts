@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { TypeTour } from './../../../../.history/src/interface/typeTour.interface_20241129223358';
+import { Component, OnInit, Type } from '@angular/core';
 import { TourService } from '../../../service/tour/tour.service';
 import { Router } from '@angular/router';
 import { Tour } from '../../../interface/tour.interface';
@@ -12,6 +13,10 @@ import { catchError, finalize, of, tap } from 'rxjs';
 export class ManagerTourComponent implements OnInit{
 
   tours: Tour[] = []; // sử dụng interface
+  typeTour: TypeTour[] = [];
+
+
+
   selectedTour: any;
   newTourId: string = '';
   reversedTour: Tour[] = []; // Danh sách người dùng đảo ngược
@@ -46,6 +51,37 @@ export class ManagerTourComponent implements OnInit{
   isLoading = false; // Trạng thái chờ dữ liệu
 
 
+  ShowAddUser() : void{
+    this.isAddTourVisible = false;
+  }
+
+  showFormEditTour(tour: any): void {
+    console.log(tour.status); // Kiểm tra giá trị của user.status
+    this.selectedTour = { ...tour};  // Cập nhật selectedUser
+    console.log(this.selectedTour); // Kiểm tra giá trị của selectedUser
+    this.isAddTourVisible = false;
+    this.isEditTourVisible = true;
+  }
+
+
+
+  formatSalary(salary: number): string {
+    return salary.toLocaleString('vi-VN') + ' đ';
+  }
+
+
+
+
+  // Hàm hiển thị form thêm người dùng và tạo id mới
+toggleAddTour(): void {
+  this.isAddTourVisible = !this.isAddTourVisible;
+  this.isEditTourVisible = false;
+  if (this.isAddTourVisible) {
+    this.generateNewTourId(); // Tạo mã ID mới khi hiển thị form thêm
+  } else {
+    this.selectedTour = null; // Reset người dùng đã chọn nếu có
+  }
+}
 
 
   constructor(private managerTourService: TourService, private router: Router){}
@@ -88,6 +124,7 @@ export class ManagerTourComponent implements OnInit{
         tour.tourname.toLowerCase().includes(query) ||
         tour.idtour.toLowerCase().includes(query) ||
         tour.idtour_type.toLowerCase().includes(query);
+        // tour.idtour_type?.name_type.toLowerCase().includes(query);
         // user.typeUser?.name_type.toLowerCase().includes(query);
 
       const matchesStatus =
@@ -277,6 +314,69 @@ onTourUpdated(updatedTour: any): void {
 //     this.isSearchCompleted = false; // Chưa tìm kiếm
 //   }
 // }
+
+
+searchAcrossPages(query: string, pageNumber: number = 0): void {
+  const pageSize = 5; // Kích thước mỗi trang
+  this.managerTourService.getToursWithPagination(pageNumber, pageSize).subscribe({
+    next: (response: any) => {
+      // Tìm kiếm trong dữ liệu của trang hiện tại
+      const matchedTour = response.content.find((tour: any) => tour.idtour === query);
+
+      if (matchedTour) {
+        console.log('Kết quả tìm thấy:', matchedTour);
+        // Gán kết quả tìm thấy vào displaySearchResult
+        this.displaySearchResult = [matchedTour];
+      } else if (!response.last) {
+        // Nếu không phải trang cuối, tìm tiếp trên trang sau
+        this.searchAcrossPages(query, pageNumber + 1);
+      } else {
+        console.log('Không tìm thấy kết quả!');
+        // Hiển thị thông báo không tìm thấy nếu đã hết dữ liệu
+        this.displaySearchResult = []; // Đặt kết quả rỗng
+      }
+    },
+    error: (error) => {
+      console.error('Lỗi khi tải dữ liệu:', error);
+    }
+  });
+}
+
+
+onStatusChange(event: Event): void {
+  const selectedStatus = (event.target as HTMLSelectElement).value;
+  this.filteredTour = this.filteredTourBy(selectedStatus);
+
+  this.calculatePages(); // Cập nhật số trang
+  this.updateCurrentPageTours(); // Cập nhật danh sách người dùng hiển thị
+}
+
+
+filteredTourBy(selectedStatus: string) {
+  return this.tours.filter(tour => {
+    const matchesStatus = selectedStatus ? tour.status.toString() === selectedStatus : true;
+    return matchesStatus;
+  });
+}
+
+openEditForm(tour: any) {
+  this.selectedTour = tour;
+  this.isEditTourVisible = true;
+}
+updateSelectedUser(tour: any) {
+  this.selectedTour = tour; // Cập nhật người dùng đang được chỉnh sửa
+}
+
+// Hàm để đóng form chỉnh sửa sau khi lưu
+handleCloseEditForm() {
+  this.isEditTourVisible = false;
+  this.updateSelectedUser(null); // Reset lại người dùng đã chọn
+}
+
+
+
+
+
 
 
 
