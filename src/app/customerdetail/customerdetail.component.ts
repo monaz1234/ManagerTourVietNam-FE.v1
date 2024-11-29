@@ -12,6 +12,8 @@ import { Comment } from '../../interface/comment.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookService } from '../../service/book.service';
 import { BookdetailService } from '../../service/bookdetail/bookdetail.service';
+import { Book } from '../../interface/book.interface'; // Import Book interface
+import { bookdetail } from '../../interface/bookdetail.interface'; // Import bookdetail interface
 
 @Component({
   selector: 'app-customerdetail',
@@ -27,7 +29,7 @@ export class CustomerdetailComponent implements OnInit{
   hotelImages: string[] = []; // Mảng chứa danh sách ảnh của khách sạn
   comments: Comment[] = [];
   commentForm: FormGroup;
-
+  isPriceReduced: boolean = false; // Biến để theo dõi xem giá đã giảm hay chưa.
   // Cập nhật giá khi thay đổi số lượng
   quantity = 1; // Số lượng mặc định là 1
   discount = 0; // Khuyến mãi mặc định
@@ -41,7 +43,8 @@ export class CustomerdetailComponent implements OnInit{
     private router: Router,
     private commentService: CommentService,
     private accountService: AccountService,
-    private bookService: BookdetailService,
+    private bookDetailService: BookdetailService,
+    private bookService: BookService,
     private fb: FormBuilder
   ) {
     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
@@ -70,14 +73,14 @@ export class CustomerdetailComponent implements OnInit{
       console.error('Username is null. Redirecting to login...');
       this.router.navigate(['/login']); // Điều hướng người dùng đến trang đăng nhập
     }
-    
+
     if (this.tourId) {
       // Fetch the tour details for the given tour ID
       this.loadTourDetails(this.tourId);
       this.loadComments();
     }
     console.log(this.totalPrice);
-    
+
   }
   //Phần comment
   loadComments(): void {
@@ -102,7 +105,7 @@ export class CustomerdetailComponent implements OnInit{
     if (this.commentForm.valid && this.username && this.tourId && this.Iduser) {
       const newComment: Partial<Comment> = {
         content: this.commentForm.value.content,
-        iduser: this.Iduser, 
+        iduser: this.Iduser,
         idtour: this.tourId, // Thêm idtour vào bình luận
         created_at: new Date().toISOString() // Lấy thời gian hiện tại theo định dạng ISO 8601
       };
@@ -125,7 +128,7 @@ export class CustomerdetailComponent implements OnInit{
     // Thay thế \n bằng <br> để HTML nhận diện xuống dòng
     return description.replace(/\n/g, '<br>');
   }
-  
+
   loadTourDetails(idtour: string): void {
     this.tourDetailService.getTours().subscribe(details => {
       // Lọc chi tiết tour dựa trên idtour
@@ -155,7 +158,7 @@ export class CustomerdetailComponent implements OnInit{
         this.updateTotalPrice();
     }
   }
-  
+
   // Hàm áp dụng mã khuyến mãi
   applyPromotion(): void {
     console.log('promoCode trước khi gửi yêu cầu:', this.code);  // Kiểm tra giá trị
@@ -171,48 +174,74 @@ export class CustomerdetailComponent implements OnInit{
         console.log("Phản hồi từ backend:", response);
         this.discount = response.discount || 0; // Lấy khuyến mãi từ backend
         this.updateTotalPrice(); // Cập nhật giá tổng
+        this.isPriceReduced = this.discount > 0; // Đánh dấu giá đã giảm nếu discount lớn hơn 0.
       },
       error: (err) => {
         console.error('Áp dụng khuyến mãi thất bại:', err);
         this.discount = 0; // Đặt lại discount nếu thất bại
         this.updateTotalPrice();
+        this.isPriceReduced = false; // Không giảm giá.
       },
     });
   }
-  
+
   onInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.code = target.value; // Cập nhật giá trị code từ input
     console.log('Code từ input:', this.code); // Xác minh
   }
-  
+
   // Hàm cập nhật giá tổng
   updateTotalPrice() {
     const basePrice = this.tourDetails[0]?.total_price; // Giá cơ bản từ backend
     this.totalPrice = (basePrice * this.quantity) - this.discount; // Cập nhật giá tổng
   }
 
-  bookTour(): void {
-    const bookDetail = {
-      idbook: null, // Sẽ được backend tự sinh
-      promotion_code: this.code || null,
-      time_book: new Date().toISOString(),
-      quantity: this.quantity,
-      participant: this.username || 'Guest',
-    };
-  
-   /* this.bookService.addBookDetail(bookDetail).subscribe({
-      next: (response) => {
-        alert('Đặt tour thành công!');
-        this.router.navigate(['/customer']); // Điều hướng về trang khách hàng
-      },
-      error: (err) => {
-        console.error('Đặt tour thất bại:', err);
-        alert('Đặt tour thất bại, vui lòng thử lại.');
-      },
-    });*/
-  }
-  
+/*bookTour(): void {
+  const bookData = {
+    idbook: null, // Backend will auto-generate the id
+    status: 1,    // Assuming the default status is 1 for a booked tour
+    idaccount: this.Iduser, // This can be retrieved from the user ID
+    idtour: this.tourId, // The tour ID
+  };
+  const bookDetailData = {
+    idbook_detail: null,  // Backend will auto-generate the ID
+    idbook: null,         // This will be updated with the idbook after the book is created
+    promotion_code: this.code || null,  // Pass the promotion code if it exists
+    time_book: new Date().toISOString(),
+    quantity: this.quantity,
+    participant: this.username || '',
+  };
+
+  this.bookService.addBook(bookData).subscribe({
+    next: (bookResponse) => {
+      console.log('Book created successfully:', bookResponse);
+      // After creating the book, set the book ID into the bookDetailData
+      bookDetailData.idbook = bookResponse.idbook; // Book ID returned from the backend
+
+      this.bookDetailService.addBookDetail(bookDetailData).subscribe({
+        next: (bookDetailResponse) => {
+          alert('Đặt tour thành công!');
+          console.log('Book detail created successfully:', bookDetailResponse);
+          this.router.navigate(['/customer']); // Redirect after booking
+        },
+        error: (err) => {
+          console.error('Đặt tour thất bại:', err);
+          alert('Đặt tour thất bại, vui lòng thử lại.');
+        },
+      });
+    },
+    error: (err) => {
+      console.error('Error adding book:', err);
+      alert('Đặt tour thất bại, vui lòng thử lại.');
+    },
+  });
+}*/
+
+
+
+
+
 
   getTourDetailById(tourId: String) {
     return this.tourDetails.find(detail => detail.idtour === tourId);

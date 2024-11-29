@@ -87,11 +87,9 @@ export class BookdetailService {
     );
   }
 
-
   getBookDetailBySearch(query: string): Observable<bookdetail[]> {
     const url = `http://localhost:9000/api/bookdetail/search?query=${query}`;
     return this.http.get<bookdetail[]>(url);
   }
-
 
 }

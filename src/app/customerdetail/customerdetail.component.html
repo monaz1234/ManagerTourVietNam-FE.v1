@@ -20,12 +20,12 @@
                         <span class="nav-link">Xin chào: {{ username }}</span>
                     </li>
                     <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
-    
+
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
@@ -39,10 +39,11 @@
             <img [src]="'../../assets/images/' + tourDetails[0].tour.image" alt="{{ tourDetails[0].tour.tourname }}">
             <div class="info-container">
                 <p class="GiaGoc">
-                    <strong>Giá gốc:</strong> {{ tourDetails[0]?.total_price | currency:'VND' }}
+                    <strong>Giá gốc:</strong> {{ tourDetails[0].total_price | currency:'VND' }}
                 </p>
                 <p class="GiaTong">
                     <strong>Giá tổng:</strong> {{ totalPrice | currency:'VND' }}
+                    <span *ngIf="isPriceReduced" class="price-reduced-label">(Giá đã giảm)</span>
                 </p>
                 <div class="quantity-selector">
                     <div class="quantity-item">
@@ -57,10 +58,10 @@
                     <div class="promotions">
                         <form class="selectPromotions">
                             <h3>Ưu đãi:</h3>
-                            <input type="text" 
-                                    id="promo" 
-                                    [(ngModel)]="code" 
-                                    (input)="onInputChange($event)" 
+                            <input type="text"
+                                    id="promo"
+                                    [(ngModel)]="code"
+                                    (input)="onInputChange($event)"
                                     placeholder="Nhập mã ưu đãi"/>
                             <button class="promo-btn" type="button" (click)="applyPromotion()">Áp dụng</button>
                         </form>
@@ -115,7 +116,7 @@
             </div>
         </div>
     </div>
-      
+
     <hr  style="margin-left: 400px;width: 50%;"    />
 <!--Phần bình luận-->
 <div class="comment-section">
@@ -137,7 +138,7 @@
                 formControlName="content"
                 placeholder="Nhập nội dung bình luận"
                 rows="5"
-            ></textarea>            
+            ></textarea>
         </div>
         <button type="submit" [disabled]="commentForm.invalid">Gửi bình luận</button>
     </form>
@@ -160,7 +161,7 @@
         <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
     </div>
     </div>
-    
+
     <footer class="footer">
     <div class="footer-content">
         <div class="footer-section">
@@ -201,10 +202,9 @@
         <router-outlet></router-outlet>
     </div>
     </section>
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
