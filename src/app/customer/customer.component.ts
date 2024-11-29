@@ -52,7 +52,11 @@ export class CustomerComponent implements OnInit {
     this.loadTours();
     this.loadTourDetails();
     this.loadPromotions();
-    this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
+    // Lấy thông tin tài khoản từ LocalStorage
+    const usernameFromLocalStorage = localStorage.getItem('username');
+    const nameFromGoogle = localStorage.getItem('name');
+    // Ưu tiên hiển thị `name` nếu đăng nhập bằng Google, nếu không thì hiển thị `username`
+    this.username = nameFromGoogle || usernameFromLocalStorage;
   }
   // Phương thức điều hướng đến trang chi tiết tour
   // Điều hướng đến trang chi tiết tour
@@ -202,9 +206,11 @@ export class CustomerComponent implements OnInit {
     }
 
   logout(): void {
-    localStorage.removeItem('username'); // Xóa tên tài khoản khi đăng xuất
+    // Xóa thông tin trong LocalStorage và đặt lại trạng thái đăng nhập
+    localStorage.removeItem('username');
+    localStorage.removeItem('name');
     this.username = null;
-    this.router.navigate(['/']); // Điều hướng về trang chủ hoặc trang đăng nhập
+    this.router.navigate(['/login']);
   }
 
   navigateToMessenger(): void {

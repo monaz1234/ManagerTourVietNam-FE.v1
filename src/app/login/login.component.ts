@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
     // Initialize Google login
     google.accounts.id.initialize({
-      client_id: '194956155091-rvbqge5cnpv1u0mdqimkssankmvpmuu5.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      client_id: '705865382435-nop2rtlr74mg75adprhdk62m1l5ospjt.apps.googleusercontent.com', // Thay bằng Client ID đúng
       callback: this.handleCredentialResponse.bind(this),
     });
 
@@ -51,12 +51,12 @@ export class LoginComponent implements OnInit {
     // Gửi token lên API backend (cập nhật endpoint của bạn)
     this.http.post('http://localhost:9000/api/auth/google', { token })
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           console.log('Token verified successfully:', response);
           // Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
-          console.log('Thông tin đăng nhập là:', this.username, this.password);
-          localStorage.setItem('username', this.username);
-          this.router.navigate(['/customer']); // Chuyển hướng khi xác thực thành công
+          const name = response.name; // Lấy `name` từ phản hồi của backend
+          localStorage.setItem('name', name); // Lưu `name` vào LocalStorage
+          this.router.navigate(['/customer']); // Chuyển hướng
         },
         error: (error) => {
           console.error('Token verification failed:', error);
@@ -74,26 +74,18 @@ export class LoginComponent implements OnInit {
 
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
-      next: (account) => {
+      next: (account: any) => {
         if (account) {
           // Kiểm tra quyền của tài khoản
           console.log('Thông tin đăng nhập là:', this.username, this.password);
           switch (account.typeUser?.idtypeuser) {
             case 'T001': // Quản trị viên
-              localStorage.setItem('username', this.username);
-              this.router.navigate(['/admin']);
-              break;
-
             case 'T002': // Người dùng thông thường
-              localStorage.setItem('username', this.username);
-              this.router.navigate(['/admin']);
-              break;
-
             case 'T003': // Người dùng khác
-              localStorage.setItem('username', this.username);
-              this.router.navigate(['/customer']);
+              const username = account.username || account.name; // Sử dụng username hoặc name
+              localStorage.setItem('username', username); // Lưu vào localStorage
+              this.router.navigate(['/customer']); // Chuyển hướng
               break;
-
             default:
               this.errorMessage = 'Loại tài khoản không hợp lệ.';
           }

@@ -54,36 +54,11 @@ const routes: Routes = [
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
 {path: 'infouser/:iduser', component : InfoUserComponent},
-{
-  path: 'customer',
-  component : CustomerComponent,
-
-  children: [
-    {
-      path: 'login',
-      component: LoginComponent,
-    },
-    {
-      path: 'register',
-      component: RegisterComponent,
-    },
-    {
-      path: 'customer/tour/:id',
-      component: CustomerdetailComponent,
-    }, // Route cho chi tiết tour
-
-
-
-  ],
-
-},
+{path: 'customer', component : CustomerComponent,},
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
-
 { path: 'customer/lienhe', component: ClientLienHeComponent }, // Route cho trang liên hệ
-
 { path: 'customer/hotel', component: ClientHotelComponent }, // Route cho trang liên hệ
 { path: 'customer/hotel/:id_hotel', component:ClienthoteldetailComponent }, // Route cho
-
 { path: 'about-us', component: AboutUsComponent },
 { path: 'news', component: NewsComponent },
 

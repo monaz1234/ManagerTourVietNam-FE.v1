@@ -3,12 +3,10 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { bookdetail } from '../../interface/bookdetail.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-
 interface PaginatedResponse<T> {
   content: T[];
   totalPages: number;
 }
-
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { TourService } from '../../service/tour/tour.service'; // Import dịch vụ tour
 import { TourDetailService } from '../../service/tour_detail/tourdetail.service'; // Import dịch vụ chi tiết tour
@@ -11,6 +12,7 @@ import { Comment } from '../../interface/comment.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookService } from '../../service/book.service';
 import { BookdetailService } from '../../service/bookdetail/bookdetail.service';
+
 @Component({
   selector: 'app-customerdetail',
   templateUrl: './customerdetail.component.html',
@@ -26,13 +28,20 @@ export class CustomerdetailComponent implements OnInit{
   comments: Comment[] = [];
   commentForm: FormGroup;
 
+  // Cập nhật giá khi thay đổi số lượng
+  quantity = 1; // Số lượng mặc định là 1
+  discount = 0; // Khuyến mãi mặc định
+  totalPrice = 0; // Giá tổng sau khi áp dụng số lượng và khuyến mãi
+  code: string = ''; // Mã khuyến mãi
   constructor(
     private route: ActivatedRoute,
+    private http: HttpClient,
     private tourService: TourService,
     private tourDetailService: TourDetailService,
     private router: Router,
     private commentService: CommentService,
     private accountService: AccountService,
+    private bookService: BookdetailService,
     private fb: FormBuilder
   ) {
     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
@@ -67,7 +76,8 @@ export class CustomerdetailComponent implements OnInit{
       this.loadTourDetails(this.tourId);
       this.loadComments();
     }
-
+    console.log(this.totalPrice);
+    
   }
   //Phần comment
   loadComments(): void {
@@ -120,7 +130,6 @@ export class CustomerdetailComponent implements OnInit{
     this.tourDetailService.getTours().subscribe(details => {
       // Lọc chi tiết tour dựa trên idtour
       this.tourDetails = details.filter(detail => detail.idtour === idtour);
-
       // Tách danh sách ảnh của vehicles (nếu tồn tại)
       if (this.tourDetails.length > 0 && this.tourDetails[0].vehicles.image) {
         this.vehicleImages = this.tourDetails[0].vehicles.image.split(',').map(image => image.trim());
@@ -131,7 +140,80 @@ export class CustomerdetailComponent implements OnInit{
       }
     });
   }
+
+  // Hàm cập nhật số lượng
+  increaseQuantity() {
+    if (this.quantity < this.tourDetails[0].place) {
+        this.quantity++;
+        this.updateTotalPrice();
+    }
+  }
+
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+        this.quantity--;
+        this.updateTotalPrice();
+    }
+  }
   
+  // Hàm áp dụng mã khuyến mãi
+  applyPromotion(): void {
+    console.log('promoCode trước khi gửi yêu cầu:', this.code);  // Kiểm tra giá trị
+    const body = {
+      idtour: this.tourId,          // tourId bạn đã có từ component
+      code: this.code,         // MaCode bạn đã nhập từ input
+      quantity: this.quantity,      // quantity bạn đã có từ input
+    };
+
+    console.log("Áp dụng khuyến mãi với mã: ", body);
+    this.http.post('http://localhost:9000/api/apply-promotion', body).subscribe({
+      next: (response: any) => {
+        console.log("Phản hồi từ backend:", response);
+        this.discount = response.discount || 0; // Lấy khuyến mãi từ backend
+        this.updateTotalPrice(); // Cập nhật giá tổng
+      },
+      error: (err) => {
+        console.error('Áp dụng khuyến mãi thất bại:', err);
+        this.discount = 0; // Đặt lại discount nếu thất bại
+        this.updateTotalPrice();
+      },
+    });
+  }
+  
+  onInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.code = target.value; // Cập nhật giá trị code từ input
+    console.log('Code từ input:', this.code); // Xác minh
+  }
+  
+  // Hàm cập nhật giá tổng
+  updateTotalPrice() {
+    const basePrice = this.tourDetails[0]?.total_price; // Giá cơ bản từ backend
+    this.totalPrice = (basePrice * this.quantity) - this.discount; // Cập nhật giá tổng
+  }
+
+  bookTour(): void {
+    const bookDetail = {
+      idbook: null, // Sẽ được backend tự sinh
+      promotion_code: this.code || null,
+      time_book: new Date().toISOString(),
+      quantity: this.quantity,
+      participant: this.username || 'Guest',
+    };
+  
+   /* this.bookService.addBookDetail(bookDetail).subscribe({
+      next: (response) => {
+        alert('Đặt tour thành công!');
+        this.router.navigate(['/customer']); // Điều hướng về trang khách hàng
+      },
+      error: (err) => {
+        console.error('Đặt tour thất bại:', err);
+        alert('Đặt tour thất bại, vui lòng thử lại.');
+      },
+    });*/
+  }
+  
+
   getTourDetailById(tourId: String) {
     return this.tourDetails.find(detail => detail.idtour === tourId);
   }

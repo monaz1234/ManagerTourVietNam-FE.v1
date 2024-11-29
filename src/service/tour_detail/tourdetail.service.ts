@@ -44,4 +44,9 @@ export class TourDetailService {
       tap(totalprice => this.tourdetailSubject.next(totalprice)) // Cập nhật danh sách tour trong BehaviorSubject
     );
   }
+
+  applyPromotion(payload: any): Observable<number> {
+    return this.http.post<number>('http://localhost:9000/api/apply-promotion', payload);
+}
+
 }
