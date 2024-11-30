@@ -70,17 +70,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let tour_detail of filteredTourDetail; let i = index">
-          <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
-          <td>{{tour_detail.depart | date: 'dd/MM/yyyy' }}</td>
-          <td>{{tour_detail.total_price}}</td>
-          <td>{{tour_detail.place}}</td>
+
+          <td class="font-weight-bold font-size-15px" scope="row">1</td>
+          <td>{{ tourdetail2?.[0]?.depart | date: 'dd/MM/yyyy' }}</td>
+          <td>{{this.tourdetail2[0]?.total_price}}</td>
+          <td>{{this.tourdetail2[0]?.place}}</td>
+          <td>{{this.tourdetail2[0]?.tour?.tourname}}</td>
+          <td>{{this.tourdetail2[0]?.vehicles?.name_vehicles}}</td>
+          <td>{{this.tourdetail2[0]?.hotel?.name_hotel}}</td>
+          <td>{{this.tourdetail2[0]?.service?.name_service}}</td>
+          <td>{{this.tourdetail2[0]?.is_deleted}}</td>
+
+          <!-- <td>{{tour_detail.place}}</td>
           <td>{{tour_detail.promotion_code?.name}}</td>
           <td>{{tour_detail.tour?.tourname}}</td>
           <td>{{tour_detail.vehicles?.name_vehicles}}</td>
           <td>{{tour_detail.hotel?.name_hotel}}</td>
           <td>{{tour_detail.service?.name_service}}</td>
-          <td>{{tour_detail.is_deleted}}</td>
+          <td>{{tour_detail.is_deleted}}</td> -->
 
 
           <!-- <td>{{account.birth | date: 'dd/MM/yyyy' }}</td> -->
@@ -88,7 +95,7 @@
             <button class="btnEdit btn btn-success mr-3" (click)="showFormEditBookDetail(book_detail.idbookdetail)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
             <button class="btn btn-danger" (click)="confirmDelete(book_detail)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td> -->
-        </tr>
+
       </tbody>
     </table>
   </div>

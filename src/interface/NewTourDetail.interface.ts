@@ -8,7 +8,7 @@ export interface NewTourDetail {
 
 
   idtour: string;
-  depart: string;
+  depart: Date;
   total_price: number;
   place: number;
   is_deleted: boolean;

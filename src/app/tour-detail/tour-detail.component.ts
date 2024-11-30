@@ -19,6 +19,7 @@ export class TourDetailComponent{
 
   tour_details: NewTourDetail[] = [];
   tour : any;
+  tourdetail2 : TourDetail[] = [];
   error: string | null = null; // Lỗi nếu xảy ra
   idtour: string | null = null;  // Khai báo biến idbook
 
@@ -94,93 +95,108 @@ export class TourDetailComponent{
   loadTourDetail(idtour: string): void {
     this.isLoading = true;
 
-    this.tourDetailService
-      .getTourDetailsByTour(idtour)
-      .pipe(
-        tap((response) => {
-          console.log('Dữ liệu trả về từ API:', response);
+    // this.tourDetailService
+      // .getTourDetailsByTour(idtour)
+      // .pipe(
+      //   tap((response) => {
+      //     console.log('Dữ liệu trả về từ API:', response);
 
-          // Chuyển đổi hotel.status từ boolean sang string nếu cần
-          this.tour_details = response.map((detail: TourDetail) => ({
-            ...detail,
-            service: {
-              ...detail.service,
-              time_start: new Date(detail.service.time_start), // Chuyển đổi thành Date
-              time_end: new Date(detail.service.time_end), // Chuyển đổi thành Date nếu cần
-            },
-            hotel: {
-              ...detail.hotel,
-              status: detail.hotel.status.toString(), // Chuyển đổi thành string
-            },
-            vehicles: {
-              ...detail.vehicles,
-              status: detail.vehicles.status.toString(), // Chuyển đổi thành string nếu cần
-            },
-          }));
+      //     // Chuyển đổi hotel.status từ boolean sang string nếu cần
+      //     this.tour_details = response.map((detail: TourDetail) => ({
+      //       ...detail,
+      //       service: {
+      //         ...detail.service,
+      //         time_start: new Date(detail.service.time_start), // Chuyển đổi thành Date
+      //         time_end: new Date(detail.service.time_end), // Chuyển đổi thành Date nếu cần
+      //       },
+      //       hotel: {
+      //         ...detail.hotel,
+      //         status: detail.hotel.status.toString(), // Chuyển đổi thành string
+      //       },
+      //       vehicles: {
+      //         ...detail.vehicles,
+      //         status: detail.vehicles.status.toString(), // Chuyển đổi thành string nếu cần
+      //       },
+      //     }));
 
-          console.log("Đã cộng mảng " + this.tour_details);
-          this.applyFilterTourDetail();
-          console.log(this.filteredTourDetail);
-        }),
-        catchError((error) => {
-          console.error('Lỗi khi tải chi tiết tour:', error);
-          this.tour_details = []; // Gán mảng rỗng nếu có lỗi
-          return of([]);
-        }),
-        finalize(() => (this.isLoading = false))
-      )
-      .subscribe();
+      //     console.log("Đã cộng mảng " + this.tour_details);
+      //     this.applyFilterTourDetail();
+      //     console.log(this.filteredTourDetail);
+      //   }),
+      //   catchError((error) => {
+      //     console.error('Lỗi khi tải chi tiết tour:', error);
+      //     this.tour_details = []; // Gán mảng rỗng nếu có lỗi
+      //     return of([]);
+      //   }),
+      //   finalize(() => (this.isLoading = false))
+      // )
+      // .subscribe();
+      this.tourDetailService.getTourDetailsByTour(idtour).subscribe(
+        (data: any) => {
+          if (!Array.isArray(data)) {
+            this.tourdetail2 = [data]; // Chuyển đối tượng thành mảng nếu cần
+          } else {
+            this.tourdetail2 = data;
+          }
+          console.log("hellllo",this.tourdetail2[0]);
+          console.log("hellllo2",this.tourdetail2[0].vehicles.id_vehicles);
+          
+        },
+        (error) => {
+          console.error('Lỗi khi lấy dữ liệu người dùng:', error);
+        }
+      );
+
   }
 
 
 
-  // applyFilterTourDetail() : void {
-  //   const query = this.searchQuery.trim().toLowerCase();
-  //   this.filteredTourDetail = this.tour_details.filter(tour_detail =>{
-
-
-  //     const matchesSearchQuery =
-  //       tour_detail.depart.toLowerCase().includes(query);
-  //       // tour_detail.hotel?.name_hotel.toLowerCase().includes(query) ||
-  //       // tour_detail.vehicles?.name_vehicles.toLowerCase().includes(query) ||
-  //       // tour_detail.service?.name_service.toLowerCase().includes(query) ||
-  //       // tour_detail.tour?.tourname.toLowerCase().includes(query);
-  //     return matchesSearchQuery;
-  // //   });
-  //   });
-
-  //   this.totalItems = this.filteredTourDetail.length;
-  //   // this.filteredAccount = this.filteredAccount.reverse();
-  //   // this.calculatePages(); // Tính lại số trang
-  //   // this.updateCurrentPageAccounts(); // Cập nhật danh sách hiển thị
-
-  // }
-
-  applyFilterTourDetail(): void {
-    if (!Array.isArray(this.tour_details)) {
-      console.error('tour_details không phải là một mảng:', this.tour_details);
-      return;
-    }
-
+  applyFilterTourDetail() : void {
     const query = this.searchQuery.trim().toLowerCase();
-    console.log('Giá trị searchQuery:', query);
+    this.filteredTourDetail = this.tour_details.filter(tour_detail =>{
 
-    // Kiểm tra giá trị từng phần tử trong tour_details
-    console.log('Dữ liệu trước khi lọc:', this.tour_details);
 
-    this.filteredTourDetail = this.tour_details.filter(tour_detail => {
-      const depart = tour_detail.depart || ''; // Đảm bảo depart luôn có giá trị
-      if (typeof depart !== 'string') {
-        console.warn(`Giá trị depart không phải chuỗi:`, depart);
-        return false;
-      }
-      return depart.toLowerCase().includes(query);
+      const matchesSearchQuery =
+        // tour_detail.depart.toLowerCase().includes(query);
+        tour_detail.hotel?.name_hotel.toLowerCase().includes(query) ||
+        tour_detail.vehicles?.name_vehicles.toLowerCase().includes(query) ||
+        tour_detail.service?.name_service.toLowerCase().includes(query) ||
+        tour_detail.tour?.tourname.toLowerCase().includes(query);
+      return matchesSearchQuery;
+  //   });
     });
 
-    console.log('Kết quả lọc:', this.filteredTourDetail);
-
     this.totalItems = this.filteredTourDetail.length;
+    // this.filteredAccount = this.filteredAccount.reverse();
+    // this.calculatePages(); // Tính lại số trang
+    // this.updateCurrentPageAccounts(); // Cập nhật danh sách hiển thị
+
   }
+
+  // applyFilterTourDetail(): void {
+  //   if (!Array.isArray(this.tour_details)) {
+  //     console.error('tour_details không phải là một mảng:', this.tour_details);
+  //     return;
+  //   }
+
+  //   const query = this.searchQuery.trim().toLowerCase();
+  //   console.log('Giá trị searchQuery:', query);
+
+  //   // Kiểm tra giá trị từng phần tử trong tour_details
+  //   console.log('Dữ liệu trước khi lọc:', this.tour_details);
+
+  //   this.filteredTourDetail = this.tour_details.filter(tour_detail => {
+  //     const depart = tour_detail.depart || ''; // Đảm bảo depart luôn có giá trị
+  //     if (typeof depart !== 'string') {
+  //       console.warn(`Giá trị depart không phải chuỗi:`, depart);
+  //       return false;
+  //     }
+  //   });
+
+  //   console.log('Kết quả lọc:', this.filteredTourDetail);
+
+  //   this.totalItems = this.filteredTourDetail.length;
+  // }
 
 
 
