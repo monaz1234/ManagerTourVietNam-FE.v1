@@ -14,7 +14,8 @@ export class InvoiceDetailService {
 
   public invoiceDetailSubject: BehaviorSubject<InvoiceDetail[]> = new BehaviorSubject<InvoiceDetail[]>([]);
   invoiceDetails$: Observable<InvoiceDetail[]> = this.invoiceDetailSubject.asObservable();
-
+  private totalPagesSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  totalPages$: Observable<number> = this.totalPagesSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.getLists_InvoiceDetail();
