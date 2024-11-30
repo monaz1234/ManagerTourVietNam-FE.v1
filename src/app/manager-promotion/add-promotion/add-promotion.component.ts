@@ -26,6 +26,7 @@ export class AddPromotionComponent {
     code:'',
     name: '',
     description: '',
+    discount: '',
     status: 1, // Gán trạng thái mặc định
   };
 
@@ -37,6 +38,7 @@ formFields = [
   {name: 'code', label: 'Mã của khuyến mãi', type: 'text', required: false},
   {name: 'description', label: 'Mô tả', type: 'text', required: false},
   {name: 'name', label: 'Tên của mã', type: 'text', required: false},
+  {name: 'discount', label: 'Phần trăm giảm của mã', type: 'text', placeholder:'00.00', required: false},
 ];
 
 
@@ -58,6 +60,7 @@ resetForm() {
     name: '',
     code: '',
     description: '',
+    discount: '',
   };
   this.errorMessages = []; // Reset thông báo lỗi
 }
@@ -95,6 +98,7 @@ onSubmit() {
     code: this.newPromotion.code,
     name: this.newPromotion.name,
     description: this.newPromotion.description,
+    discount: this.newPromotion.discount,
     status: this.newPromotion.status,
   };
 

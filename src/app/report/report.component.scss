@@ -1,0 +1,15 @@
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px; /* Bo góc mềm mại */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
+  background: linear-gradient(145deg, #f0f0f0, #e0e0e0); /* Màu nền với gradient */
+  border: 2px solid #ddd; /* Đường viền nhẹ */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+canvas:hover {
+  transform: scale(1.05); /* Phóng to khi hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Bóng đổ đậm khi hover */
+}
