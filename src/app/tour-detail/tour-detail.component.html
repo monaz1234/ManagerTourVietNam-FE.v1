@@ -56,25 +56,31 @@
       <thead class="thead-dark">
         <tr>
           <th>STT</th>
-          <th>ID Book Detail</th>
-          <th>Book Tour</th>
-          <th>Số lượng Book</th>
-          <th>Chỗ tham gia</th>
-          <th>Thời gian Book</th>
-          <th>Sử dụng khuyễn mãi</th>
+          <th>Depart</th>
+          <th>Total Price</th>
+          <th>Place</th>
+          <th>ID Tour</th>
+          <th>ID Vehicles</th>
+          <th>ID Hotel</th>
+          <th>ID Service</th>
+          <th>is_delete</th>
+
 
           <!-- <th>Hành động</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let book_detail of filteredBookDetail; let i = index">
+        <tr *ngFor="let tour_detail of filteredTourDetail; let i = index">
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
-          <td>{{book_detail.idbookdetail}}</td>
-          <td>{{book_detail.idbook?.tour?.tourname}}</td>
-          <td>{{book_detail.quantity}}</td>
-          <td>{{book_detail.participant}}</td>
-          <td>{{book_detail.time_book | date: 'dd/MM/yyyy' }}</td>
-          <td>{{book_detail.promotion_code?.name}}</td>
+          <td>{{tour_detail.depart | date: 'dd/MM/yyyy' }}</td>
+          <td>{{tour_detail.total_price}}</td>
+          <td>{{tour_detail.place}}</td>
+          <td>{{tour_detail.promotion_code?.name}}</td>
+          <td>{{tour_detail.tour?.tourname}}</td>
+          <td>{{tour_detail.vehicles?.name_vehicles}}</td>
+          <td>{{tour_detail.hotel?.name_hotel}}</td>
+          <td>{{tour_detail.service?.name_service}}</td>
+          <td>{{tour_detail.is_deleted}}</td>
 
 
           <!-- <td>{{account.birth | date: 'dd/MM/yyyy' }}</td> -->

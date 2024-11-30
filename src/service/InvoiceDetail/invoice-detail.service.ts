@@ -7,15 +7,10 @@ import { response } from 'express';
 
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceDetailService {
-  public serviceSubject: BehaviorSubject<InvoiceDetail[]> = new BehaviorSubject<InvoiceDetail[]>([]);
-  service$: Observable<InvoiceDetail[]> = this.serviceSubject.asObservable(); // Observable để các component có thể lắng nghe
-  private totalPagesSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  totalPages$: Observable<number> = this.totalPagesSubject.asObservable();
 
   public invoiceDetailSubject: BehaviorSubject<InvoiceDetail[]> = new BehaviorSubject<InvoiceDetail[]>([]);
   invoiceDetails$: Observable<InvoiceDetail[]> = this.invoiceDetailSubject.asObservable();
