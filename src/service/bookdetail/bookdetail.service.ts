@@ -92,4 +92,8 @@ export class BookdetailService {
     return this.http.get<bookdetail[]>(url);
   }
 
+  getBookDetailsByBook(idbook: string): Observable<bookdetail[]> {
+    return this.http.get<bookdetail[]>(`http://localhost:9000/api/bookdetailbyidbook/${idbook}`);
+  }
+
 }

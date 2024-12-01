@@ -1,0 +1,30 @@
+.font-size-15px {
+  font-size: 15px;
+}
+
+.font-weight-bold{
+  font-weight: bold;
+}
+
+.badge-success {
+  background-color: #28a745; /* Màu xanh lá */
+  color: white;
+}
+
+.badge-danger {
+  background-color: #dc3545; /* Màu đỏ */
+  color: white;
+}
+.button-spacing {
+  margin-right: 30px; // Hoặc giá trị bạn mong muốn
+}
+.dropMenu {
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrolling */
+  max-height: 400px; /* Set a maximum height for the drop-down */
+}
+
+.btnEdit{
+  margin-right: 10px;
+}
+

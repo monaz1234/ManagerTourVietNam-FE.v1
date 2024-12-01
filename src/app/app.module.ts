@@ -37,6 +37,7 @@ import { RegisterComponent } from './register/register.component';
 
 import { InfoUserComponent } from './info-user/info-user.component';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { ReportComponent } from './report/report.component';
 
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
@@ -59,6 +60,12 @@ import { ClientHotelComponent } from './client-hotel/client-hotel.component';
 import { ClienthoteldetailComponent } from './clienthoteldetail/clienthoteldetail.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { NewsComponent } from './news/news.component';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
+import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
+import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
+import { TourDetailComponent } from './tour-detail/tour-detail.component';
+import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +103,7 @@ import { NewsComponent } from './news/news.component';
     AdminComponent,
     RegisterComponent,
     InfoUserComponent,
+
     CustomerdetailComponent,
     BookComponent,
     AddbookComponent,
@@ -115,6 +123,17 @@ import { NewsComponent } from './news/news.component';
     ClienthoteldetailComponent,
     AboutUsComponent,
     NewsComponent,
+
+
+    ReportComponent,
+
+    InvoiceComponent,
+      ManagerTourComponent,
+      AddTourComponent,
+      EditTourComponent,
+      TourDetailComponent,
+      InvoiceDetailComponent,
+
 
 
 

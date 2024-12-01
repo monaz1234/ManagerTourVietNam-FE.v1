@@ -62,6 +62,7 @@
           <th>Tên khách sạn</th>
           <th>Giới thiệu</th>
           <th>Hình ảnh khác sạn</th>
+          <th>Giá tiền</th>
           <th>Trạng thái</th>
           <th>Hành động</th>
         </tr>
@@ -74,10 +75,10 @@
           <td>{{hotel.description}}</td>
           <td>
             <img [src]="getImageHotelUrl(hotel.image)"
-                 alt="Hình ảnh của xe"
+                 alt="Hình ảnh của khách sạn"
                  style="width: 100px; height: auto;">
-        </td>
-
+          </td>
+          <td>{{hotel.price}}</td>
           <td>
             <span [ngClass]="{'text-success': isActive(hotel.status), 'text-danger': !isActive(hotel.status)}">
               {{ isActive(hotel.status) ? 'Hoạt động' : 'Đã dừng' }}
