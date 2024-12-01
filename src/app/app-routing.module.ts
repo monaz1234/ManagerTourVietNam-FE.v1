@@ -97,7 +97,7 @@ const routes: Routes = [
 
 { path: 'about-us', component: AboutUsComponent },
 { path: 'news', component: NewsComponent },
-{ path: 'admin/book/detail/:id', component: BookdetailComponent },
+// { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },
 { path: 'admin/invoice/detail/:id', component: InvoiceDetailComponent },
 
@@ -160,14 +160,14 @@ const routes: Routes = [
       component: BookComponent,
       children: [
         { path: 'add', component: AddbookComponent },
-        // { path: 'detail/:id', component: BookdetailComponent }  // Đảm bảo rằng đường dẫn này đúng
+         { path: 'detail/:id', component: BookdetailComponent }  // Đảm bảo rằng đường dẫn này đúng
       ]
     },
     {
       path: 'tour', component: ManagerTourComponent, children : [
         {path : 'add', component : AddTourComponent},
         {path : 'edit', component: EditTourComponent},
-        // { path: 'detail/:id', component: TourDetailComponent }
+        { path: 'detail/:id', component: TourDetailComponent }
       ]
     },
 

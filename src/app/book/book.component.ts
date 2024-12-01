@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../service/book.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TourService } from '../../service/tour/tour.service';
 import { AccountService } from '../../service/account/account.service';
 import { Book } from '../../interface/book.interface';
@@ -93,16 +93,33 @@ toggleAddBook(): void {
 
 
 
-  constructor(private bookService : BookService, private router : Router , private tourService : TourService, private accountService : AccountService){}
+  constructor(
+    private bookService : BookService,
+     private router : Router,
+      private tourService : TourService,
+      private accountService : AccountService,
+      private route: ActivatedRoute,
+
+      ){}
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      console.log('Route params:', params);
+    });
       this.loadBooks();
       console.log(this.filteredBooks);
   }
 
   viewBookDetail(idbook: string): void {
-    this.router.navigate(['/admin/book/detail/', idbook]);
-    console.log("Đã click vào: " + idbook);
+    this.router.navigate(['/admin/book/detail', idbook])
+    .then((success) => {
+      if (success) {
+        console.log('Successfully navigated to: /admin/book/detail/' + idbook);
+      } else {
+        console.error('Navigation failed!');
+      }
+    });
   }
+
 
 
   loadBooks(): void {
