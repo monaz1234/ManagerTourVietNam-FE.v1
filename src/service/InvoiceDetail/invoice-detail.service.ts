@@ -6,6 +6,7 @@ import { InvoiceDetail } from '../../interface/invoiceDetail.interface';
 import { response } from 'express';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -78,6 +79,11 @@ export class InvoiceDetailService {
   getInvoicesDetailBySearch(query: string): Observable<InvoiceDetail[]> {
     const url = `http://localhost:9000/api/invoiceDetails/search?query=${query}`;
     return this.http.get<InvoiceDetail[]>(url);
+  }
+
+
+  getInvoiceDetailByIdInvoice(idinvoice: string): Observable<InvoiceDetail[]> {
+    return this.http.get<InvoiceDetail[]>(`http://localhost:9000/api/invoice-details/${idinvoice}`);
   }
 
 }

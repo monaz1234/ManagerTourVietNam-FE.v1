@@ -8,14 +8,14 @@
     </div> -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div class="d-flex align-items-center"> <!-- Left container for search and add button -->
-        <div class="mr-2"> <!-- Input with right margin -->
+        <!-- <div class="mr-2">
           <input
             type="text"
             class="form-control"
             [(ngModel)]="searchQuery"
             placeholder="Nhập tên hoặc email"
             name="searchQuery" />
-        </div>
+        </div> -->
 
 
       </div>
@@ -53,6 +53,7 @@
           <th>ID Account</th>
           <th>Thời gian cập nhật</th>
           <th>Total</th>
+          <th>Chi tiết</th>
           <th>Trạng thái</th>
 
         </tr>
@@ -62,8 +63,15 @@
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
           <td>{{invoice.idinvoice}}</td>
           <td>{{invoice.idaccount.idaccount}}</td>
-          <td>{{invoice.payment_time}}</td>
-          <td>{{invoice.total_amount}}</td>
+          <td>{{invoice.payment_time | date: 'dd/MM/yyyy'}}</td>
+          <td>{{formatSalary(invoice.total_amount)}}</td>
+          <td>
+            <button
+            class="btn btn-info"
+            (click)="viewInvoiceDetail(invoice.idinvoice)">
+            Xem chi tiết
+          </button>
+          </td>
           <td>
             <span [ngClass]="{'text-success': isActive(invoice.status), 'text-danger': !isActive(invoice.status)}">
               <ng-container *ngIf="isActive(invoice.status); else notPaidStatus">

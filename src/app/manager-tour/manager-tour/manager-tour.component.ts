@@ -1,4 +1,4 @@
-import { TypeTour } from './../../../../.history/src/interface/typeTour.interface_20241129223358';
+import { TypeTour } from './../../../interface/typeTour.interface';
 import { Component, OnInit, Type } from '@angular/core';
 import { TourService } from '../../../service/tour/tour.service';
 import { Router } from '@angular/router';

@@ -4,6 +4,7 @@ import { Invoice } from '../../interface/invoice.interface';
 import { InvoiceService } from '../../service/Invoice/invoice.service';
 import { InvoiceDetail } from '../../interface/invoiceDetail.interface';
 import { InvoiceDetailService } from '../../service/InvoiceDetail/invoice-detail.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -27,7 +28,9 @@ export class InvoiceComponent implements OnInit{
 
   constructor(
     private invoiceService: InvoiceService,
-    private invoiceDetailService: InvoiceDetailService
+    private invoiceDetailService: InvoiceDetailService,
+    private router : Router,
+
   ){}
 
   ngOnInit(): void {
@@ -123,5 +126,13 @@ export class InvoiceComponent implements OnInit{
     //xu ly o day
   }
 
+  formatSalary(salary: number): string {
+    return salary.toLocaleString('vi-VN') + ' đ';
+  }
+
+  viewInvoiceDetail(idinvoice: string): void {
+    this.router.navigate(['/admin/invoice/detail/', idinvoice]);
+    console.log("Đã click vào: " + idinvoice);
+  }
 
 }
