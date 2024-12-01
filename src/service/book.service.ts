@@ -42,7 +42,7 @@ export class BookService {
 
   addBook(book: Book): Observable<any> {
     console.log('Book data:', book);  // In ra dữ liệu trước khi gửi
-    return this.http.post<any>('http://localhost:9000/api/book', book).pipe(
+    return this.http.post<any>('http://localhost:9000/api/book/create', book).pipe(
       tap(() => {
         this.getList_Book(); // Cập nhật danh sách sách sau khi thêm
       }),
