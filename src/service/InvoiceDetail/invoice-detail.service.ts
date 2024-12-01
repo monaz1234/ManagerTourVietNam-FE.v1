@@ -81,4 +81,9 @@ export class InvoiceDetailService {
     return this.http.get<InvoiceDetail[]>(url);
   }
 
+
+  getInvoiceDetailByIdInvoice(idinvoice: string): Observable<InvoiceDetail[]> {
+    return this.http.get<InvoiceDetail[]>(`http://localhost:9000/api/invoice-details/${idinvoice}`);
+  }
+
 }

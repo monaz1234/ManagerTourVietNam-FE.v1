@@ -140,7 +140,7 @@ export class TourDetailComponent{
           }
           console.log("hellllo",this.tourdetail2[0]);
           console.log("hellllo2",this.tourdetail2[0].vehicles.id_vehicles);
-          
+
         },
         (error) => {
           console.error('Lỗi khi lấy dữ liệu người dùng:', error);
