@@ -52,8 +52,9 @@ export class BookService {
       })
     );
   }
-
-
+  addBookClient(bookData: any): Observable<any> {
+    return this.http.post('http://localhost:9000/api/books', bookData);
+  }
 
   deleteBook(id: string): Observable<void> {
     return this.http.delete<void>(`http://localhost:9000/api/book/${id}`).pipe(

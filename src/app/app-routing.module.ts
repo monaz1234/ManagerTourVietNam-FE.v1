@@ -52,7 +52,7 @@ import { NewsComponent } from './news/news.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 
 
-import { ReportComponent } from './report/report.component';
+//import { ReportComponent } from './report/report.component';
 import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
@@ -165,12 +165,12 @@ const routes: Routes = [
 
 
 
-    {
+   /* {
       path: 'report',
       component: ReportComponent,
 
 
-    },
+    },*/
 
     {
       path: 'invoice',component: InvoiceComponent

@@ -71,16 +71,27 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
       return;
     }
-
+  
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
       next: (account: any) => {
         if (account) {
           // Kiểm tra quyền của tài khoản
           console.log('Thông tin đăng nhập là:', this.username, this.password);
+  
+          // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
+          localStorage.setItem('idaccount', account.idaccount); 
+  
+          // Chuyển hướng theo loại tài khoản
           switch (account.typeUser?.idtypeuser) {
             case 'T001': // Quản trị viên
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/admin']);
+              break;
             case 'T002': // Người dùng thông thường
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/admin']);
+              break;
             case 'T003': // Người dùng khác
               const username = account.username || account.name; // Sử dụng username hoặc name
               localStorage.setItem('username', username); // Lưu vào localStorage
@@ -99,6 +110,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  
 
   loadData() {
     this.accountService.account$.subscribe((data: Account[]) => {
