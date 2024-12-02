@@ -123,7 +123,7 @@ export class AccountService {
       const loginPayload = { username, password };
       return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
     }
-    
+
   addImageAccountToBackend(formData: FormData): Observable<any> {
     return this.http.post<any>('http://localhost:9000/api/account/image/upload', formData).pipe(
     );
@@ -140,7 +140,7 @@ export class AccountService {
   getAccountById(iduser: string): Observable<{ idaccount: string }> {
     return this.http.get<{ idaccount: string }>(`http://localhost:9000/api/accounts/${iduser}`);
   }
-  
+
   getIdUserByUsername(username: string): Observable<{ iduser: string }> {
     return this.http.get<{ iduser: string }>(`http://localhost:9000/api/accounts/iduser?username=${username}`);
   }
@@ -153,6 +153,12 @@ export class AccountService {
   getAccountByIduser(iduser: string): Observable<string> {
     return this.http.get<string>(`http://localhost:9000/api/account/${iduser}/idaccount`, { responseType: 'text' as 'json' });
   }
+
+
+  getAccountByUsername(username: string): Observable<Account> {
+    return this.http.get<Account>(`http://localhost:9000/api/account/username/${username}`);
+  }
+
 
 
 

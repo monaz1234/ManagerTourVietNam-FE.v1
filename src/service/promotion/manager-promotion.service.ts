@@ -66,4 +66,14 @@ export class ManagerPromotionService {
       })
     );
   }
+
+  getinformationPromotion(promotion_code : string): Observable<any>{
+    return this.http.get<Promotion[]>(`http://localhost:9000/api/promotion/code/${promotion_code}`).pipe(
+      tap(() => {
+        this.getPromotions().subscribe(); // Cập nhật danh sách khuyến mãi sau khi tìm kiếm
+      })
+    );
+  }
+
+
 }

@@ -15,6 +15,7 @@
                 <li class="nav-item"><a class="nav-link" href="customer/hotel">Khách sạn</a></li>
                 <li class="nav-item"><a class="nav-link" href="news">Tin tức</a></li>
                 <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
+                <li class="nav-item"><a class="nav-link" href="customer/clientbook">Book</a></li>
                 <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
                 <li class="nav-item" *ngIf="username">
                     <span class="nav-link">Xin chào: {{ username }}</span>
@@ -73,7 +74,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
             </form>
-            
+
         </div>
 
         <!-- Hotel Search Form -->
@@ -100,7 +101,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
-            </form>            
+            </form>
         </div>
     </div>
 </div>
@@ -163,8 +164,8 @@
                     Trạng thái: {{ promotion.status ? 'Hoạt động' : 'Hết hạn' }}
                 </p>
             </div>
-            
-        </div>        
+
+        </div>
     </div>
     <!-- Phân trang cho Khuyến mãi -->
     <nav aria-label="Page navigation">

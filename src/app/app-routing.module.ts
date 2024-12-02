@@ -58,6 +58,7 @@ import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
+import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
 
 
 const routes: Routes = [
@@ -71,7 +72,11 @@ const routes: Routes = [
 { path: 'customer/hotel', component: ClientHotelComponent }, // Route cho trang liên hệ
 { path: 'customer/hotel/:id_hotel', component:ClienthoteldetailComponent }, // Route cho
 { path: 'about-us', component: AboutUsComponent },
+{ path: 'bookClien', component: ClientBookComponent },
 { path: 'news', component: NewsComponent },
+
+
+
 // { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },
 { path: 'admin/invoice/detail/:id', component: InvoiceDetailComponent },

@@ -66,6 +66,7 @@ import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
+import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.componen
       EditTourComponent,
       TourDetailComponent,
       InvoiceDetailComponent,
+      ClientBookComponent,
 
 
 

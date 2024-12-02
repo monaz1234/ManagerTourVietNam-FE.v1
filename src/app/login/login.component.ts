@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
     // Initialize Google login
     google.accounts.id.initialize({
-      client_id: '705865382435-nop2rtlr74mg75adprhdk62m1l5ospjt.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      client_id: '194956155091-rvbqge5cnpv1u0mdqimkssankmvpmuu5.apps.googleusercontent.com', // Thay bằng Client ID đúng
       callback: this.handleCredentialResponse.bind(this),
     });
 
@@ -44,19 +44,45 @@ export class LoginComponent implements OnInit {
   handleCredentialResponse(response: any): void {
     const token = response.credential; // Lấy token từ Google
     console.log('Token:', token);
-    this.sendTokenToBackend(token);
+    const payload = JSON.parse(atob(token.split('.')[1])); // Decode token
+    console.log('User Info:', payload);
+    const name = payload.name; // Tên
+    const email = payload.email; // Email
+    console.log(`Name: ${name}, Email: ${email}`);
+    this.sendTokenToBackend(token, email);
   }
 
-  sendTokenToBackend(token: string): void {
-    // Gửi token lên API backend (cập nhật endpoint của bạn)
-    this.http.post('http://localhost:9000/api/auth/google', { token })
+  // sendTokenToBackend(token: string): void {
+  //   // Gửi token lên API backend (cập nhật endpoint của bạn)
+  //   this.http.post('http://localhost:9000/api/auth/google', { token })
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         console.log('Token verified successfully:', response);
+  //         // Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
+  //         const name = response.name; // Lấy `name` từ phản hồi của backend
+  //         localStorage.setItem('name', name); // Lưu `name` vào LocalStorage
+  //         this.router.navigate(['/customer']); // Chuyển hướng
+  //       },
+  //       error: (error) => {
+  //         console.error('Token verification failed:', error);
+  //         this.errorMessage = 'Xác thực với Google thất bại.';
+  //       }
+  //     });
+  // }
+
+  sendTokenToBackend(token: string, email: string | null): void {
+    this.http.post('http://localhost:9000/api/auth/google', { token, email })
       .subscribe({
         next: (response: any) => {
           console.log('Token verified successfully:', response);
-          // Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
-          const name = response.name; // Lấy `name` từ phản hồi của backend
-          localStorage.setItem('name', name); // Lưu `name` vào LocalStorage
-          this.router.navigate(['/customer']); // Chuyển hướng
+
+          // Lưu thông tin cần thiết
+          const username = response.username || email; // Ưu tiên username, fallback là email
+          localStorage.setItem('username', username);
+          localStorage.setItem('idaccount', response.idaccount);
+
+          // Điều hướng
+          this.router.navigate(['/customer']);
         },
         error: (error) => {
           console.error('Token verification failed:', error);
@@ -71,17 +97,17 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
       return;
     }
-  
+
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
       next: (account: any) => {
         if (account) {
           // Kiểm tra quyền của tài khoản
           console.log('Thông tin đăng nhập là:', this.username, this.password);
-  
+
           // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
-          localStorage.setItem('idaccount', account.idaccount); 
-  
+          localStorage.setItem('idaccount', account.idaccount);
+
           // Chuyển hướng theo loại tài khoản
           switch (account.typeUser?.idtypeuser) {
             case 'T001': // Quản trị viên
@@ -110,7 +136,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  
+
 
   loadData() {
     this.accountService.account$.subscribe((data: Account[]) => {
