@@ -42,7 +42,14 @@ export class BookdetailService {
       })
     );
   }
-
+  createBookdetail(newBookdetail: any): Observable<any> {
+    const url = 'http://localhost:9000/api/bookdetail/create';
+    return this.http.post<any>(url, newBookdetail).pipe(
+      tap(() => {
+        this.getList_bookDetail(); // Cập nhật danh sách sau khi thêm
+      })
+    );
+}
   deleteBookDetail(id: string): Observable<void> {
     return this.http.delete<void>(`http://localhost:9000/api/bookdetail/${id}`).pipe(
       tap(() => {
