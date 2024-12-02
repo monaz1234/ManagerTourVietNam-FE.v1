@@ -1,0 +1,44 @@
+/* Container for the form */
+.d-flex {
+  display: flex;
+  justify-content: space-between; /* Align items in space-between manner */
+  align-items: center; /* Vertically align the items */
+  margin-bottom: 1.5rem; /* Adds spacing below the form */
+}
+
+/* Left container for the search and add button */
+.d-flex.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+/* Styling the button */
+button {
+  padding: 0.5rem 1rem; /* Adjust padding for button */
+  font-size: 1rem; /* Font size */
+  background-color: #28a745; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove default border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Optional: Styling for form input elements (if you want to style them as well) */
+input[type="text"], input[type="number"], select {
+  padding: 0.5rem; /* Add padding */
+  font-size: 1rem; /* Font size */
+  border-radius: 4px; /* Rounded corners */
+  border: 1px solid #ced4da; /* Light border */
+  width: auto; /* Adjust width */
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+  outline: none;
+  border-color: #80bdff; /* Border color change on focus */
+}
+
