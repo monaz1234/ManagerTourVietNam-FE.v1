@@ -42,7 +42,7 @@
                   <strong>Giá gốc:</strong> {{ tourDetails[0].total_price | currency:'VND' }}
               </p>
               <p class="GiaTong">
-                  <strong>Giá tổng:</strong> {{ calculateTotalPrice(quantity, tourDetails[0].total_price, totalPrice, discount) | currency:'VND' }}
+                  <strong>Giá tổng:</strong> {{ totalPrice | currency:'VND' }}
                   <span *ngIf="isPriceReduced" class="price-reduced-label">(Giá đã giảm)</span>
               </p>
               <div class="quantity-selector">
@@ -62,16 +62,16 @@
                           id="promo"
                           [(ngModel)]="code"
                           name="promotionCode"
-                          (input)="applyPromotionCode()"
                           placeholder="Nhập mã ưu đãi" />
-
-
 
                           <button class="promo-btn" type="button" (click)="applyPromotion()">Áp dụng</button>
                       </form>
                   </div>
               </div>
-              <button class="BookBtn" (click)="bookTour()">Đặt ngay</button>
+              <button class="BookBtn" (click)="bookTour()" [disabled]="!isAvailable" >Đặt ngay</button>
+              <div *ngIf="!isAvailable" class="alert alert-danger mt-2">
+                Tour này đã hết chỗ!
+              </div>
           </div>
       </div>
       <p style="margin-left: 10px; font-size:larger;"><b>Gói của tour bao gồm:</b></p>
