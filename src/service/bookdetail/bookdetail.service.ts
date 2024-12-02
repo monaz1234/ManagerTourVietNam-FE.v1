@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { bookdetail } from '../../interface/bookdetail.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
 
 interface PaginatedResponse<T> {
   content: T[];
   totalPages: number;
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -89,16 +87,27 @@ export class BookdetailService {
     );
   }
 
-
   getBookDetailBySearch(query: string): Observable<bookdetail[]> {
     const url = `http://localhost:9000/api/bookdetail/search?query=${query}`;
     return this.http.get<bookdetail[]>(url);
   }
 
-
   getBookDetailsByBook(idbook: string): Observable<bookdetail[]> {
     return this.http.get<bookdetail[]>(`http://localhost:9000/api/bookdetailbyidbook/${idbook}`);
   }
 
+
+  addBookDetailCreate(bookdetail: Omit<bookdetail, "idbookdetail">): Observable<bookdetail> {
+    console.log('Book data:', bookdetail);  // In ra dữ liệu trước khi gửi
+    return this.http.post<bookdetail>('http://localhost:9000/api/bookdetail/create', bookdetail).pipe(
+      tap(() => {
+        this.getList_bookDetail(); // Cập nhật danh sách sách sau khi thêm
+      }),
+      catchError(error => {
+        console.error('Error adding book:', error);
+        throw error; // Tiếp tục ném lỗi để xử lý ở nơi khác nếu cần
+      })
+    );
+  }
 
 }

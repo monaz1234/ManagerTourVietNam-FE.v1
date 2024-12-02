@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     if (isAdmin) {
       return true;
     } else {
-      this.router.navigate(['/customer']);  // Nếu không phải admin, chuyển hướng về trang người dùng
+      this.router.navigate(['/login']);  // Nếu không phải admin, chuyển hướng về trang người dùng
       return false;
     }
   }

@@ -52,12 +52,13 @@ import { NewsComponent } from './news/news.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 
 
-import { ReportComponent } from './report/report.component';
+//import { ReportComponent } from './report/report.component';
 import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
+import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
 
 
 const routes: Routes = [
@@ -65,39 +66,18 @@ const routes: Routes = [
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
 {path: 'infouser/:iduser', component : InfoUserComponent},
-{
-  path: 'customer',
-  component : CustomerComponent,
-
-  children: [
-    {
-      path: 'login',
-      component: LoginComponent,
-    },
-    {
-      path: 'register',
-      component: RegisterComponent,
-    },
-    {
-      path: 'customer/tour/:id',
-      component: CustomerdetailComponent,
-    }, // Route cho chi tiết tour
-
-
-
-  ],
-
-},
+{path: 'customer', component : CustomerComponent,},
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
-
 { path: 'customer/lienhe', component: ClientLienHeComponent }, // Route cho trang liên hệ
-
 { path: 'customer/hotel', component: ClientHotelComponent }, // Route cho trang liên hệ
 { path: 'customer/hotel/:id_hotel', component:ClienthoteldetailComponent }, // Route cho
-
 { path: 'about-us', component: AboutUsComponent },
+{ path: 'bookClien', component: ClientBookComponent },
 { path: 'news', component: NewsComponent },
-{ path: 'admin/book/detail/:id', component: BookdetailComponent },
+
+
+
+// { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },
 { path: 'admin/invoice/detail/:id', component: InvoiceDetailComponent },
 
@@ -160,14 +140,14 @@ const routes: Routes = [
       component: BookComponent,
       children: [
         { path: 'add', component: AddbookComponent },
-        // { path: 'detail/:id', component: BookdetailComponent }  // Đảm bảo rằng đường dẫn này đúng
+         { path: 'detail/:id', component: BookdetailComponent }  // Đảm bảo rằng đường dẫn này đúng
       ]
     },
     {
       path: 'tour', component: ManagerTourComponent, children : [
         {path : 'add', component : AddTourComponent},
         {path : 'edit', component: EditTourComponent},
-        // { path: 'detail/:id', component: TourDetailComponent }
+        { path: 'detail/:id', component: TourDetailComponent }
       ]
     },
 
@@ -190,12 +170,12 @@ const routes: Routes = [
 
 
 
-    {
+   /* {
       path: 'report',
       component: ReportComponent,
 
 
-    },
+    },*/
 
     {
       path: 'invoice',component: InvoiceComponent

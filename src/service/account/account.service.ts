@@ -97,11 +97,32 @@ export class AccountService {
   //   return this.http.post<Account>(`http://localhost:9000//api/account/login`, account);
   // }
 
-  login(username: string, password: string): Observable<Account | null> {
+  /*login(username: string, password: string): Observable<Account | null> {
     const loginPayload = { username, password };
     return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
 
-  }
+  }*/
+    // login(username: string, password: string): void {
+    //   const loginPayload = { username, password };
+    //   this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload)
+    //     .subscribe({
+    //       next: (account) => {
+    //         if (account) {
+    //           console.log("idaccount:", account.idaccount); // Lấy idaccount từ object Account
+    //         } else {
+    //           console.log("Login failed or account not found");
+    //         }
+    //       },
+    //       error: (err) => {
+    //         console.error("Error logging in:", err);
+    //       }
+    //     });
+    // }
+
+    login(username: string, password: string): Observable<Account | null> {
+      const loginPayload = { username, password };
+      return this.http.post<Account | null>(`http://localhost:9000/api/account/login`, loginPayload);
+    }
 
   addImageAccountToBackend(formData: FormData): Observable<any> {
     return this.http.post<any>('http://localhost:9000/api/account/image/upload', formData).pipe(
@@ -116,6 +137,9 @@ export class AccountService {
         });
 
   }
+  getAccountById(iduser: string): Observable<{ idaccount: string }> {
+    return this.http.get<{ idaccount: string }>(`http://localhost:9000/api/accounts/${iduser}`);
+  }
 
   getIdUserByUsername(username: string): Observable<{ iduser: string }> {
     return this.http.get<{ iduser: string }>(`http://localhost:9000/api/accounts/iduser?username=${username}`);
@@ -129,6 +153,12 @@ export class AccountService {
   getAccountByIduser(iduser: string): Observable<string> {
     return this.http.get<string>(`http://localhost:9000/api/account/${iduser}/idaccount`, { responseType: 'text' as 'json' });
   }
+
+
+  getAccountByUsername(username: string): Observable<Account> {
+    return this.http.get<Account>(`http://localhost:9000/api/account/username/${username}`);
+  }
+
 
 
 

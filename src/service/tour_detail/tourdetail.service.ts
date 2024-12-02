@@ -44,6 +44,11 @@ export class TourDetailService {
       tap(totalprice => this.tourdetailSubject.next(totalprice)) // Cập nhật danh sách tour trong BehaviorSubject
     );
   }
+
+  applyPromotion(payload: any): Observable<number> {
+    return this.http.post<number>('http://localhost:9000/api/apply-promotion', payload);
+}
+
   findTourDetail(id: string): Observable<TourDetail> {
     return this.http.get<TourDetail>(`http://localhost:9000/api/tour_detail/${id}`);
   }
@@ -51,5 +56,6 @@ export class TourDetailService {
   getTourDetailsByTour(idtour: string): Observable<TourDetail[]> {
     return this.http.get<TourDetail[]>(`http://localhost:9000/api/tourdetailbyidtour/${idtour}`);
   }
+
 
 }

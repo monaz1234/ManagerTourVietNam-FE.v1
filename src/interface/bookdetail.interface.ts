@@ -8,5 +8,4 @@ export interface bookdetail{
   time_book: String,
   quantity : number,
   participant: String,
-
 }

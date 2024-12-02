@@ -125,17 +125,17 @@ body {
     background: rgba(0, 0, 0, 0.4); /* Nền mờ */
     text-align: center;
   }
-  
+
   .overlay h2 {
     font-size: 2em;
     margin-bottom: 10px;
   }
-  
+
   .overlay p {
     font-size: 1.2em;
     margin-bottom: 20px;
   }
-  
+
   .overlay button {
     padding: 10px 20px;
     background-color: #ff5722;
@@ -145,7 +145,7 @@ body {
     color: white;
     font-size: 1em;
   }
-  
+
   .overlay button:hover {
     background-color: #e64a19;
   }
@@ -224,7 +224,7 @@ width: 100%;
     a {
         color: black;
         text-decoration: none;
-        
+
         &:hover {
         text-decoration: underline;
         }
@@ -235,11 +235,11 @@ width: 100%;
     display: flex;
     align-items: center;
     gap: 15px;
-    
+
     a {
         color: #db4913;
         font-size: 1.5em;
-        
+
         &:hover {
         color: #4caf50; // màu thay đổi khi hover
         }
@@ -252,7 +252,7 @@ width: 100%;
         }
 }
 
-    
+
 .footer-bottom {
     text-align: center;
     color: grey;
@@ -305,13 +305,17 @@ width: 100%;
         border-radius: 8px; /* Tùy chọn: bo tròn góc */
         strong {
             font-weight: bold;
-            color: #006400; 
+            color: #006400;
         }
         .GiaTong {
             font-size: 2.5rem;
             color: #ff0000;
             font-weight: bold;
-            
+
+        }
+        .GiaGoc {
+            font-size: 1.5rem;
+            font-weight: bolder;
         }
         .BookBtn {
             padding: 10px 20px;
@@ -336,7 +340,7 @@ width: 100%;
         padding: 10px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        
+
         .quantity-item {
             margin-bottom: 15px;
             label {
@@ -348,7 +352,7 @@ width: 100%;
             display: flex;
             align-items: center;
             margin-top: 5px;
-        
+
             .quantity-btn {
                 background-color: #f66d12;
                 border: none;
@@ -365,7 +369,7 @@ width: 100%;
                 background-color: #e53500;
                 }
             }
-        
+
             input[type="number"] {
                 width: 400px;
                 height: 40px;
@@ -384,13 +388,13 @@ width: 100%;
             margin-top: 10px;
             }
         }
-        
+
         .promotions {
             margin-top: 20px;
             .selectPromotions {
             display: flex;
             gap: 10px;
-        
+
             input[type="text"] {
                 width: 370px;
                 padding: 8px;
@@ -398,7 +402,7 @@ width: 100%;
                 border-radius: 4px;
                 font-size: 14px;
             }
-        
+
             .promo-btn {
                 background-color: #ff6600;
                 border: none;
@@ -492,4 +496,11 @@ td {
         }
     }
   }
-  
+
+  .price-reduced-label {
+    color: rgb(241, 121, 8);
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 15px;
+  }
+
