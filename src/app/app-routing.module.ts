@@ -57,7 +57,7 @@ import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.c
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
-
+import { TourDetailAddComponent } from './tour-detail-add/tour-detail-add.component';
 
 const routes: Routes = [
 
@@ -98,7 +98,7 @@ const routes: Routes = [
 { path: 'news', component: NewsComponent },
 { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },
-
+{ path: 'admin/tour/detail/add/:id', component: TourDetailAddComponent},
 
 {
   path: 'admin',
@@ -165,6 +165,7 @@ const routes: Routes = [
       path: 'tour', component: ManagerTourComponent, children : [
         {path : 'add', component : AddTourComponent},
         {path : 'edit', component: EditTourComponent},
+
         // { path: 'detail/:id', component: TourDetailComponent }
       ]
     },

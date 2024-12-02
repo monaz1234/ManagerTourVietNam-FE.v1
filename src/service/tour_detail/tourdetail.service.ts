@@ -51,5 +51,6 @@ export class TourDetailService {
   getTourDetailsByTour(idtour: string): Observable<TourDetail[]> {
     return this.http.get<TourDetail[]>(`http://localhost:9000/api/tourdetailbyidtour/${idtour}`);
   }
+  
 
 }

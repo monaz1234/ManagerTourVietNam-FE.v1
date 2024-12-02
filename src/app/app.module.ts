@@ -65,6 +65,7 @@ import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.c
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
+import { TourDetailAddComponent } from './tour-detail-add/tour-detail-add.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { TourDetailComponent } from './tour-detail/tour-detail.component';
       AddTourComponent,
       EditTourComponent,
       TourDetailComponent,
+      TourDetailAddComponent,
 
 
 
