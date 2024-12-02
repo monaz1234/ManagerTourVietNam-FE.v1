@@ -1,6 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import { Chart, registerables } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
+
+//import { Chart, registerables } from 'chart.js';
+/*
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -180,3 +185,4 @@ export class ReportComponent implements OnInit, OnDestroy {
     return colors;
   }
 }
+*/

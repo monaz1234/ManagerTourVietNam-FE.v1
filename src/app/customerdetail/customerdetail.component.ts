@@ -16,7 +16,6 @@ import { BookService } from '../../service/book.service';
 import { BookdetailService } from '../../service/bookdetail/bookdetail.service';
 import { Book } from '../../interface/book.interface'; // Import Book interface
 import { bookdetail } from '../../interface/bookdetail.interface'; // Import bookdetail interface
-import { ManagerPromotionService } from '../../service/promotion/manager-promotion.service';
 
 @Component({
   selector: 'app-customerdetail',
@@ -24,10 +23,9 @@ import { ManagerPromotionService } from '../../service/promotion/manager-promoti
   styleUrl: './customerdetail.component.scss'
 })
 export class CustomerdetailComponent implements OnInit{
+  promotion_code: string | null = null; // Khai báo thuộc tính với kiểu phù hợp
   tourId: string | null = null; // Lưu ID của tour
   tourDetails: TourDetail[] = [];
-  // promotionCode : Promotion[] = [];
-  promotionCode: Promotion | null = null;
   username: string | null = null; // Biến để lưu tên tài khoản
   idacc: string | null = null; // Biến để lưu tên idaccount
   Iduser: string | null = null; //
@@ -43,7 +41,7 @@ export class CustomerdetailComponent implements OnInit{
   code: string = ''; // Mã khuyến mãi
   status = 1;
   idaccount = localStorage.getItem('idaccount');
-
+  isAvailable: boolean = true; // Biến kiểm tra trạng thái có thể đặt
 
   constructor(
     private route: ActivatedRoute,
@@ -55,11 +53,9 @@ export class CustomerdetailComponent implements OnInit{
     private accountService: AccountService,
     private bookDetailService: BookdetailService,
     private bookService: BookService,
-    private fb: FormBuilder,
-    private promotionService : ManagerPromotionService,
-
+    private fb: FormBuilder
   ) {
-    this.username = localStorage.getItem('username');
+    this.username = localStorage.getItem('username'); 
     this.tourId = this.route.snapshot.paramMap.get('idtour');// Get tour ID from the route
     this.commentForm = this.fb.group({
       content: ['', [Validators.required, Validators.minLength(5)]],
@@ -67,64 +63,38 @@ export class CustomerdetailComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    const storedUsername = localStorage.getItem('username');
-    this.username = this.username || storedUsername;
-
-    // Kiểm tra nếu username có giá trị hợp lệ trước khi gọi API
+    // Lấy Iduser từ server dựa trên username
     if (this.username) {
-      // Đảm bảo rằng username là kiểu string
-      const validUsername: string = this.username || ''; // Đặt mặc định nếu null
-
-      this.accountService.getAccountByUsername(validUsername).subscribe({
-        next: (response: Account) => {
-          if (response?.idaccount) {
-            localStorage.setItem('idaccount', response.idaccount);
-            this.idacc = response.idaccount;
-            const UsernameUser = validUsername;
-            console.log("Thông tin tên người dùng" + UsernameUser);
-
-            console.log('Đã lưu idaccount:', this.idacc);
-
-            this.accountService.getIdUserByUsername(UsernameUser).subscribe({
-              next: (userResponse) => {
-                if (userResponse?.iduser) {
-                  this.Iduser = userResponse.iduser;
-                  console.log('Response iduser:', this.Iduser);
-
-                  if (this.tourId) {
-                    this.loadTourDetails(this.tourId);
-                    this.loadComments();
-                  }
-                } else {
-                  console.error('Không lấy được iduser từ response.');
-                }
-              },
-              error: (err) => {
-                console.error('Lỗi khi lấy IDUser:', err);
-              }
-            });
-          } else {
-            console.error('Không lấy được idaccount từ response.');
-          }
+      // Lấy Iduser từ server dựa trên username
+      this.accountService.getIdUserByUsername(this.username!).subscribe(
+        (response) => {
+          console.log('Response iduser:', response); // Object như { iduser: "U007" }
+          this.Iduser = response.iduser;
+          this.loadTourDetails(this.tourId!);
+          this.loadComments();
+          this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
+          this.idacc = localStorage.getItem('idaccount');
+          
+          console.log("idacc",this.idacc);  // In ra giá trị idaccount, nếu có, hoặc null nếu không tìm thấy
+      
         },
-        error: (err) => {
-          console.error('Lỗi khi lấy Account:', err);
-        },
-      });
+        (error) => {
+          console.error('Error fetching IDUser:', error);
+        }
+      );
     } else {
-      console.error('Không tìm thấy username. Chuyển hướng tới trang đăng nhập...');
-      this.router.navigate(['/login']);
+      console.error('Username is null. Redirecting to login...');
+      this.router.navigate(['/login']); // Điều hướng người dùng đến trang đăng nhập
     }
 
     if (this.tourId) {
+      // Fetch the tour details for the given tour ID
       this.loadTourDetails(this.tourId);
       this.loadComments();
     }
+    console.log(this.totalPrice);
+  
   }
-
-
-
-
   //Phần comment
   loadComments(): void {
     if (this.tourId) {
@@ -172,43 +142,26 @@ export class CustomerdetailComponent implements OnInit{
     return description.replace(/\n/g, '<br>');
   }
 
-
   loadTourDetails(idtour: string): void {
-    this.tourDetailService.getTours().subscribe({
-      next: (details) => {
-        if (details && Array.isArray(details)) {
-          this.tourDetails = details.filter(detail => detail.idtour === idtour);
-
-          if (this.tourDetails.length > 0) {
-            const currentTour = this.tourDetails[0];
-            this.vehicleImages = currentTour.vehicles?.image
-              ? currentTour.vehicles.image.split(',').map(image => image.trim())
-              : [];
-            this.hotelImages = currentTour.hotel?.image
-              ? currentTour.hotel.image.split(',').map(image => image.trim())
-              : [];
-          } else {
-            console.warn(`Tour ID '${idtour}' không tìm thấy trong danh sách.`);
-            this.vehicleImages = [];
-            this.hotelImages = [];
-          }
-        } else {
-          console.error('Dữ liệu trả về không hợp lệ:', details);
-          this.tourDetails = [];
-          this.vehicleImages = [];
-          this.hotelImages = [];
-        }
-      },
-      error: (error) => {
-        console.error('Lỗi khi gọi API loadTourDetails:', error);
-        this.tourDetails = [];
-        this.vehicleImages = [];
-        this.hotelImages = [];
-      },
+    this.tourDetailService.getTours().subscribe(details => {
+      // Lọc chi tiết tour dựa trên idtour
+      this.tourDetails = details.filter(detail => detail.idtour === idtour);
+      if (this.tourDetails.length > 0) {
+        const basePrice = this.tourDetails[0].total_price;
+        this.totalPrice = basePrice; // Gán giá gốc vào totalPrice
+        // Kiểm tra nếu chỗ trống bằng 0
+        this.isAvailable = this.tourDetails[0].place > 0;
+      }
+      // Tách danh sách ảnh của vehicles (nếu tồn tại)
+      if (this.tourDetails.length > 0 && this.tourDetails[0].vehicles.image) {
+        this.vehicleImages = this.tourDetails[0].vehicles.image.split(',').map(image => image.trim());
+      }
+      // Tách danh sách ảnh của hotel (nếu tồn tại)
+      if (this.tourDetails.length > 0 && this.tourDetails[0].hotel.image) {
+        this.hotelImages = this.tourDetails[0].hotel.image.split(',').map(image => image.trim());
+      }
     });
   }
-
-
 
   // Hàm cập nhật số lượng
   increaseQuantity() {
@@ -241,8 +194,13 @@ export class CustomerdetailComponent implements OnInit{
         this.discount = response.discount || 0; // Lấy khuyến mãi từ backend
         this.updateTotalPrice(); // Cập nhật giá tổng
         this.isPriceReduced = this.discount > 0; // Đánh dấu giá đã giảm nếu discount lớn hơn 0.
+              // Lưu promotion_code từ backend
+        this.promotion_code = response.promotion_code;
       },
       error: (err) => {
+        if (err.status === 400 && err.error?.error) {
+          alert(err.error.error); // Hiển thị thông báo từ backend
+        }
         console.error('Áp dụng khuyến mãi thất bại:', err);
         this.discount = 0; // Đặt lại discount nếu thất bại
         this.updateTotalPrice();
@@ -259,47 +217,12 @@ export class CustomerdetailComponent implements OnInit{
 
   // Hàm cập nhật giá tổng
   updateTotalPrice() {
-    const basePrice = this.tourDetails[0]?.total_price; // Giá cơ bản từ backend
+    const basePrice = this.tourDetails[0]?.total_price || 0; // Lấy giá gốc
     this.totalPrice = (basePrice * this.quantity) - this.discount; // Cập nhật giá tổng
   }
-
-  // Trong component TypeScript
-// Hàm tính toán giá tổng với khuyến mãi
-calculateTotalPrice(quantity: number, originalPrice: number, totalPrice: number, discount: number): number {
-  if (quantity === 1) {
-    // Nếu số lượng là 1, giá tổng là giá gốc trừ khuyến mãi
-    return originalPrice - discount;
-  } else {
-    // Nếu số lượng lớn hơn 1, giá tổng là tổng giá đã tính trừ khuyến mãi
-    return totalPrice - discount;
-  }
-}
-
-
-
-
-applyPromotionCode(): void {
-  this.promotionService.getinformationPromotion(this.code).subscribe({
-    next: (promotion) => {
-      if (Array.isArray(promotion)) {
-        // If the response is an array, take the first element (adjust as needed)
-        this.promotionCode = promotion[0];
-      } else {
-        // If the response is already a single object
-        this.promotionCode = promotion;
-      }
-
-      console.log("Mã ưu đãi được áp dụng từ BE: ", this.promotionCode);
-    },
-    error: (err) => {
-      console.error('Lỗi lấy mã ưu đãi từ BE:', err);
-    }
-  });
-}
-
-
+  
 bookTour(): void {
-  this.applyPromotionCode();
+  
   const bookData: Omit<Book, "idbook"> = {
     status: this.status, // Chuyển đổi number thành boolean
     account: this.idacc ? { idaccount: this.idacc } as Account : null,
@@ -322,7 +245,7 @@ bookTour(): void {
       const bookDetailData: bookdetail = {
         idbookdetail: null as unknown as String,
         idbook: book,
-        promotion_code: this.promotionCode,  // Ensure this is properly set
+        promotion_code: this.promotion_code ? { promotion_code: this.promotion_code } as Promotion : null, // Sử dụng promotion_code từ applyPromotion
         time_book: new Date().toISOString(),
         quantity: this.quantity,
         participant: this.username || '',
@@ -346,10 +269,6 @@ bookTour(): void {
     },
   });
 }
-
-
-
-
   getTourDetailById(tourId: String) {
     return this.tourDetails.find(detail => detail.idtour === tourId);
   }
