@@ -52,7 +52,7 @@ import { NewsComponent } from './news/news.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 
 
-import { ReportComponent } from './report/report.component';
+//import { ReportComponent } from './report/report.component';
 import { ManagerTourComponent } from './manager-tour/manager-tour/manager-tour.component';
 import { AddTourComponent } from './manager-tour/manager-tour/add-tour/add-tour.component';
 import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-tour.component';
@@ -65,36 +65,11 @@ const routes: Routes = [
 {path: 'login', component : LoginComponent},
 {path: 'register', component : RegisterComponent},
 {path: 'infouser/:iduser', component : InfoUserComponent},
-{
-  path: 'customer',
-  component : CustomerComponent,
-
-  children: [
-    {
-      path: 'login',
-      component: LoginComponent,
-    },
-    {
-      path: 'register',
-      component: RegisterComponent,
-    },
-    {
-      path: 'customer/tour/:id',
-      component: CustomerdetailComponent,
-    }, // Route cho chi tiết tour
-
-
-
-  ],
-
-},
+{path: 'customer', component : CustomerComponent,},
 { path: 'customer/tour/:idtour', component: CustomerdetailComponent }, // Route cho chi tiết tour
-
 { path: 'customer/lienhe', component: ClientLienHeComponent }, // Route cho trang liên hệ
-
 { path: 'customer/hotel', component: ClientHotelComponent }, // Route cho trang liên hệ
 { path: 'customer/hotel/:id_hotel', component:ClienthoteldetailComponent }, // Route cho
-
 { path: 'about-us', component: AboutUsComponent },
 { path: 'news', component: NewsComponent },
 // { path: 'admin/book/detail/:id', component: BookdetailComponent },
@@ -190,12 +165,12 @@ const routes: Routes = [
 
 
 
-    {
+   /* {
       path: 'report',
       component: ReportComponent,
 
 
-    },
+    },*/
 
     {
       path: 'invoice',component: InvoiceComponent

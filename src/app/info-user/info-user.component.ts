@@ -84,6 +84,9 @@ export class InfoUserComponent implements OnInit {
           console.error("Lỗi khi lấy thông tin tài khoản: ", error);
         }
       );
+      
+      // Nếu cần, gọi thêm các hàm khác, ví dụ như loadDataUserById
+      this.loadDataUserById(userId);
     }
   }
 

@@ -37,7 +37,7 @@ import { RegisterComponent } from './register/register.component';
 
 import { InfoUserComponent } from './info-user/info-user.component';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
-import { ReportComponent } from './report/report.component';
+//import { ReportComponent } from './report/report.component';
 
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
@@ -125,7 +125,7 @@ import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.componen
     NewsComponent,
 
 
-    ReportComponent,
+    //ReportComponent,
 
     InvoiceComponent,
       ManagerTourComponent,

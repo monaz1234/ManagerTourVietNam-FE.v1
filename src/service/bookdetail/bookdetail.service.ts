@@ -3,12 +3,10 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { bookdetail } from '../../interface/bookdetail.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-
 interface PaginatedResponse<T> {
   content: T[];
   totalPages: number;
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -89,16 +87,13 @@ export class BookdetailService {
     );
   }
 
-
   getBookDetailBySearch(query: string): Observable<bookdetail[]> {
     const url = `http://localhost:9000/api/bookdetail/search?query=${query}`;
     return this.http.get<bookdetail[]>(url);
   }
 
-
   getBookDetailsByBook(idbook: string): Observable<bookdetail[]> {
     return this.http.get<bookdetail[]>(`http://localhost:9000/api/bookdetailbyidbook/${idbook}`);
   }
-
 
 }
