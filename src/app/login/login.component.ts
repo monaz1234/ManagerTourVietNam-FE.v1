@@ -100,31 +100,35 @@ export class LoginComponent implements OnInit {
 
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
-      next: (account: any) => {
-        if (account) {
-          // Kiểm tra quyền của tài khoản
-          console.log('Thông tin đăng nhập là:', this.username, this.password);
+      next: (response: any) => {
+        if (response && response.account) {
+          const account = response.account;
 
-          // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
+          console.log('Thông tin đăng nhập:', account);
+
+          // Lưu idaccount và username vào localStorage
           localStorage.setItem('idaccount', account.idaccount);
+          localStorage.setItem('username', account.username);
 
-          // Chuyển hướng theo loại tài khoản
-          switch (account.typeUser?.idtypeuser) {
+          // Kiểm tra loại người dùng (idTypeUser hoặc account.typeUser.idtypeuser)
+          const idTypeUser = response.idTypeUser || account.typeUser?.idtypeuser;
+
+          switch (idTypeUser) {
             case 'T001': // Quản trị viên
-              localStorage.setItem('username', this.username);
               this.router.navigate(['/admin']);
               break;
+
             case 'T002': // Người dùng thông thường
-              localStorage.setItem('username', this.username);
               this.router.navigate(['/admin']);
               break;
-            case 'T003': // Người dùng khác
-              const username = account.username || account.name; // Sử dụng username hoặc name
-              localStorage.setItem('username', username); // Lưu vào localStorage
-              this.router.navigate(['/customer']); // Chuyển hướng
+
+            case 'T003': // Khách hàng
+              this.router.navigate(['/customer']);
               break;
+
             default:
               this.errorMessage = 'Loại tài khoản không hợp lệ.';
+              break;
           }
         } else {
           this.errorMessage = 'Thông tin đăng nhập không chính xác.';
@@ -132,10 +136,93 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.errorMessage = 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.';
-        console.error(err);
+        console.error('Lỗi đăng nhập:', err);
       }
     });
   }
+
+
+  // login(): void {
+  //   // Kiểm tra nếu username hoặc password bị bỏ trống
+  //   if (!this.username || !this.password) {
+  //     this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
+  //     return;
+  //   }
+
+  //   // Gọi service đăng nhập với username và password
+  //   this.accountService.login(this.username, this.password).subscribe({
+  //     next: (account: any) => {
+  //       if (account) {
+  //         // Lưu thông tin tài khoản vào localStorage
+  //         localStorage.setItem('idaccount', account.idaccount);
+  //         localStorage.setItem('username', account.username || account.name);
+
+  //         // Chuyển hướng theo loại tài khoản
+  //         const userType = account.typeUser?.idtypeuser;
+  //         if (userType === 'T001' || userType === 'T002') {
+  //           this.router.navigate(['/admin']); // Quản trị viên hoặc người dùng thông thường
+  //         } else if (userType === 'T003') {
+  //           this.router.navigate(['/customer']); // Người dùng khác
+  //         } else {
+  //           this.errorMessage = 'Loại tài khoản không hợp lệ.';
+  //         }
+  //       } else {
+  //         this.errorMessage = 'Thông tin đăng nhập không chính xác.';
+  //       }
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = err.error?.message || 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.';
+  //       console.error('Lỗi đăng nhập:', err);
+  //     }
+  //   });
+  // }
+
+
+  // login(): void {
+  //   // Kiểm tra nếu username hoặc password bị bỏ trống
+  //   if (!this.username || !this.password) {
+  //     this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
+  //     return;
+  //   }
+
+  //   // Gọi service đăng nhập với username và password
+  //   this.accountService.login(this.username, this.password).subscribe({
+  //     next: (account: any) => {
+  //       if (account) {
+  //         // Kiểm tra quyền của tài khoản
+  //         console.log('Thông tin đăng nhập là:', this.username, this.password);
+
+  //         // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
+  //         localStorage.setItem('idaccount', account.idaccount);
+
+  //         // Chuyển hướng theo loại tài khoản
+  //         switch (account.typeUser?.idtypeuser) {
+  //           case 'T001': // Quản trị viên
+  //             localStorage.setItem('username', this.username);
+  //             this.router.navigate(['/admin']);
+  //             break;
+  //           case 'T002': // Người dùng thông thường
+  //             localStorage.setItem('username', this.username);
+  //             this.router.navigate(['/admin']);
+  //             break;
+  //           case 'T003': // Người dùng khác
+  //             const username = account.username || account.name; // Sử dụng username hoặc name
+  //             localStorage.setItem('username', username); // Lưu vào localStorage
+  //             this.router.navigate(['/customer']); // Chuyển hướng
+  //             break;
+  //           default:
+  //             this.errorMessage = 'Loại tài khoản không hợp lệ.';
+  //         }
+  //       } else {
+  //         this.errorMessage = 'Thông tin đăng nhập không chính xác.';
+  //       }
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.';
+  //       console.error(err);
+  //     }
+  //   });
+  // }
 
 
   loadData() {

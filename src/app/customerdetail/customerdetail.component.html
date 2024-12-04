@@ -42,7 +42,8 @@
                   <strong>Giá gốc:</strong> {{ tourDetails[0].total_price | currency:'VND' }}
               </p>
               <p class="GiaTong">
-                  <strong>Giá tổng:</strong> {{ totalPrice | currency:'VND' }}
+                  <!-- <strong>Giá tổng:</strong> {{ totalPrice | currency:'VND' }} -->
+                  <strong>Giá tổng:</strong> {{ calculateTotalPrice(quantity, tourDetails[0].total_price, totalPrice, discount) | currency:'VND' }}
                   <span *ngIf="isPriceReduced" class="price-reduced-label">(Giá đã giảm)</span>
               </p>
               <div class="quantity-selector">
