@@ -41,6 +41,17 @@ export class TourDetailAddComponent implements OnInit{
   service_select : Service [] = [];
   tourdetails: TourDetail[] = [];
 
+
+  vehicleOptions : Vehicle[] = [];
+  tourOptions : Tour [] = [];
+  hotelOptions : Hotel [] = [];
+  serviceOptions : Service [] = [];
+
+
+
+
+
+
   newTourDetail: any = {
     idtour: '',
     depart: new Date(),
@@ -61,10 +72,44 @@ export class TourDetailAddComponent implements OnInit{
     private tourDetailService : TourDetailService) { }
   ngOnInit(): void {
     this.getAll();
-    this.generateNewTourDetailId();
+    // this.generateNewTourDetailId();
     this.setSelectTour();
 
+
+
+    this.getVehicleOptions();
+    this.getHotelOptions();
+    this.getServiceOptions();
+    this.getTourOptions();
+
   }
+
+  getVehicleOptions() {
+    this.vehicleService.getListVehicleCopppy().subscribe((data: any) => {
+      this.vehicleOptions = data;
+    });
+  }
+
+  getServiceOptions() {
+    this.serviceService.getList_ServiceCoppy().subscribe((data: any) => {
+      this.serviceOptions = data;
+    });
+  }
+
+
+  getTourOptions() {
+    this.tourService.getList_TourCopppy().subscribe((data: any) => {
+      this.tourOptions = data;
+    });
+  }
+
+  getHotelOptions() {
+    this.hotelService.getListHotelCopppy().subscribe((data: any) => {
+      this.tourOptions = data;
+    });
+  }
+
+
   getAll(){
     this.tourService.getTours().subscribe((data: Tour[]) => {
       this.tour_select = data;
@@ -87,10 +132,9 @@ export class TourDetailAddComponent implements OnInit{
     console.log('allvehicle_select',this.vehicle_select);
     console.log('allhotel_select',this.hotel_select);
     console.log('allservice_select',this.service_select);
-
-
-
   }
+
+
 
   updateTotalPrice() {
     this.totalPrice = 0; // Khởi tạo lại totalPrice
@@ -142,17 +186,20 @@ export class TourDetailAddComponent implements OnInit{
 
 
 
-  generateNewTourDetailId(): void {
-    this.tourDetailService.getTours().subscribe((data: TourDetail[]) => {
-      this.tourdetails = data;
-      console.log('allTourDetails', data);
-      this.newtourDetailId = 'T' + (parseInt(this.tourdetails[this.tourdetails.length - 1].idtour.slice(1)) + 1);
-      console.log('newTourDetailId', this.newtourDetailId);
-    });
-  }
+  // generateNewTourDetailId(): void {
+  //   this.tourDetailService.getTours().subscribe((data: TourDetail[]) => {
+  //     this.tourdetails = data;
+  //     console.log('allTourDetails', data);
+  //     this.newtourDetailId = 'T' + (parseInt(this.tourdetails[this.tourdetails.length - 1].idtour.slice(1)) + 1);
+  //     console.log('newTourDetailId', this.newtourDetailId);
+  //   });
+  // }
+
+
+
   addTourDetail(){
     this.saveDate();
-    this.newTourDetail.idtour = this.newtourDetailId;
+    this.newTourDetail.idtour = this.selectedTour;
     this.newTourDetail.depart = this.selectedDate;
     this.newTourDetail.total_price = this.totalPrice;
     this.newTourDetail.place = this.selectedPlace;
@@ -163,12 +210,12 @@ export class TourDetailAddComponent implements OnInit{
     this.newTourDetail.service = this.selectedService;
     console.log('newTourDetail', this.newTourDetail);
 
-    // this.tourDetailService.addTourDetail(this.newTourDetail).subscribe(response => {
-    //   console.log('Tour detail added successfully', response);
-    //   // Reset form or perform any other necessary actions
-    // }, error => {
-    //   console.error('Error adding tour detail', error);
-    // });
+    this.tourDetailService.addTourDetailCreate(this.newTourDetail).subscribe(response => {
+      console.log('Tour detail added successfully', response);
+      // Reset form or perform any other necessary actions
+    }, error => {
+      console.error('Error adding tour detail', error);
+    });
 
   }
 

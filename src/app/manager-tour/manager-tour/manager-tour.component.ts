@@ -95,7 +95,7 @@ toggleAddTour(): void {
   }
 
   viewTourDetail(idtour: string): void {
-    this.router.navigate(['/admin/tour/detail/',idtour]);
+    this.router.navigate(['/admin/tour/add/detail/',idtour]);
     console.log("Đã click vào: " + idtour);
   }
 

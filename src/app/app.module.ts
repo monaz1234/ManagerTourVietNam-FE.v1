@@ -157,7 +157,8 @@ import { TourDetailAddComponent } from './tour-detail-add/tour-detail-add.compon
 
     RouterModule, // Thêm RouterModule
 
-    SocialLoginModule
+    SocialLoginModule,
+
 
 
   ],

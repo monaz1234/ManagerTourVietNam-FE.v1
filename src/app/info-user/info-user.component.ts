@@ -31,16 +31,16 @@ export class InfoUserComponent implements OnInit {
     private route: ActivatedRoute
   ){}
   // ngOnInit(): void {
-  //   // // Lấy id từ route (dưới dạng chuỗi)
-  //   // const userId = this.route.snapshot.paramMap.get('iduser');
+    // // Lấy id từ route (dưới dạng chuỗi)
+    // const userId = this.route.snapshot.paramMap.get('iduser');
 
-  //   // console.log(userId);
+    // console.log(userId);
 
-  //   // if (userId) {
-  //   //   this.loadDataUserById(userId);
-  //   //   const accountId = 'A' + userId.slice(1); // id người dùng từ route (ví dụ: "U001")
-  //   //   this.loadDataAccountById(accountId);
-  //   // }
+    // if (userId) {
+    //   this.loadDataUserById(userId);
+    //   const accountId = 'A' + userId.slice(1); // id người dùng từ route (ví dụ: "U001")
+    //   this.loadDataAccountById(accountId);
+    // }
   //   const userId = this.route.snapshot.paramMap.get('iduser'); // Lấy iduser từ route
 
   //   console.log('User ID: ', userId); // Kiểm tra giá trị iduser trong console
@@ -84,7 +84,7 @@ export class InfoUserComponent implements OnInit {
           console.error("Lỗi khi lấy thông tin tài khoản: ", error);
         }
       );
-      
+
       // Nếu cần, gọi thêm các hàm khác, ví dụ như loadDataUserById
       this.loadDataUserById(userId);
     }
@@ -93,6 +93,7 @@ export class InfoUserComponent implements OnInit {
 
 
   getImageHotelUrl(imageName: string): void {
+    console.log("Đẩy ảnh vào dữ liệu thành công")
     this.userImageUrl = `http://localhost:9000/api/account/images/${imageName}`;
   }
   // Xử lý khi người dùng chọn hình ảnh mới

@@ -12,8 +12,16 @@ export class ManagerVehicleService {
   private vehiclesSubject: BehaviorSubject<Vehicle[]> = new BehaviorSubject<Vehicle[]>([]);
   vehicles$: Observable<Vehicle[]> = this.vehiclesSubject.asObservable(); // Observable để các component có thể lắng nghe
 
+
+
   constructor(private http: HttpClient) {
     this.getList_Vehicle(); // Tải danh sách người dùng ngay khi khởi tạo service
+  }
+
+
+
+  getListVehicleCopppy(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`http://localhost:9000/api/vehicles`);
   }
 
   getList_Vehicle(): void {

@@ -81,20 +81,20 @@ const routes: Routes = [
 
 
 
-// { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },
+{ path: 'admin/tour/add/detail/:id', component: TourDetailAddComponent },
 
 { path: 'admin/invoice/detail/:id', component: InvoiceDetailComponent },
 
 
-{ path: 'admin/tour/detail/add/:id', component: TourDetailAddComponent},
+// { path: 'admin/tour/detail/add/:id', component: TourDetailAddComponent},
 
 {
   path: 'admin',
   component: AdminComponent,
   children: [
     {
-      path: 'gioithieu',
+      path: 'user',
       component: ManagerUserComponent,
       children: [
         { path: 'add', component: AddComponent },
@@ -155,7 +155,7 @@ const routes: Routes = [
         {path : 'add', component : AddTourComponent},
         {path : 'edit', component: EditTourComponent},
 
-        { path: 'detail/:id', component: TourDetailComponent }
+        // { path: 'add/detail/:id', component: TourDetailComponent }
 
 
         // { path: 'detail/:id', component: TourDetailComponent }
@@ -205,6 +205,7 @@ const routerOptions: ExtraOptions = {
 };
 @NgModule({
   imports: [RouterModule.forRoot(routes, routerOptions)],
+
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

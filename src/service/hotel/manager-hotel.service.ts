@@ -15,12 +15,19 @@ export class ManagerHotelService {
   constructor(private http : HttpClient) {
     this.getList_Hotel(); // Tải danh sách người dùng ngay khi khởi tạo service
   }
+
+
+  getListHotelCopppy(): Observable<Hotel[]> {
+    return this.http.get<Hotel[]>(`http://localhost:9000/api/hotels`);
+  }
+
+
   getHotels(): Observable<Hotel[]> {
     return this.http.get<Hotel[]>('http://localhost:9000/api/hotels'); //lấy danh sách hotel ở client
   }
   getList_Hotel(): void {
     this.http.get<Hotel[]>('http://localhost:9000/api/hotels').subscribe((data) => {
-      this.hotelsSubject.next(data); 
+      this.hotelsSubject.next(data);
     });
   }
 

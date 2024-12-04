@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { TourDetail } from '../../interface/tourdetail.interface';
 
 @Injectable({
@@ -14,6 +14,49 @@ export class TourDetailService {
   constructor(private http: HttpClient) {
     this.getTours();
   }
+
+  addTourDetailCreate(tourDetail: Omit<TourDetail, "idtourdetail">): Observable<TourDetail> {
+    console.log('Tour Detail Add:', tourDetail);  // In ra dữ liệu trước khi gửi
+
+    // Đảm bảo totalPrice là một số
+    const updatedTourDetail = {
+      ...tourDetail,
+      total_price: Number(tourDetail.total_price) || 0,  // Chuyển totalPrice về kiểu số
+    };
+
+    return this.http.post<TourDetail>('http://localhost:9000/api/tour_detail/create', updatedTourDetail).pipe(
+      tap(() => {
+        this.getTours(); // Cập nhật danh sách sách sau khi thêm
+      }),
+      catchError(error => {
+        console.error('Error adding tour detail:', error);
+        throw error; // Tiếp tục ném lỗi để xử lý ở nơi khác nếu cần
+      })
+    );
+  }
+
+  // addTourDetailCreate(tourDetail: Omit<TourDetail, "idtourdetail">): Observable<TourDetail> {
+  //   console.log('Tour Detail Add:', tourDetail);  // In ra dữ liệu trước khi gửi
+  //   return this.http.post<TourDetail>('http://localhost:9000/api/tour_detail/create', tourDetail).pipe(
+  //     tap(() => {
+  //       this.getTours(); // Cập nhật danh sách sách sau khi thêm
+  //     }),
+  //     catchError(error => {
+  //       console.error('Error adding book:', error);
+  //       throw error; // Tiếp tục ném lỗi để xử lý ở nơi khác nếu cần
+  //     })
+  //   );
+  // }
+
+  getList_TourDetailCopppy(): Observable<TourDetail[]> {
+    return this.http.get<TourDetail[]>(`http://localhost:9000/api/tour_detail`);
+  }
+
+
+  getFindTourDetail(idtour: string): Observable<TourDetail[]> {
+    return this.http.get<TourDetail[]>(`http://localhost:9000/api/Find/tour_detail/${idtour}`);
+  }
+
 
   getTours(): Observable<TourDetail[]> {
     return this.http.get<TourDetail[]>('http://localhost:9000/api/tour_detail').pipe(
@@ -56,7 +99,7 @@ export class TourDetailService {
   getTourDetailsByTour(idtour: string): Observable<TourDetail[]> {
     return this.http.get<TourDetail[]>(`http://localhost:9000/api/tourdetailbyidtour/${idtour}`);
   }
-  
+
 
 
 }
