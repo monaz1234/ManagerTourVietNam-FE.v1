@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
 
+
   sendTokenToBackend(token: string, email: string | null): void {
     this.http.post('http://localhost:9000/api/auth/google', { token, email })
       .subscribe({

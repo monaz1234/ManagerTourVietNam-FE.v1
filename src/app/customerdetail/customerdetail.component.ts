@@ -122,6 +122,20 @@ export class CustomerdetailComponent implements OnInit{
           } else {
             console.error('Không lấy được idaccount từ response.');
           }
+
+      // // Lấy Iduser từ server dựa trên username
+      // this.accountService.getIdUserByUsername(this.username!).subscribe(
+      //   (response) => {
+      //     console.log('Response iduser:', response); // Object như { iduser: "U007" }
+      //     this.Iduser = response.iduser;
+      //     this.loadTourDetails(this.tourId!);
+      //     this.loadComments();
+      //     this.username = localStorage.getItem('username'); // Lấy tên tài khoản từ LocalStorage
+      //     this.idacc = localStorage.getItem('idaccount');
+
+      //     console.log("idacc",this.idacc);  // In ra giá trị idaccount, nếu có, hoặc null nếu không tìm thấy
+
+
         },
         error: (err) => {
           console.error('Lỗi khi lấy Account:', err);
@@ -137,6 +151,8 @@ export class CustomerdetailComponent implements OnInit{
       this.loadTourDetails(this.tourId);
       this.loadComments();
     }
+
+    console.log(this.totalPrice);
 
 
   }
@@ -369,6 +385,16 @@ export class CustomerdetailComponent implements OnInit{
     const basePrice = this.tourDetails[0]?.total_price || 0; // Lấy giá gốc
     this.totalPrice = (basePrice * this.quantity) - this.discount; // Cập nhật giá tổng
   }
+
+
+// bookTour(): void {
+
+//   const bookData: Omit<Book, "idbook"> = {
+//     status: this.status, // Chuyển đổi number thành boolean
+//     account: this.idacc ? { idaccount: this.idacc } as Account : null,
+//     tour: this.tourId ? { idtour: this.tourId } as Tour : null,
+//   };
+
 
 
   bookTour(): void {
