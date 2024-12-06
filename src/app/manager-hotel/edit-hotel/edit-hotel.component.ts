@@ -26,19 +26,18 @@ export class EditHotelComponent {
 
 
   ngOnInit(): void {
-    if (!this.selectedHotel) {
-      console.error('Không tìm thấy phòng để chỉnh sửa');
-    }
-    this.getListHotel();
+    console.log("Thông tin khách sạn   " + this.selectedHotel.image);
+    console.log("Thông tin khách sạn   " + this.selectedHotel.id_hotel);
+    // this.getListHotel();
     console.log("File anh",this.file);
 
   }
 
-  getListHotel() {
-    this.hotelService.hotels$.subscribe((data: Hotel[]) => {
-      this.hotels = data; // Cập nhật danh sách người dùng
-    });
-  }
+  // getListHotel() {
+  //   this.hotelService.hotels$.subscribe((data: Hotel[]) => {
+  //     this.hotels = data; // Cập nhật danh sách người dùng
+  //   });
+  // }
 
   formFields = [
     {name: 'id_hotel', label: 'Id của khách sạn', type: 'text', require: true},
@@ -58,30 +57,40 @@ export class EditHotelComponent {
       price:0,
       status:true
     };
+    this.closeForm.emit();
   }
 
-  onSubmit() {
-    this.errorMessages = [];
-
-    // Kiểm tra các trường bắt buộc
-    for (const field of this.formFields) {
-      if (field.require && !this.selectedHotel[field.name]) {
-        this.errorMessages.push(`Trường ${field.label} không được để trống`);
+  refreshServiceData() {
+    this.hotelService.findHotel(this.selectedHotel.id_hotel).subscribe({
+      next: (HotelServiceUser) => {
+        console.log('Dữ liệu hotel mới: ', HotelServiceUser);
+        this.selectedHotel = HotelServiceUser; // Cập nhật dữ liệu cho selectedServiceUser
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy dữ liệu dịch vụ', error);
       }
-    }
+    });
+  }
 
-    if (this.errorMessages.length > 0) {
-      return;
-    }
 
-    this.hotelService.updateHotel(this.selectedHotel, this.file).subscribe({
-      next: () => {
-        console.log('Cập nhật khách sạn thành công');
-        if(this.previewImage != null) {
-            const formData = new FormData();
+
+
+  onSubmit() {
+    // Chuyển đổi giá tiền về dạng số nguyên trước khi gửi
+    const payload = {
+      ...this.selectedHotel,
+      // price: parseInt(this.selectedServiceUser.price.replace(/\./g, ''), 10)
+    };
+
+    this.hotelService.updateHotel(this.selectedHotel.id_hotel, payload).subscribe({
+      next: (response) => {
+        console.log('Chỉnh sửa thành công', response);
+        if (this.previewImage != null) {
+          const formData = new FormData();
           if (this.file) {
-              formData.append('file', this.file);
-              formData.append('vehicleName', this.selectedHotel.id_hotel); // file được chọn
+            formData.append('file', this.file);
+            formData.append('hotelName', this.selectedHotel.id_hotel); // file được chọn
+            console.log("Thông tin khách sạn   " + this.selectedHotel.image);
           }
           this.hotelService.addImageHotelToBackend(formData).subscribe({
             next: () => {
@@ -93,18 +102,15 @@ export class EditHotelComponent {
             }
           });
         }
-        this.refreshHotelData();
+        this.refreshServiceData();
         this.hotelUpdated.emit(this.selectedHotel);
         this.closeForm.emit();
-        this.getListHotel();
       },
-      error: (err) => {
-        this.errorMessages.push(err.message);
-      }});
-
-
+      error: (error) => {
+        console.error('Lỗi khi cập nhật dịch vụ', error);
+      }
+    });
   }
-
 
   refreshHotelData() {
     this.hotelService.findHotel(this.selectedHotel.id_hotel).subscribe(hotel => {
@@ -116,7 +122,7 @@ export class EditHotelComponent {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.file = fileInput.files[0];
-      this.selectedHotel.image = `img_${this.selectedHotel.id_vehicles}.png`; // Cập nhật thuộc tính 'image' của selectedVehicle
+      this.selectedHotel.image = `img_${this.selectedHotel.id_hotel}`; // Cập nhật thuộc tính 'image' của selectedVehicle
 
       // Tạo URL xem trước ảnh mới
       const reader = new FileReader();

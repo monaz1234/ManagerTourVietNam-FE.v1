@@ -16,10 +16,10 @@ export class AddHotelComponent {
     id_hotel:'',
     name_hotel: '',
     description: '',
-    room: '',
-    type_room: '',
+    // room: '',
+    // type_room: '',
     image: '',
-    status: true
+    status: true,
 };
 file: File | null = null;
 errorMessages: string[] = [];
@@ -31,7 +31,7 @@ formFields = [
   {name: 'description', label: 'Mô tả', type: 'text', require: true},
 
   {name: 'image', label: 'Hình ảnh', type: 'file', require: true, accept: '.png, .jpg'},
-  {name:'price', label: 'Giá', type: 'number', require: true},
+  {name:'price', label: 'Giá', type: 'text', require: true},
 ];
 
 constructor(
@@ -45,7 +45,6 @@ ngOnInit(): void {
   console.log('Generated Hotel Id:',this.newHotel.id_hotel);
 
 }
-
 onSubmit() {
   console.log(this.newHotel);
 
@@ -62,18 +61,18 @@ onSubmit() {
   }
 
   // Validate room
-  if (!this.newHotel.room) {
-    this.errorMessages.push('Vui lòng nhập thông tin về phòng');
-  } else if (this.newHotel.room.length > 4) {
-    this.errorMessages.push('Thông tin phòng chỉ được giới hạn 4 ký tự');
-  }
+  // if (!this.newHotel.room) {
+  //   this.errorMessages.push('Vui lòng nhập thông tin về phòng');
+  // } else if (this.newHotel.room.length > 4) {
+  //   this.errorMessages.push('Thông tin phòng chỉ được giới hạn 4 ký tự');
+  // }
 
   // Validate type_room
-  if (!this.newHotel.type_room) {
-    this.errorMessages.push('Vui lòng nhập loại phòng');
-  } else if (this.newHotel.type_room.length > 4) {
-    this.errorMessages.push('Loại phòng chỉ được giới hạn 4 ký tự');
-  }
+  // if (!this.newHotel.type_room) {
+  //   this.errorMessages.push('Vui lòng nhập loại phòng');
+  // } else if (this.newHotel.type_room.length > 4) {
+  //   this.errorMessages.push('Loại phòng chỉ được giới hạn 4 ký tự');
+  // }
 
   // Kiểm tra file đã được chọn
   if (!this.file) {

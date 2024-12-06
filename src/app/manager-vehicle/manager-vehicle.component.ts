@@ -10,7 +10,7 @@ import { ManagerUserService } from '../../service/manager-user.service';
   selector: 'app-manager-vehicle',
   templateUrl: './manager-vehicle.component.html',
   styleUrl: './manager-vehicle.component.scss',
-  
+
 })
 export class ManagerVehicleComponent implements OnInit {
 
@@ -137,8 +137,8 @@ export class ManagerVehicleComponent implements OnInit {
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
-  isActive(status: string): boolean {
-    return status === '1';
+  isActive(status: any): boolean {
+    return status === true;
   }
 
 
@@ -179,6 +179,7 @@ export class ManagerVehicleComponent implements OnInit {
         this.selectedVehicle = vehicle; // Gán thông tin người dùng vào selectedUser
         this.isAddVehicleVisible = false;
         this.isEditVehicleVisible = true;
+        this.getListVehicle();
       },
       error: (error) => {
         console.error('Lỗi khi lấy thông tin người dùng:', error);

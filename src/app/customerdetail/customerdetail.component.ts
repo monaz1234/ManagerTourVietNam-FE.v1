@@ -259,14 +259,23 @@ export class CustomerdetailComponent implements OnInit{
   }
 
 
-  calculateTotalPrice(quantity: number, originalPrice: number, totalPrice: number, discount: number): number {
-    if (quantity === 1) {
-      // Nếu số lượng là 1, giá tổng là giá gốc trừ khuyến mãi
-      return originalPrice - discount;
-    } else {
-      // Nếu số lượng lớn hơn 1, giá tổng là tổng giá đã tính trừ khuyến mãi
-      return totalPrice - discount;
-    }
+  // calculateTotalPrice(quantity: number, originalPrice: number, totalPrice: number, discount: number): number {
+  //   if (quantity === 1) {
+  //     // Nếu số lượng là 1, giá tổng là giá gốc trừ khuyến mãi
+  //     return originalPrice - discount;
+  //   } else {
+  //     // Nếu số lượng lớn hơn 1, giá tổng là tổng giá đã tính trừ khuyến mãi
+  //     return totalPrice - discount;
+  //   }
+  // }
+
+
+  calculateTotalPrice(quantity: number, basePrice: number, currentPrice: number, discount: number): number {
+    // return quantity * basePrice * (1 - discount);
+
+    basePrice = this.tourDetails[0]?.total_price || 0; // Lấy giá gốc
+
+    return this.totalPrice = (basePrice * this.quantity) - this.discount; // Cập nhật giá tổng
   }
 
   applyPromotionCode(): void {

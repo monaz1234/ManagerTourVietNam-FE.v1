@@ -1,5 +1,5 @@
 <div *ngIf="selectedHotel" class="container mt-4 bg-gray pb-4 pt-4 rounded">
-  <h2>Chỉnh Sửa Phương Tiện</h2>
+  <h2>Chỉnh Sửa Hotel</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="row d-flex flex-wrap">
       <div *ngFor="let field of formFields" class="col-md-4 mb-3">
@@ -35,9 +35,9 @@
                  [type]="field.type"
                  [(ngModel)]="selectedHotel[field.name]"
                  [name]="field.name"
-                 [readonly]="field.name === 'iduser'"
+                 [readonly]="field.name === 'id_hotel'"
                  [required]="field.require"
-                 [ngClass]="{'bg-gray': field.name === 'iduser'}" />
+                 [ngClass]="{'bg-gray': field.name === 'id_hotel'}" />
         </div>
       </div>
     </div>

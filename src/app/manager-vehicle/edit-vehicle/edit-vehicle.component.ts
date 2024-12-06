@@ -140,7 +140,7 @@ export class EditVehicleComponent  {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.file = fileInput.files[0];
-      this.selectedVehicle.image = `img_${this.selectedVehicle.id_vehicles}.png`; // Cập nhật thuộc tính 'image' của selectedVehicle
+      this.selectedVehicle.image = `img_${this.selectedVehicle.id_vehicles}`; // Cập nhật thuộc tính 'image' của selectedVehicle
 
       // Tạo URL xem trước ảnh mới
       const reader = new FileReader();

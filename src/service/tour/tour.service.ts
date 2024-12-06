@@ -31,9 +31,9 @@ export class TourService {
     );
   }
 
-  getTourById(idtour: string): Observable<Tour> {
-    return this.http.get<Tour>(`http://localhost:9000/api/tour/${idtour}`); // Không cần sử dụng tap ở đây
-  }
+  // getTourById(idtour: string): Observable<Tour> {
+  //   return this.http.get<Tour>(`http://localhost:9000/api/tour/${idtour}`); // Không cần sử dụng tap ở đây
+  // }
 
   getTourIds(): Observable<string[]>{
     return this.http.get<string[]>('http://localhost:9000/api/tour-ids');

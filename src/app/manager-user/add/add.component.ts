@@ -47,6 +47,10 @@ export class AddComponent {
     { name: 'name', label: 'Tên người dùng', type: 'text', required: false },
     { name: 'birth', label: 'Ngày sinh người dùng', type: 'date', required: false },
     { name: 'email', label: 'Email người dùng', type: 'text', required: false },
+    { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
+    { name: 'points', label: 'Điểm của người dùng', type: 'number', required: false },
+    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false },
+    { name: 'reward', label: 'Thưởng của người dùng', type: 'number', required: false },
     {
       name: 'typeUser',
       label: 'Loại người dùng',
@@ -54,10 +58,6 @@ export class AddComponent {
       required: false,
       options: []
     },
-    { name: 'phone', label: 'Phone người dùng', type: 'text', required: false },
-    { name: 'points', label: 'Điểm của người dùng', type: 'number', required: false },
-    { name: 'salary', label: 'Lương của người dùng', type: 'number', required: false },
-    { name: 'reward', label: 'Thưởng của người dùng', type: 'number', required: false }
   ];
 
 
