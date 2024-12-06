@@ -81,7 +81,7 @@ export class EditHotelComponent {
             const formData = new FormData();
           if (this.file) {
               formData.append('file', this.file);
-              formData.append('vehicleName', this.selectedHotel.id_hotel); // file được chọn
+              formData.append('hotelName', this.selectedHotel.id_hotel); // file được chọn
           }
           this.hotelService.addImageHotelToBackend(formData).subscribe({
             next: () => {

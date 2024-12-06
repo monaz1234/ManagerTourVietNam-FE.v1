@@ -93,7 +93,7 @@ export class InfoUserComponent implements OnInit {
 
 
   getImageHotelUrl(imageName: string): void {
-    console.log("Đẩy ảnh vào dữ liệu thành công")
+    console.log("id anh:",imageName);
     this.userImageUrl = `http://localhost:9000/api/account/images/${imageName}`;
   }
   // Xử lý khi người dùng chọn hình ảnh mới
@@ -217,7 +217,8 @@ export class InfoUserComponent implements OnInit {
     if (this.selectedImage) {
 
       // Đổi tên file thành img_{account.id}.png
-      const accountId = 'A' + this.user[0].iduser.slice(1);
+      // const accountId = 'A' + this.user[0].iduser.slice(1);
+      const accountId = 'A'+this.account[0].idaccount.slice(1);
       const formData = new FormData();
       if (this.file) {
           formData.append('file', this.file);
