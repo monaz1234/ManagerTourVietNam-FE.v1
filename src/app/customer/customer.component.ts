@@ -7,12 +7,14 @@ import { ManagerPromotionService } from '../../service/promotion/manager-promoti
 import { Promotion } from '../../interface/promotion.interface';
 import { TourDetail } from '../../interface/tourdetail.interface';
 import { TourDetailService } from '../../service/tour_detail/tourdetail.service';
+import { AccountService } from '../../service/account/account.service';
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
+  userId: string | null = null;
   currentPageTour: number = 1;
   currentPagePromotion: number = 1;
   itemsPerPageTour: number = 12;  // Số lượng items cho Tour
@@ -43,7 +45,9 @@ export class CustomerComponent implements OnInit {
     private tourService: TourService ,
     private tourDetailService: TourDetailService,
     private promotionService: ManagerPromotionService,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService,
+
   ) {
     this.promotions$ = this.promotionService.promotions$; // Gán promotions$ từ service
   }
@@ -52,16 +56,60 @@ export class CustomerComponent implements OnInit {
     return `http://localhost:9000/api/tour/images/${imageString}`;
   }
 
+  // ngOnInit(): void {
+  //   this.loadTours();
+  //   this.loadTourDetails();
+  //   this.loadPromotions();
+  //   // Lấy thông tin tài khoản từ LocalStorage
+  //   const usernameFromLocalStorage = localStorage.getItem('username');
+  //   const nameFromGoogle = localStorage.getItem('name');
+  //   // Ưu tiên hiển thị `name` nếu đăng nhập bằng Google, nếu không thì hiển thị `username`
+  //   this.username = nameFromGoogle || usernameFromLocalStorage;
+  //   const infomationUser = this.username;
+  // // Thay thế bằng username thực tế
+  //   this.accountService.getIdUserByUsername(infomationUser).subscribe({
+  //   next: (response) => {
+  //     if (response?.iduser) {
+  //       this.userId = response.iduser;
+  //     }
+  //   },
+  //   error: (err) => {
+  //     console.error('Lỗi lấy iduser:', err);
+  //   },
+  // });
+  // }
+
   ngOnInit(): void {
     this.loadTours();
     this.loadTourDetails();
     this.loadPromotions();
+
     // Lấy thông tin tài khoản từ LocalStorage
     const usernameFromLocalStorage = localStorage.getItem('username');
     const nameFromGoogle = localStorage.getItem('name');
+
     // Ưu tiên hiển thị `name` nếu đăng nhập bằng Google, nếu không thì hiển thị `username`
-    this.username = nameFromGoogle || usernameFromLocalStorage;
+    this.username = nameFromGoogle || usernameFromLocalStorage || ''; // Đảm bảo luôn là string
+
+    const infomationUser = this.username;
+
+    // Kiểm tra trước khi gọi service
+    if (infomationUser) {
+      this.accountService.getIdUserByUsername(infomationUser).subscribe({
+        next: (response) => {
+          if (response?.iduser) {
+            this.userId = response.iduser;
+          }
+        },
+        error: (err) => {
+          console.error('Lỗi lấy iduser:', err);
+        },
+      });
+    } else {
+      console.error('Không tìm thấy thông tin username!');
+    }
   }
+
   // Phương thức điều hướng đến trang chi tiết tour
   // Điều hướng đến trang chi tiết tour
   goToTourDetail(idtour: string): void {

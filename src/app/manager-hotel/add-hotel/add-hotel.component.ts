@@ -10,6 +10,11 @@ import {Hotel} from '../../../interface/hotel.interface';
   styleUrl: './add-hotel.component.scss'
 })
 export class AddHotelComponent {
+  isEditHotelVisible = true;
+  closeForm() {
+    this.isEditHotelVisible = false; // Đặt lại trạng thái để ẩn form
+    console.log('Form đã được đóng lại'); // Kiểm tra trong console
+  }
   @Input() generatedIdHotel: string='';
 
   newHotel: any = {
@@ -104,6 +109,7 @@ onSubmit() {
     next: (response) => {
       console.log('Thêm ảnh khách sạn thành công:', response.message);
       this.router.navigate(['/khachsan/add']);
+      this.closeForm();
     },
     error: (error) => {
       console.error('Lỗi khi thêm ảnh khách sạn', error);

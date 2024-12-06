@@ -41,7 +41,7 @@ export class EditVehicleComponent  {
   }
   getListDriver() {
     this.userService.users$.subscribe((data: User[]) => {
-      this.users = data; // Cập nhật danh sách người dùng
+      this.users = data.filter(user => user.typeUser?.idtypeuser === 'T004'); // Lọc chỉ lấy tài xế có ID là T004
       this.formFields[3].options = this.users.map(user => ({
         id: user.iduser, // Hoặc thuộc tính ID tương ứng với User
         name: user.name // Hoặc thuộc tính tên tương ứng với User
@@ -67,7 +67,7 @@ export class EditVehicleComponent  {
       accept: '.png, .jpg' // Chỉ cho phép tải lên hình ảnh PNG hoặc JPG
     },
     { name: 'description', label: 'Mô tả', type: 'text', require: true },
-    { name: 'price', label: 'Giá tiền', type: 'number', require: true },
+    { name: 'price', label: 'Giá tiền', type: 'text', require: true },
   ];
   resetForm() {
     this.selectedVehicle = {

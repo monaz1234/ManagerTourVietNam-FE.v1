@@ -54,6 +54,7 @@ export class ManagerHotelComponent implements OnInit{
     }else{
       this.selectedHotel = null;
     }
+    this.getListHotel();
   }
 
   formatSalary(salary: number): string {

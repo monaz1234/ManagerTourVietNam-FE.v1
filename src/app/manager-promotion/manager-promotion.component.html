@@ -48,7 +48,7 @@
             </app-editpromo>
         </div>
     </div>
-    
+
     <hr>
 
     <!-- Bảng dữ liệu khuyến mãi -->
@@ -57,7 +57,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th>STT</th>
-                    <th>Promotion code</th>
+                    <!-- <th>Promotion code</th> -->
                     <th>Code</th>
                     <th>Name</th>
                     <th>Description</th>
@@ -69,11 +69,11 @@
             <tbody>
                 <tr *ngFor="let promotion of promotions$ | async; let i = index">
                     <td class="font-weight-bold font-size-15px" scope="row">{{ i + 1 }}</td>
-                    <td>{{ promotion.promotion_code }}</td>
+                    <!-- <td>{{ promotion.promotion_code }}</td> -->
                     <td>{{ promotion.code }}</td>
                     <td>{{ promotion.name }}</td>
                     <td>{{ promotion.description }}</td>
-                    <td>{{ promotion.discount }}</td>
+                    <td>{{ promotion.discount }} %</td>
                     <td>
                         <span [ngClass]="{
                             'text-success': promotion.status,

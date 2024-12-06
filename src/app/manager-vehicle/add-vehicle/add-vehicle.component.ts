@@ -17,6 +17,12 @@ interface Option {
   styleUrls: ['./add-vehicle.component.scss'] // Đổi thành styleUrls
 })
 export class AddVehicleComponent {
+
+  isEditVehicleVisible = true;
+  closeForm() {
+    this.isEditVehicleVisible = false; // Đặt lại trạng thái để ẩn form
+    console.log('Form đã được đóng lại'); // Kiểm tra trong console
+  }
   @Input() generatedIdVehicle: string=''; // Nhận giá trị idvehicle từ component cha
 
   newVehicle: any = {
@@ -66,15 +72,26 @@ export class AddVehicleComponent {
     this.getListDriver();
   }
 
+  // getListDriver() {
+  //   this.userService.users$.subscribe((data: User[]) => {
+  //     this.users = data; // Cập nhật danh sách người dùng
+  //     this.formFields[3].options = this.users.map(user => ({
+  //       id: user.iduser, // Hoặc thuộc tính ID tương ứng với User
+  //       name: user.name // Hoặc thuộc tính tên tương ứng với User
+  //     })) as Option[]; // Đảm bảo kiểu trả về là Option[]
+  //   });
+  // }
+
   getListDriver() {
     this.userService.users$.subscribe((data: User[]) => {
-      this.users = data; // Cập nhật danh sách người dùng
+      this.users = data.filter(user => user.typeUser?.idtypeuser === 'T004'); // Lọc chỉ lấy tài xế có ID là T004
       this.formFields[3].options = this.users.map(user => ({
         id: user.iduser, // Hoặc thuộc tính ID tương ứng với User
         name: user.name // Hoặc thuộc tính tên tương ứng với User
       })) as Option[]; // Đảm bảo kiểu trả về là Option[]
     });
   }
+
   onSubmit() {
     this.errorMessages = [];
 
@@ -116,7 +133,8 @@ export class AddVehicleComponent {
     this.vehicleService.addVehicle(this.newVehicle).subscribe({
         next: (response) => {
             console.log('Thêm phương tiện thành công:', response.message);
-            this.router.navigate(['/phuongtien/add']); // Thêm ảnh phương tiện
+            this.router.navigate(['admin/phuongtien/add']); // Thêm ảnh phương tiện
+            this.closeForm();
         },
         error: (error) => {
             console.log(this.newVehicle);

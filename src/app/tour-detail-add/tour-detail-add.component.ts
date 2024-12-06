@@ -12,7 +12,7 @@ import { ManagerHotelService } from '../../service/hotel/manager-hotel.service';
 import { Service } from '../../interface/service.interface';
 import { ServiceService } from '../../service/ServiceService/service.service';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 interface Option {
   id: string; // hoặc số nếu ID là kiểu số
   name: string;
@@ -74,7 +74,9 @@ export class TourDetailAddComponent implements OnInit{
     private vehicleService: ManagerVehicleService,
     private hotelService: ManagerHotelService,
     private serviceService: ServiceService,
-    private tourDetailService : TourDetailService) { }
+    private tourDetailService : TourDetailService,
+    private router : Router,
+  ) { }
   ngOnInit(): void {
     this.getAll();
     // this.generateNewTourDetailId();
@@ -264,6 +266,7 @@ export class TourDetailAddComponent implements OnInit{
     this.tourDetailService.addTourDetailCreate(tourDetailData).subscribe({
       next: (response) => {
         console.log('Thêm chi tiết tour thành công:', response);
+        this.router.navigate(['/admin/tour']);
         // Thực hiện các hành động sau khi thành công, ví dụ reset form
       },
       error: (error) => {

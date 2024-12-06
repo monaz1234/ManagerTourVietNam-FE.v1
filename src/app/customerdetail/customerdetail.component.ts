@@ -65,6 +65,21 @@ export class CustomerdetailComponent implements OnInit{
     });
   }
 
+  getImageUrl(imageName: string): string {
+    const imageString =imageName+".png";
+    return `http://localhost:9000/api/vehicle/images/${imageString}`;
+  }
+
+  getImageTourUrl(imageName: string): string {
+    const imageString = imageName + ".png";
+    return `http://localhost:9000/api/tour/images/${imageString}`;
+  }
+
+  getImageHotelUrl(imageName: string): string {
+    const imageString = imageName + ".png";
+    return `http://localhost:9000/api/hotel/images/${imageString}`;
+  }
+
   ngOnInit(): void {
 
 

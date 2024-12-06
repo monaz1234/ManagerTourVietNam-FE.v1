@@ -268,7 +268,7 @@ export class AddComponent {
       this.userAdded.emit(this.newUser);
       this.closeForm(); // Call a method to close the form
       this.resetForm();
-      this.router.navigate(['admin/gioithieu/add']);
+      this.router.navigate(['admin/user/add']);
     },
     error: (error) => {
       console.error('Lỗi khi thêm người dùng:', error);

@@ -4,6 +4,7 @@ import { User } from '../../interface/user.interface';
 import { ManagerUserService } from '../../service/manager-user.service';
 import { Account } from '../../interface/account.interface';
 import { AccountService } from '../../service/account/account.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-info-user',
   templateUrl: './info-user.component.html',
@@ -28,8 +29,12 @@ export class InfoUserComponent implements OnInit {
     private managerUserService: ManagerUserService,
     private managerAccountService : AccountService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location // Thêm Location service
   ){}
+  goBack(): void {
+    this.location.back(); // Quay lại trang trước đó
+  }
   // ngOnInit(): void {
     // // Lấy id từ route (dưới dạng chuỗi)
     // const userId = this.route.snapshot.paramMap.get('iduser');

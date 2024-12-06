@@ -55,21 +55,25 @@ body {
 .nav-tabs .nav-link.active {
     background-color: #FFA500; /* Màu vàng cam */
     color: white;
+    cursor: pointer;
 }
 /* Màu nền cho tab được chọn khi di chuột */
 .nav-tabs .nav-link:hover {
     background-color: #FFB347; /* Màu vàng cam nhạt hơn */
     color: white;
+    cursor: pointer;
 }
 /* Màu nền cho các tab chưa được chọn */
 .nav-tabs .nav-link {
     color: #333;
     background-color: #f8f9fa; /* Màu xám nhạt cho tab chưa được chọn */
     border-color: #dee2e6 #dee2e6 #fff; /* Đường viền */
+    cursor: pointer;
 }
 /* Cách thêm khoảng cách cho tab để dễ nhìn hơn */
 .nav-tabs {
     margin-bottom: 20px;
+    cursor: pointer;
 }
 /* Container căn giữa tiêu đề */
 .category-title {
@@ -224,7 +228,7 @@ body {
     height: 400px;
     margin: 0 auto; /* Căn giữa phần tử */
     overflow: hidden;
-    
+
 }
 
 .slides {
@@ -256,17 +260,17 @@ body {
     background: rgba(0, 0, 0, 0.4); /* Nền mờ */
     text-align: center;
   }
-  
+
   .overlay h2 {
     font-size: 2em;
     margin-bottom: 10px;
   }
-  
+
   .overlay p {
     font-size: 1.2em;
     margin-bottom: 20px;
   }
-  
+
   .overlay button {
     padding: 10px 20px;
     background-color: #ff5722;
@@ -276,7 +280,7 @@ body {
     color: white;
     font-size: 1em;
   }
-  
+
   .overlay button:hover {
     background-color: #e64a19;
   }
@@ -355,7 +359,7 @@ width: 100%;
     a {
         color: black;
         text-decoration: none;
-        
+
         &:hover {
         text-decoration: underline;
         }
@@ -366,11 +370,11 @@ width: 100%;
     display: flex;
     align-items: center;
     gap: 15px;
-    
+
     a {
         color: #db4913;
         font-size: 1.5em;
-        
+
         &:hover {
         color: #4caf50; // màu thay đổi khi hover
         }
@@ -383,7 +387,7 @@ width: 100%;
         }
 }
 
-    
+
 .footer-bottom {
     text-align: center;
     color: grey;

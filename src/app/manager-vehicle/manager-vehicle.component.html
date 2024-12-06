@@ -66,7 +66,7 @@
           <th>Số chỗ</th>
           <th>Tài xế</th>
           <th>Ảnh</th>
-          <th>Giới thiệu</th>
+          <!-- <th>Giới thiệu</th> -->
           <th>Giá tiền</th>
           <th>Trạng thái</th>
           <th>Hành động</th>
@@ -85,8 +85,8 @@
                  style="width: 100px; height: auto;">
         </td>
 
-          <td>{{vehicle.description}}</td>
-          <td>{{vehicle.price}}</td>
+          <!-- <td>{{vehicle.description}}</td> -->
+          <td>{{formatSalary(vehicle.price)}}</td>
           <td>
             <span [ngClass]="{'text-success': isActive(vehicle.status), 'text-danger': !isActive(vehicle.status)}">
               {{ isActive(vehicle.status) ? 'Hoạt động' : 'Đã dừng' }}

@@ -36,7 +36,7 @@
     <div *ngIf="tourDetails.length > 0">
       <h1 class="TieudeTour" style="margin-left: 5px;">{{ tourDetails[0].tour.tourname }}</h1>
       <div class="tour-details-container">
-          <img [src]="'../../assets/images/' + tourDetails[0].tour.image" alt="{{ tourDetails[0].tour.tourname }}">
+          <img [src]="getImageTourUrl(tourDetails[0].tour.image)" alt="{{ tourDetails[0].tour.tourname }}">
           <div class="info-container">
               <p class="GiaGoc">
                   <strong>Giá gốc:</strong> {{ tourDetails[0].total_price | currency:'VND' }}
@@ -117,14 +117,14 @@
       <div class="dv-images">
           <p style="margin-left: 10px;font-size:larger;"><b>Phương tiện di chuyển:</b></p>
           <div *ngFor="let image of vehicleImages">
-              <img [src]="'../../assets/images/' + image" [alt]="'Ảnh phương tiện: ' + image">
+              <img [src]="getImageUrl(tourDetails[0].vehicles.image)" [alt]="'Ảnh phương tiện: ' + image">
           </div>
       </div>
       <!-- Hiển thị tất cả ảnh của hotel -->
       <div class="dv-images">
           <p style="margin-left: 10px;font-size:larger;"><b>Khách sạn lưu trú:</b></p>
           <div *ngFor="let image of hotelImages">
-              <img [src]="'../../assets/images/' + image" [alt]="'Ảnh khách sạn: ' + image">
+              <img [src]="getImageHotelUrl(tourDetails[0].hotel.image)" [alt]="'Ảnh khách sạn: ' + image">
           </div>
       </div>
   </div>
