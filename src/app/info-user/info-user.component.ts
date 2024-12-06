@@ -93,7 +93,7 @@ export class InfoUserComponent implements OnInit {
 
 
   getImageHotelUrl(imageName: string): void {
-    console.log("Đẩy ảnh vào dữ liệu thành công")
+    console.log("id anh:",imageName);
     this.userImageUrl = `http://localhost:9000/api/account/images/${imageName}`;
   }
   // Xử lý khi người dùng chọn hình ảnh mới

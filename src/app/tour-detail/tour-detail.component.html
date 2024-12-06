@@ -7,26 +7,28 @@
           <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
 
           <select *ngIf="field.type === 'select'"
-            [id]="field.name"
-            class="form-control"
-            [(ngModel)]="newTourDetail[field.name]"
-            [name]="field.name"
-            [required]="field.required"
-            (ngModelChange)="onSelectChange(newTourDetail[field.name])">
-            <option value="">Chọn {{ field.label }}</option>
-            <option *ngFor="let option of field.options ?? []" [value]="option.value">
-              {{ option.label }}
-            </option>
-          </select>
+                [id]="field.name"
+                class="form-control"
+                [name]="field.name"
+                [required]="field.required"
+                [disabled]="field.name === 'tour'"
+                [ngModel]="getNgModelValue(field)"
+                (ngModelChange)="setNgModelValue(field, $event)">
+          <option value="">Chọn {{ field.label }}</option>
+          <option *ngFor="let option of field.options ?? []" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+
 
           <input *ngIf="field.type !== 'select'"
             [id]="field.name"
             class="form-control"
             [type]="field.type"
-            [(ngModel)]="newTourDetail[field.name]"
+            [(ngModel)]=" newTourDetail[field.name]"
             [name]="field.name"
             [required]="field.required"
-            [readonly]="field.name === 'idbookdetail'"
+            [readonly]="field.name === 'idbookdetail'||field.name === 'totalPrice'"
             [ngClass]="{'bg-gray': field.name === 'idbookdetail'}">
         </div>
       </div>

@@ -67,16 +67,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let invoice_detail of filteredInvoiceDetail; let i = index">
 
-          <td>{{invoice_detail.id_invoice_detail}}</td>
+
+          <!-- <td>{{this.invoice_detail[0]?.id_invoice_detail}}</td>
           <td>{{invoice_detail.quantity}}</td>
           <td>{{invoice_detail.total_amount}}</td>
           <td>{{invoice_detail.unit_price}}</td>
           <td>{{invoice_detail.idbook}}</td>
           <td>{{invoice_detail.id_invoice}}</td>
-          <td>{{invoice_detail.idtour}}</td>
-
+          <td>{{invoice_detail.idtour}}</td> -->
+          <td>{{this.invoiceId}}</td>
+          <td>{{this.invoice_details[0]?.quantity}}</td>
+          <td>{{this.invoice_details[0]?.total_amount}}</td>
+          <td>{{this.invoice_details[0]?.unit_price}}</td>
+          <td>{{this.invoice_details[0]?.idbook?.idbook}}</td>
+          <td>{{this.invoiceId}}</td>
+          <td>{{this.invoice_details[0]?.idtour?.idtour}}</td>
 
 
           <!-- <td>{{account.birth | date: 'dd/MM/yyyy' }}</td> -->
@@ -84,7 +90,7 @@
             <button class="btnEdit btn btn-success mr-3" (click)="showFormEditBookDetail(book_detail.idbookdetail)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
             <button class="btn btn-danger" (click)="confirmDelete(book_detail)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td> -->
-        </tr>
+
       </tbody>
     </table>
   </div>

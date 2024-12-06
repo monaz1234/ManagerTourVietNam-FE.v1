@@ -18,7 +18,7 @@ export class InvoiceDetailComponent {
 
 
 
-
+  invoiceId: string | null = null;
   invoice_details:  InvoiceDetail[] = [];
   // books : Book[] = [];
   invoice : any;
@@ -69,6 +69,7 @@ export class InvoiceDetailComponent {
 
   ){}
   ngOnInit(): void {
+    this.invoiceId = this.route.snapshot.paramMap.get('id');
     this.route.params.subscribe(params => {
       this.idinvoice = params['id'];  // Lấy idBook từ params
       console.log('ID của sách:', this.idinvoice);
@@ -83,37 +84,13 @@ export class InvoiceDetailComponent {
   }
 
 
-  // fetchBookDetail(id: string): void {
-  //   this.bookService.getBookById(id).subscribe({
-  //     next: (data) => {
-  //       this.book = data;
-  //       this.isLoading = false;
-  //     },
-  //     error: (err) => {
-  //       console.error('Lỗi khi lấy chi tiết sách:', err);
-  //       this.error = 'Không thể tải thông tin sách.';
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
+
   goBack(): void {
     this.location.back(); // Quay lại trang trước đó
   }
 
 
-  // loadBookDetail(idbook: string): void {
-  //   this.bookService.getBookById(idbook).subscribe({
-  //     next: (data) => {
-  //       this.book = data;
-  //       this.isLoading = false;
-  //     },
-  //     error: (err) => {
-  //       console.error('Lỗi khi lấy chi tiết sách:', err);
-  //       this.error = 'Không thể tải thông tin sách.';
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
+
   loadBookDetail(id_invoice_detail: string): void {
     this.isLoading = true;
 
@@ -125,6 +102,10 @@ export class InvoiceDetailComponent {
         } else {
           this.invoice_details = data;
         }
+        console.log('Danh sách chi tiết hóa đơn:', this.invoice_details);
+        console.log(this.invoice_details[0]?.id_invoice?.id_method);
+
+
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu người dùng:', error);
