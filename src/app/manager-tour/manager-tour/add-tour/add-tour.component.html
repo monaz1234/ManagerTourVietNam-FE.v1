@@ -8,6 +8,16 @@
           <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
 
 
+          <input
+          *ngIf="field.type === 'file'"
+          [id]="field.name"
+          class="form-control"
+          type="file"
+          (change)="onFileChange($event)"
+          [accept]="field.accepted"
+          [required]="field.required"
+        />
+
           <select *ngIf="field.type === 'select'"
           [id]="field.name"
           class="form-control"
@@ -29,7 +39,7 @@
           </textarea>
 
           <!-- Nếu không phải select và không phải textarea thì tạo thẻ input -->
-          <input *ngIf="field.type !== 'select' && field.type !== 'textarea'" [id]="field.name" class="form-control"
+          <input *ngIf="field.type !== 'select' && field.type !== 'textarea' && field.type !== 'file'" [id]="field.name" class="form-control"
             [type]="field.type"
             [(ngModel)]="newTour[field.name]"
             [name]="field.name"

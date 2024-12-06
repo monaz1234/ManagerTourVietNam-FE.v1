@@ -53,7 +53,7 @@ export class TourService {
   }
 
   deleteTour(id: string): Observable<void> {
-    return this.http.delete<void>(`http://localhost:9000/api/tour/${id}`).pipe(
+    return this.http.delete<void>(`http://localhost:9000/api/tour/delete_tour/${id}`).pipe(
       tap(() => {
         this.getTours(); // Cập nhật danh sách người dùng sau khi xóa
       })
@@ -102,6 +102,21 @@ export class TourService {
   //   const url = `http://localhost:9000/api/tours/search?query=${query}`;
   //   return this.http.get<Tour[]>(url);
   // }
+
+  addImageTourToBackend(formData: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:9000/api/tour/image/upload', formData).pipe(
+  );
+  }
+
+  deleteImage(imageName: string): void {
+    this.http.delete(`http://localhost:9000/api/tour/images/${imageName}`)
+        .subscribe(response => {
+            console.log('Hình ảnh đã được xóa:', response);
+            // Thực hiện cập nhật giao diện nếu cần
+        }, error => {
+            console.error('Có lỗi xảy ra khi xóa hình ảnh:', error);
+        });
+  }
 
 
 

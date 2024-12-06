@@ -2,9 +2,14 @@
   <h2>Thêm Mới Khách Sạn</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="row d-flex flex-wrap">
-      <div *ngFor="let field of formFields; let i = index" class="col-md-4 mb-3">
+      <div
+        *ngFor="let field of formFields; let i = index"
+        class="col-md-4 mb-3"
+      >
         <div class="form-group">
-          <label class="font-weight-600" [for]="field.name">{{ field.label }} :</label>
+          <label class="font-weight-600" [for]="field.name"
+            >{{ field.label }} :</label
+          >
 
           <!-- Nếu là trường select thì tạo thẻ select -->
           <!-- <select *ngIf="field.type === 'select'" [id]="field.name" class="form-control"
@@ -16,20 +21,28 @@
           </select> -->
 
           <!-- Nếu là trường file, tạo thẻ input type="file" -->
-          <input *ngIf="field.type === 'file'" [id]="field.name" class="form-control"
-                 type="file"
-                 (change)="onFileChange($event)"
-                 [accept]="field.accept"
-                 [required]="field.require">
+          <input
+            *ngIf="field.type === 'file'"
+            [id]="field.name"
+            class="form-control"
+            type="file"
+            (change)="onFileChange($event)"
+            [accept]="field.accept"
+            [required]="field.require"
+          />
 
           <!-- Nếu không phải trường select hoặc file thì tạo thẻ input -->
-          <input *ngIf="field.type !== 'select' && field.type !== 'file'" [id]="field.name" class="form-control"
-                 [type]="field.type"
-                 [(ngModel)]="newHotel[field.name]"
-                 [name]="field.name"
-                 [required]="field.require"
-                 [readonly]="field.name === 'id_vehicles'"
-                 [ngClass]="{'bg-gray': field.name === 'id_vehicles'}">
+          <input
+            *ngIf="field.type !== 'select' && field.type !== 'file'"
+            [id]="field.name"
+            class="form-control"
+            [type]="field.type"
+            [(ngModel)]="newHotel[field.name]"
+            [name]="field.name"
+            [required]="field.require"
+            [readonly]="field.name === 'id_vehicles'"
+            [ngClass]="{ 'bg-gray': field.name === 'id_vehicles' }"
+          />
         </div>
       </div>
     </div>

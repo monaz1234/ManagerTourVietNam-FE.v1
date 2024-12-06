@@ -68,7 +68,7 @@
           <th>ID Tour</th>
           <th>Tên Tour</th>
           <th>Dịa điểm</th>
-          <!-- <th>Image</th> -->
+          <th>Image</th>
           <th>Trạng thái</th>
           <th>Chi tiết</th>
           <th>Hành động</th>
@@ -81,7 +81,11 @@
           <td>{{tour.tourname}}</td>
           <td>{{tour.location}}</td>
 
-          <!-- <td>{{tour.image}}</td> -->
+          <td>
+            <img [src]="getImageTourUrl(tour.image)"
+                 alt="Hình ảnh của Tour"
+                 style="width: 100px; height: auto;">
+          </td>
           <td>
             <span [ngClass]="{
               'text-success': tour.status === true,

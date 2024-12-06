@@ -28,7 +28,7 @@ export class CustomerComponent implements OnInit {
   pagedPromotions: Promotion[] = [];
 
   username: string | null = null; // Biến để lưu tên tài khoản
-  
+
   tourDetails: TourDetail[] = [];
 
   promotions$: Observable<Promotion[]>; // Thay đổi để sử dụng observable
@@ -36,16 +36,20 @@ export class CustomerComponent implements OnInit {
   searchTourDestination: string = '';  // Lưu giá trị tìm kiếm tên tour
   searchDepartureDate: string = '';  // Lưu giá trị ngày khởi hành
   searchPriceRange: string = '';     // Lưu giá trị khoảng giá
-  
+
   hotelSearchCriteriaName = { name: '' };
   hotelSearchCriteriaPrice = { priceRange: '' };
   constructor(
-    private tourService: TourService , 
+    private tourService: TourService ,
     private tourDetailService: TourDetailService,
     private promotionService: ManagerPromotionService,
     private router: Router
   ) {
     this.promotions$ = this.promotionService.promotions$; // Gán promotions$ từ service
+  }
+  getImageTourUrl(imageName: string): string {
+    const imageString = imageName + ".png";
+    return `http://localhost:9000/api/tour/images/${imageString}`;
   }
 
   ngOnInit(): void {
@@ -76,14 +80,14 @@ export class CustomerComponent implements OnInit {
     this.tourService.getTours().subscribe(tours => {
       this.tourDetailService.getTours().subscribe(tourDetails => {
         let filteredTours = tours;
-  
+
         // Lọc theo tên tour
         if (this.searchTourDestination) {
           filteredTours = filteredTours.filter(tour =>
             tour.tourname.toLowerCase().includes(this.searchTourDestination.toLowerCase())
           );
         }
-  
+
         // Lọc theo ngày khởi hành
         if (this.searchDepartureDate) {
           filteredTours = filteredTours.filter(tour => {
@@ -92,7 +96,7 @@ export class CustomerComponent implements OnInit {
             return tourDetail && new Date(tourDetail.depart).toLocaleDateString() === new Date(this.searchDepartureDate).toLocaleDateString();
           });
         }
-  
+
         // Lọc theo khoảng giá
         if (this.searchPriceRange) {
           filteredTours = filteredTours.filter(tour => {
@@ -110,7 +114,7 @@ export class CustomerComponent implements OnInit {
             }
           });
         }
-  
+
         // Cập nhật danh sách tour đã lọc
         this.totalTourItems = filteredTours.length;
         this.updateTourPagination();
@@ -152,12 +156,12 @@ export class CustomerComponent implements OnInit {
       this.pagedTours = tours.slice(startIndex, endIndex);
     });
   }
-  
+
   // Pagination for promotions
   updatePromotionPagination(): void {
     this.pagesPromotion = Array.from({ length: Math.ceil(this.totalPromotionItems / this.itemsPerPagePromotion) }, (_, i) => i + 1);
   }
-  
+
   getPagedPromotions(): void {
     this.promotionService.promotions$.subscribe(promotions => {
       const startIndex = (this.currentPagePromotion - 1) * this.itemsPerPagePromotion;
@@ -165,7 +169,7 @@ export class CustomerComponent implements OnInit {
       this.pagedPromotions = promotions.slice(startIndex, endIndex);
     });
   }
-  
+
   // Page navigation functions for tours
   goToPageTour(page: number): void {
     this.currentPageTour = page;
@@ -190,14 +194,14 @@ export class CustomerComponent implements OnInit {
       this.currentPagePromotion = page;
       this.getPagedPromotions();
     }
-  
+
     nextPagePromotion(): void {
       if (this.currentPagePromotion < this.pagesPromotion.length) {
         this.currentPagePromotion++;
         this.getPagedPromotions();
       }
     }
-  
+
     previousPagePromotion(): void {
       if (this.currentPagePromotion > 1) {
         this.currentPagePromotion--;

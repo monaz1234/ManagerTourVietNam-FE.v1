@@ -94,6 +94,11 @@ toggleAddTour(): void {
 
   }
 
+  getImageTourUrl(imageName: string): string {
+    const imageString = imageName + ".png";
+    return `http://localhost:9000/api/tour/images/${imageString}`;
+  }
+
   viewTourDetail(idtour: string): void {
     this.router.navigate(['/admin/tour/add/detail/',idtour]);
     console.log("Đã click vào: " + idtour);

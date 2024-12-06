@@ -17,7 +17,7 @@ export class AddTourComponent {
     this.isEditServiceVisible = false; // Đặt lại trạng thái để ẩn form
     console.log('Form đã được đóng lại'); // Kiểm tra trong console
   }
-
+  file: File | null = null;
   @Input() generatedIdTour: string = '';
   @Output() tourAdd = new EventEmitter<Tour>();
 
@@ -38,13 +38,15 @@ export class AddTourComponent {
     label: string;
     type: string;
     required: boolean;
+    accepted?: string; // Thêm thuộc tính này
     options?: { value: string; label: string }[];
   }[] = [
     { name: 'idtour', label: 'Id thông tin tour', type: 'text', required: true },
     { name: 'tourname', label: 'Tên tour', type: 'text', required: false },
     { name: 'location', label: 'Vị trí', type: 'text', required: false },
+    {name: 'image', label: 'Hình ảnh', type: 'file', required: false, accepted: '.png, .jpg'},
     { name: 'description', label: 'Mô tả', type: 'textarea', required: false },
-    // { name: 'idtour_type', label: 'Loại tour', type: 'text', required: true },
+
     {
       name: 'idtour_type',
       label: 'Loại tour',
@@ -119,30 +121,105 @@ resetForm() {
   this.errorMessages = []; // Reset thông báo lỗi
 }
 
+onFileChange(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.file = input.files[0];
+    this.newTour.image = `img_${this.newTour.idtour}`; // Gán file đã chọn vào newVehicle.image
+  }
+}
+
+
+
+// onSubmit() {
+//   console.log('Dữ liệu gửi lên', this.newTour);
+//   this.errorMessages = [];
+//   this.newTour.status = 1;
+
+//   const formData = new FormData();
+//   if (this.file) {
+//     formData.append('file', this.file);
+//     formData.append('tourName', this.newTour.idtour);
+//   }
+//   this.tourService.addImageTourToBackend(formData).subscribe({
+//     next: (response) => {
+//       console.log('Thêm ảnh tour thành công:', response.message);
+//       // this.router.navigate(['/tour/add']);
+//     },
+//     error: (error) => {
+//       console.error('Lỗi khi thêm ảnh tour', error);
+//       this.errorMessages.push('Đã xảy ra lỗi khi thêm ảnh tour. Vui lòng thử lại.');
+//     }
+//   });
+
+//   // Xử lý idtour_type
+//   this.newTour.idtour_type = this.typeTourOptions.find(
+//     option => option.idtour_type === this.newTour.idtour_type
+//   )?.idtour_type || '';
+
+//   this.tourService.addTour(this.newTour).subscribe({
+//     next: (response) => {
+//       console.log('Thêm tour thành công', response);
+//       this.tourAdd.emit(response);
+//       this.closeForm();
+//       this.resetForm();
+//       this.router.navigate(['admin/tour/add']);
+//     },
+//     error: (error) => {
+//       console.error('Lỗi khi thêm tour', error);
+//       this.errorMessages.push('Có lỗi xảy ra khi thêm tour.');
+//     },
+//   });
+// }
+
 onSubmit() {
   console.log('Dữ liệu gửi lên', this.newTour);
   this.errorMessages = [];
-  this.newTour.status = 1;
+  this.newTour.status = 1; // Gán trạng thái mặc định là 1
 
-  // Xử lý idtour_type
-  this.newTour.idtour_type = this.typeTourOptions.find(
-    option => option.idtour_type === this.newTour.idtour_type
-  )?.idtour_type || '';
+  // Kiểm tra file ảnh
+  if (!this.file) {
+    this.errorMessages.push('Vui lòng chọn ảnh trước khi thêm tour.');
+    return;
+  }
 
-  this.tourService.addTour(this.newTour).subscribe({
+  // Chuẩn bị dữ liệu ảnh
+  const formData = new FormData();
+  formData.append('file', this.file);
+  formData.append('tourName', this.newTour.idtour);
+
+  // Gửi ảnh lên server
+  this.tourService.addImageTourToBackend(formData).subscribe({
     next: (response) => {
-      console.log('Thêm tour thành công', response);
-      this.tourAdd.emit(response);
-      this.closeForm();
-      this.resetForm();
-      this.router.navigate(['admin/tour/add']);
+      console.log('Thêm ảnh tour thành công:', response.message);
+
+      // Xử lý idtour_type
+      this.newTour.idtour_type = this.typeTourOptions.find(
+        option => option.idtour_type === this.newTour.idtour_type
+      )?.idtour_type || '';
+
+      // Gửi dữ liệu tour lên server
+      this.tourService.addTour(this.newTour).subscribe({
+        next: (response) => {
+          console.log('Thêm tour thành công', response);
+          this.tourAdd.emit(response); // Phát sự kiện tour đã được thêm
+          this.closeForm(); // Đóng form
+          this.resetForm(); // Reset form về trạng thái ban đầu
+          this.router.navigate(['/admin/tour/add/detail', this.newTour.idtour]);
+        },
+        error: (error) => {
+          console.error('Lỗi khi thêm tour', error);
+          this.errorMessages.push('Có lỗi xảy ra khi thêm tour.');
+        },
+      });
     },
     error: (error) => {
-      console.error('Lỗi khi thêm tour', error);
-      this.errorMessages.push('Có lỗi xảy ra khi thêm tour.');
+      console.error('Lỗi khi thêm ảnh tour', error);
+      this.errorMessages.push('Đã xảy ra lỗi khi thêm ảnh tour. Vui lòng thử lại.');
     },
   });
 }
+
 
 
 

@@ -117,7 +117,8 @@
                 <div class="price-label">
                     <span class="price">{{ getTourDetailById(tour.idtour)?.total_price | currency:'VND' }}</span><br>
                 </div>
-                <img [src]="'../../assets/images/' + tour.image" alt="{{ tour.tourname }}" class="product-image">
+                <!-- <img [src]="'../../assets/images/' + tour.image" alt="{{ tour.tourname }}" class="product-image"> -->
+                <img [src]="getImageTourUrl(tour.image)" alt="{{ tour.tourname }}" class="product-image">
                 <div class="product-info">
                     <h3>{{ tour.tourname }}</h3>
                     <p>Xuất phát: {{ tour.location }}</p>
