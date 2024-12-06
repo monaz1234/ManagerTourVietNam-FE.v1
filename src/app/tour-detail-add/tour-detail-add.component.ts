@@ -33,6 +33,7 @@ export class TourDetailAddComponent implements OnInit{
   selectedPlace: number = 0;
   totalPrice: number = 0;
    newtourDetailId : string =' ';
+   errorMessages: string[] = [];
 
   vehicles: Vehicle[] = [];
   tour_select : Tour [] = [];
@@ -115,7 +116,6 @@ export class TourDetailAddComponent implements OnInit{
     this.hotelService.getListHotelCopppy().subscribe((data: any) => {
       this.hotelOptions = data;
 
-
     });
   }
 
@@ -148,7 +148,7 @@ export class TourDetailAddComponent implements OnInit{
 
   updateTotalPrice() {
     this.totalPrice = 0; // Khởi tạo lại totalPrice
-
+    this.onTourChange(String(this.selectedTour)); // Thêm giá trị của tour nếu có chọn
     // Thêm giá trị của phương tiện nếu có chọn
     if (this.selectedVehicle) {
       const selectedVehicleItem = this.vehicle_select.find(vehicle => vehicle.id_vehicles === String(this.selectedVehicle));
@@ -161,8 +161,7 @@ export class TourDetailAddComponent implements OnInit{
         this.vehiclePrice = selectedVehicleItem.price || 0;
         this.newTourDetail.id_vehicles=String(this.selectedVehicle);
       }
-
-
+      this.onVehicleChange(String(this.selectedVehicle));
     }
 
     // Thêm giá trị của khách sạn nếu có chọn
@@ -175,6 +174,7 @@ export class TourDetailAddComponent implements OnInit{
         this.hotelPrice = selectedHotelItem.price || 0;
         this.newTourDetail.id_hotel=String(this.selectedHotel);
       }
+      this.onHotelChange(String(this.selectedHotel));
     }
 
     // Thêm giá trị của dịch vụ nếu có chọn
@@ -187,6 +187,7 @@ export class TourDetailAddComponent implements OnInit{
         this.servicePrice = selectedServiceItem.price || 0;
         this.newTourDetail.id_service=String(this.selectedService);
       }
+      this.onServiceChange(String(this.selectedService));
     }
     this.totalPrice = this.vehiclePrice+this.hotelPrice+this.servicePrice;
     // In ra totalPrice để kiểm tra
@@ -214,10 +215,62 @@ export class TourDetailAddComponent implements OnInit{
 
 
 
+  onHotelChange(selectedHotelId: string) {
+    const selectedHotel = this.hotelOptions.find((hotel) => hotel.id_hotel === selectedHotelId);
+
+    if (selectedHotel) {
+      this.newTourDetail.hotel = {
+        ...selectedHotel, // Copy tất cả các thuộc tính của hotel
+      };
+      this.newTourDetail.id_hotel = selectedHotelId; // Cập nhật id_hotel
+    }
+  }
+  onServiceChange(selectedServiceId: string) {
+    const selectedService = this.serviceOptions.find((service) => service.id_service === selectedServiceId);
+
+    if (selectedService) {
+      this.newTourDetail.service = {
+        ...selectedService, // Copy tất cả các thuộc tính của service
+      };
+      this.newTourDetail.id_service = selectedServiceId; // Cập nhật id_service
+    }
+  }
+  onVehicleChange(selectedVehicleId: string) {
+    const selectedVehicle = this.vehicleOptions.find((vehicle) => vehicle.id_vehicles === selectedVehicleId);
+
+    if (selectedVehicle) {
+      this.newTourDetail.vehicles = {
+        ...selectedVehicle, // Copy tất cả các thuộc tính của vehicle
+      };
+      this.newTourDetail.id_vehicles = selectedVehicleId; // Cập nhật id_vehicles
+    }
+  }
+  onTourChange(selectedTourId: string) {
+    const selectedTour = this.tourOptions.find((tour) => tour.idtour === selectedTourId);
+
+    if (selectedTour) {
+      this.newTourDetail.tour = {
+        ...selectedTour, // Copy tất cả các thuộc tính của tour
+      };
+      this.newTourDetail.idtour = selectedTourId; // Cập nhật idtour
+    }
+  }
 
 
 
+  validateForm(): boolean {
+    this.errorMessages = [];
+
+    if (!this.newTourDetail.idtour) this.errorMessages.push('Vui lòng chọn tour.');
+    if (!this.newTourDetail.id_vehicles) this.errorMessages.push('Vui lòng chọn phương tiện.');
+    if (!this.newTourDetail.id_hotel) this.errorMessages.push('Vui lòng chọn khách sạn.');
+    if (!this.newTourDetail.id_service) this.errorMessages.push('Vui lòng chọn dịch vụ.');
+    if (!this.newTourDetail.depart) this.errorMessages.push('Vui lòng chọn ngày khởi hành.');
+
+    return this.errorMessages.length === 0;
+  }
   addTourDetail(){
+
     this.saveDate();
     this.newTourDetail.idtour = this.selectedTour;
     this.newTourDetail.depart = this.selectedDate;
@@ -269,11 +322,17 @@ export class TourDetailAddComponent implements OnInit{
 
     console.log('Dữ liệu gửi lên:', this.newTourDetail);
 
+
     // Chuyển đổi các thông tin cần thiết
     const tourDetailData = {
       ...this.newTourDetail,
+
       depart: this.newTourDetail.depart, // Chuyển đổi ngày thành chuỗi
       totalPrice: this.newTourDetail.total_price,  // Đảm bảo bạn sử dụng total_price hoặc totalPrice đúng cách
+
+      place: this.selectedPlace,
+      total_price: this.totalPrice,  // Đảm bảo bạn sử dụng total_price hoặc totalPrice đúng cách
+
     };
 
     this.tourDetailService.addTourDetailCreate(tourDetailData).subscribe({

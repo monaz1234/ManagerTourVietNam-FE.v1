@@ -17,14 +17,30 @@
             [placeholder]="'Nhập ' + field.label.toLowerCase() + '...'">
           </textarea>
 
-          <!-- Nếu không phải select và không phải textarea thì tạo thẻ input -->
+          <!-- Nếu không phải select và không phải textarea thì tạo thẻ input
           <input *ngIf="field.type !== 'select' && field.type !== 'textarea'" [id]="field.name" class="form-control"
             [type]="field.type"
             [(ngModel)]="newService[field.name]"
             [name]="field.name"
             [required]="field.required"
             [readonly]="field.name === 'id_service'"
-            [ngClass]="{'bg-gray': field.name === 'id_service'}">
+            [ngClass]="{'bg-gray': field.name === 'id_service'}"
+             (ngModelChange)="field.name === 'price' && onPriceInput($event)" /> -->
+
+
+
+             <input *ngIf="field.type !== 'select' && field.type !== 'textarea'"
+              [id]="field.name"
+              class="form-control"
+              [type]="field.type"
+              [ngModel]="field.name === 'price' ? formattedPrice : newService[field.name]"
+              (ngModelChange)="field.name === 'price' ? onPriceInput($event) : newService[field.name] = $event"
+              [name]="field.name"
+              [required]="field.required"
+              [readonly]="field.name === 'id_service'"
+              [ngClass]="{'bg-gray': field.name === 'id_service'}" />
+
+
 
         </div>
       </div>

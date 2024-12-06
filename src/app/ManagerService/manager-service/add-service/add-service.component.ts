@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AddServiceComponent {
 
+  formattedPrice: string = '';
 
   isEditServiceVisible = true;
   closeForm() {
@@ -44,7 +45,7 @@ export class AddServiceComponent {
     { name: 'time_start', label: 'Thời gian bắt đầu', type: 'date', required: false },
     { name: 'time_end', label: 'Thời gian kết thúc', type: 'date', required: false },
     { name: 'plant', label: 'Kế hoạch', type: 'textarea', required: false },
-    { name: 'price', label: 'Giá cả', type: 'number', required: false },
+    { name: 'price', label: 'Giá cả', type: 'text', required: false },
   ];
 
   constructor(
@@ -64,6 +65,21 @@ ngOnChanges(changes: SimpleChanges): void {
     this.newService.id_service = changes['generatedIdService'].currentValue;
   }
 }
+
+onPriceInput(value: string) {
+  // Loại bỏ dấu chấm hoặc ký tự không phải số
+  const rawValue = value.replace(/\./g, '').replace(/[^0-9]/g, '');
+  // Lưu giá trị thô vào `price`
+  this.newService.price = rawValue ? parseInt(rawValue, 10) : 0;
+  // Chỉ định dạng giá trị để hiển thị
+  this.formattedPrice = new Intl.NumberFormat('vi-VN').format(this.newService.price);
+}
+onPriceBlur(): void {
+  this.formattedPrice = new Intl.NumberFormat('vi-VN').format(this.newService.price);
+}
+
+
+
 
 
 resetForm() {

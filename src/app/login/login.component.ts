@@ -74,6 +74,23 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  startSessionTimeout(): void {
+    const sessionDuration = 15 * 60 * 1000; // 30 phút (hoặc bất kỳ thời gian nào bạn muốn)
+    setTimeout(() => {
+      alert('Phiên làm việc của bạn đã hết. Vui lòng đăng nhập lại.');
+      this.logout();
+    }, sessionDuration);
+  }
+
+  logout(): void {
+    // Xóa thông tin người dùng khỏi localStorage
+    localStorage.removeItem('idaccount');
+    localStorage.removeItem('username');
+
+    // Điều hướng về trang đăng nhập
+    this.router.navigate(['/login']);
+  }
+
   login(): void {
     // Kiểm tra nếu username hoặc password bị bỏ trống
     if (!this.username || !this.password) {

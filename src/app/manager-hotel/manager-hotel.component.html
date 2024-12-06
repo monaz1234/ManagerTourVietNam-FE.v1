@@ -24,8 +24,8 @@
       <div>
         <select class="form-control" (change)="onStatusChange($event)">
           <option value="">Lọc theo trạng thái</option>
-          <option value="1">Hoạt động</option>
-          <option value="2">Không hoạt động</option>
+          <option value = true >Hoạt động</option>
+          <option value = false >Không hoạt động</option>
         </select>
       </div>
 
@@ -39,11 +39,12 @@
     <app-add-hotel
       *ngIf="isAddHotelVisible"
       [generatedIdHotel]="newHotelId"></app-add-hotel>
-    <div id="editForm" *ngIf="isEditHotelVisible">
+    <div id="editFormHotel" *ngIf="isEditHotelVisible">
       <app-edit-hotel
+      *ngIf="isEditHotelVisible"
       [selectedHotel]="selectedHotel"
       (closeForm)="handleCloseEditForm()"
-      (userUpdated)="onHotelUpdated($event)">
+      (hotelUpdated)="onHotelUpdated($event)">
     ></app-edit-hotel>
     </div>
   </div>
@@ -60,7 +61,7 @@
           <th>STT</th>
           <th>ID Hotel</th>
           <th>Tên khách sạn</th>
-          <th>Giới thiệu</th>
+          <!-- <th>Giới thiệu</th> -->
           <th>Hình ảnh khác sạn</th>
           <th>Giá tiền</th>
           <th>Trạng thái</th>
@@ -72,13 +73,13 @@
           <td class="font-weight-bold font-size-15px" scope="row">{{i + 1}}</td>
           <td>{{hotel.id_hotel}}</td>
           <td>{{hotel.name_hotel}}</td>
-          <td>{{hotel.description}}</td>
+          <!-- <td>{{hotel.description}}</td> -->
           <td>
             <img [src]="getImageHotelUrl(hotel.image)"
                  alt="Hình ảnh của khách sạn"
                  style="width: 100px; height: auto;">
           </td>
-          <td>{{hotel.price}}</td>
+          <td>{{formatSalary(hotel.price)}}</td>
           <td>
             <span [ngClass]="{'text-success': isActive(hotel.status), 'text-danger': !isActive(hotel.status)}">
               {{ isActive(hotel.status) ? 'Hoạt động' : 'Đã dừng' }}

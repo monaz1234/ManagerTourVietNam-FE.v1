@@ -116,31 +116,72 @@ export class ManagerHotelComponent implements OnInit{
   }
 
   isActive(status: any): boolean {
-    return status === '1';
+    return status === true;
   }
+
+  // showFormEditHotelAuto(id: string): void {
+  //   if (this.selectedHotel && this.selectedHotel.id_hotel === id) {
+  //     this.isEditHotelVisible = false;
+  //     this.selectedHotel = null; // Đặt lại selectedUser
+  //     return;
+  //   } else {
+  //     this.editHotel(id);
+  //     this.isEditHotelVisible = true; // Đảm bảo form được hiện thị
+
+  //     setTimeout(() => {
+  //       const editFormElement = document.getElementById('editForm');
+  //       if (editFormElement) {
+  //         const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
+  //         window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+
+  //         const firstInputElement = editFormElement.querySelector('input');
+  //         if (firstInputElement) {
+  //           firstInputElement.focus();
+  //         }
+  //       }
+  //     }, 100);
+  //   }
+  // }
+
 
   showFormEditHotelAuto(id: string): void {
-    if (this.selectedHotel && this.selectedHotel.id_hotel === id) {
+    // Nếu form đang mở và ID người dùng giống nhau, chỉ cần đóng lại
+    if (this.isEditHotelVisible && this.selectedHotel && this.selectedHotel.id_hotel === id) {
       this.isEditHotelVisible = false;
-      this.selectedHotel = null; // Đặt lại selectedUser
-    } else {
-      this.editHotel(id);
-      this.isEditHotelVisible = true; // Đảm bảo form được hiện thị
-
-      setTimeout(() => {
-        const editFormElement = document.getElementById('editForm');
-        if (editFormElement) {
-          const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-
-          const firstInputElement = editFormElement.querySelector('input');
-          if (firstInputElement) {
-            firstInputElement.focus();
-          }
-        }
-      }, 100);
+      this.selectedHotel = null; // Reset selectedUser
+      return;
     }
+
+    // Đóng form cũ trước khi mở mới
+    this.isEditHotelVisible = false;
+
+    setTimeout(() => {
+      // Cập nhật thông tin người dùng mới
+      this.selectedHotel = this.hotels.find(hotel => hotel.id_hotel === id); // Lấy người dùng theo ID
+      this.isEditHotelVisible = true; // Mở lại form
+
+      // Cuộn đến form và focus vào ô nhập đầu tiên
+      this.scrollToAndFocusForm();
+    }, 0); // Timeout nhỏ để đảm bảo Angular cập nhật trạng thái
   }
+
+  // Hàm cuộn đến form và focus vào ô nhập đầu tiên
+  private scrollToAndFocusForm(): void {
+    setTimeout(() => {
+      const editFormElement = document.getElementById('editFormHotel');
+      if (editFormElement) {
+        const elementPosition = editFormElement.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+
+        const firstInputElement = editFormElement.querySelector('input');
+        if (firstInputElement) {
+          (firstInputElement as HTMLElement).focus();
+        }
+      }
+    }, 100); // Timeout nhỏ để đảm bảo DOM được render đầy đủ
+
+  }
+
 
   editHotel(id: string): void {
     this.managerService.findHotel(id).subscribe({
@@ -148,6 +189,7 @@ export class ManagerHotelComponent implements OnInit{
         this.selectedHotel = hotel;
         this.isAddHotelVisible = false;
         this.isEditHotelVisible = true;
+        this.getListHotel();
       },
       error: (error: any) => {
         console.log('Lỗi khi lấy dữ liệu người dùng', error);
@@ -247,12 +289,12 @@ export class ManagerHotelComponent implements OnInit{
     });
   }
 
-  openEditForm(user: any) {
-    this.selectedHotel = user;
+  openEditForm(hotel: any) {
+    this.selectedHotel = hotel;
     this.isEditHotelVisible = true;
   }
-  updateSelectedhotel(user: any) {
-    this.selectedHotel = user; // Cập nhật người dùng đang được chỉnh sửa
+  updateSelectedhotel(hotel: any) {
+    this.selectedHotel = hotel; // Cập nhật người dùng đang được chỉnh sửa
   }
 
   // Hàm để đóng form chỉnh sửa sau khi lưu

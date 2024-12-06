@@ -78,7 +78,9 @@ onSubmit() {
   // Validate code
   if (!this.newPromotion.code) {
       this.errorMessages.push('Vui lòng nhập code của khuyến mãi');
-  } else if (this.newPromotion.code.length <= 3 || this.newPromotion.code.length >= 6) {
+  }
+
+  if (this.newPromotion.code.length <= 3 || this.newPromotion.code.length >= 7) {
       this.errorMessages.push('Code của khuyến mãi phải có từ 4 đến 6 ký tự');
   }
 
@@ -94,7 +96,7 @@ onSubmit() {
 
   // Đảm bảo rằng newPromotion có đầy đủ thông tin cần thiết
   this.newPromotion = {
-    promotion_code: this.newPromotion.promotion_code, 
+    promotion_code: this.newPromotion.promotion_code,
     code: this.newPromotion.code,
     name: this.newPromotion.name,
     description: this.newPromotion.description,
@@ -114,7 +116,7 @@ onSubmit() {
     }
   );
 
-  
+
 }
 
 }
