@@ -272,6 +272,7 @@ export class TourDetailAddComponent implements OnInit{
     // Chuyển đổi các thông tin cần thiết
     const tourDetailData = {
       ...this.newTourDetail,
+      depart: this.newTourDetail.depart, // Chuyển đổi ngày thành chuỗi
       totalPrice: this.newTourDetail.total_price,  // Đảm bảo bạn sử dụng total_price hoặc totalPrice đúng cách
     };
 
