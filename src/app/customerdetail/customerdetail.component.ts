@@ -431,14 +431,14 @@ bookTour(): void {
   //         tour: bookResponse.tour
   //       };
 
-  //       const bookDetailData: bookdetail = {
-  //         idbookdetail: null as unknown as String,
-  //         idbook: book,
-  //         promotion_code: this.promotionCode,  // Ensure this is properly set
-  //         time_book: new Date().toISOString(),
-  //         quantity: this.quantity,
-  //         participant: this.username || '',
-  //       };
+        const bookDetailData: bookdetail = {
+          idbookdetail: null as unknown as String,
+          idbook: book,
+          promotion_code: this.promotionCode,  // Ensure this is properly set
+          time_book: new Date().toISOString(),
+          quantity: this.quantity,
+          participant: this.username || '',
+        };
 
   //       this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
   //         next: (bookDetailResponse) => {

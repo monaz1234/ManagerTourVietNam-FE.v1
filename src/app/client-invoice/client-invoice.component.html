@@ -19,14 +19,14 @@
                     <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
                     <li class="nav-item" *ngIf="username">
                         <a class="nav-link" href="javascript:void(0)" (click)="goToUserProfile()">Xin chào: {{ username }}</a>
-                    </li>                
+                    </li>
                     <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
-    
+
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
@@ -41,7 +41,8 @@
     <p><strong>Điểm xuất phát:</strong> {{ invoiceData.bookDetail?.idbook?.tour?.location }}</p>
     <p><strong>Mô tả:</strong> {{ invoiceData.bookDetail?.idbook?.tour?.description }}</p>
     <p><strong>Số lượng:</strong> {{ invoiceData.bookDetail?.quantity }}</p>
-    <p><strong>Tổng giá:</strong> {{ invoiceData.totalPrice | currency:'VND' }}</p>
+    <!-- <p><strong>Tổng giá:</strong> {{ invoiceData.totalPrice | currency:'VND' }}</p> -->
+    <p><strong>Tổng giá:</strong> {{ formatSalary(invoiceData.totalPrice) }}</p>
     <p><strong>Mã khuyến mãi áp dụng:</strong> {{ invoiceData.code }}</p>
     <p><strong>Khách hàng:</strong> {{ invoiceData.bookDetail?.idbook?.account?.user?.name }}</p>
     <p><strong>Số điện thoại:</strong> {{ invoiceData.bookDetail?.idbook?.account?.user?.phone }}</p>
@@ -51,33 +52,33 @@
         <p><strong>Phương thức thanh toán:</strong></p>
         <div>
             <label>
-                <input 
-                    type="radio" 
-                    name="paymentMethod" 
-                    value="cash" 
-                    [(ngModel)]="selectedPaymentMethod" 
-                /> 
+                <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="cash"
+                    [(ngModel)]="selectedPaymentMethod"
+                />
                 Thanh toán tiền mặt
             </label>
         </div>
         <div>
             <label>
-                <input 
-                    type="radio" 
-                    name="paymentMethod" 
-                    value="paypal" 
-                    [(ngModel)]="selectedPaymentMethod" 
-                /> 
+                <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="paypal"
+                    [(ngModel)]="selectedPaymentMethod"
+                />
                 Thanh toán trực tuyến qua Paypal
             </label>
         </div>
-        <button 
-            class="btn btn-primary" 
+        <button
+            class="btn btn-primary"
             (click)="ThanhToan()">Thanh toán
         </button>
     </div>
-    
-    
+
+
 </div>
 
   <hr  style="margin-left: 400px;width: 50%;"    />
@@ -97,7 +98,7 @@
       <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
   </div>
   </div>
-  
+
   <footer class="footer">
   <div class="footer-content">
       <div class="footer-section">

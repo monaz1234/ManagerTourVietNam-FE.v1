@@ -12,7 +12,7 @@ export class SendemailService {
   constructor(private http: HttpClient) {}
 
   sendEmailConfirm(recipientEmail: string): Observable<any> {
-    const url = `${this.baseUrl}/sendemails1`;
+    const url = `${this.baseUrl}/sendemails1?`;
     return this.http.get(url, {
       params: {
         recipientEmail: recipientEmail,
@@ -20,7 +20,7 @@ export class SendemailService {
     });
   }
   sendEmailSucces(recipientEmail: string): Observable<any> {
-    const url = `${this.baseUrl}/sendemails2`;
+    const url = `${this.baseUrl}/sendemails2?`;
     return this.http.get(url, {
       params: {
         recipientEmail: recipientEmail,

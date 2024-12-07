@@ -14,7 +14,7 @@ export class ClientInvoiceComponent {
   invoiceData: any;
   username: string | null = null; // Biến để lưu tên tài khoản
   selectedPaymentMethod: string = 'cash'; // Mặc định là "Thanh toán tiền mặt"
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -30,10 +30,12 @@ export class ClientInvoiceComponent {
     const nameFromGoogle = localStorage.getItem('name');
     // Ưu tiên hiển thị `name` nếu đăng nhập bằng Google, nếu không thì hiển thị `username`
     this.username = nameFromGoogle || usernameFromLocalStorage;
-    
+
       console.log('Invoice data:', this.invoiceData);
   }
-  
+  formatSalary(salary: number): string {
+    return salary.toLocaleString('vi-VN') + ' đ';
+  }
 
   ThanhToan(): void {
     if (!this.selectedPaymentMethod) {
