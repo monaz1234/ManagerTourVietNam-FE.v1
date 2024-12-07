@@ -61,6 +61,13 @@ export class ManagerHotelComponent implements OnInit{
     return salary.toLocaleString('vi-VN') + ' đ';
   }
 
+  onHotelAdded(hotel : Hotel) {
+    console.log('Người dùng mới:', hotel);
+    this.isAddHotelVisible = false; // Ẩn form sau khi thêm
+    this.getListHotel();
+
+  }
+
   constructor(
     private managerService: ManagerHotelService,
     private router: Router

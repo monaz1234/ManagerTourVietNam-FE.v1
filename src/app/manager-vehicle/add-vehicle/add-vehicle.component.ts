@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerVehicleService } from '../../../service/vehicle/vehicle.service';
 import { ManagerUserService } from '../../../service/manager-user.service';
 import { User } from '../../../interface/user.interface';
 import { response } from 'express';
+import { Vehicle } from '../../../interface/vehicle.interface';
 
 // Định nghĩa kiểu cho các tùy chọn
 interface Option {
@@ -23,6 +24,7 @@ export class AddVehicleComponent {
     this.isEditVehicleVisible = false; // Đặt lại trạng thái để ẩn form
     console.log('Form đã được đóng lại'); // Kiểm tra trong console
   }
+  @Output() vehicleAdd = new EventEmitter<Vehicle>();
   @Input() generatedIdVehicle: string=''; // Nhận giá trị idvehicle từ component cha
 
   newVehicle: any = {

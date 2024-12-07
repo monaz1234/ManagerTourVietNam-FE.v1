@@ -1,5 +1,5 @@
 
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagerHotelService } from '../../../service/hotel/manager-hotel.service';
 import {Hotel} from '../../../interface/hotel.interface';
@@ -16,6 +16,7 @@ export class AddHotelComponent {
     console.log('Form đã được đóng lại'); // Kiểm tra trong console
   }
   @Input() generatedIdHotel: string='';
+  @Output() hotelAdd = new EventEmitter<Hotel>();
 
   newHotel: any = {
     id_hotel:'',

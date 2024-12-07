@@ -41,7 +41,9 @@
 
     <app-add-vehicle
       *ngIf="isAddVehicleVisible"
-      [generatedIdVehicle]="newVehicleId"></app-add-vehicle>
+      [generatedIdVehicle]="newVehicleId"
+      (vehicleAdd) = "onVehicleAdded($event)"
+      ></app-add-vehicle>
     <div id="editForm" *ngIf="isEditVehicleVisible">
       <app-edit-vehicle
       [selectedVehicle]="selectedVehicle"

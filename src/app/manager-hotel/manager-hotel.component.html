@@ -38,7 +38,9 @@
   <div *ngIf="isAddHotelVisible || isEditHotelVisible">
     <app-add-hotel
       *ngIf="isAddHotelVisible"
-      [generatedIdHotel]="newHotelId"></app-add-hotel>
+      [generatedIdHotel]="newHotelId"
+      (hotelAdd)="onHotelAdded($event)">
+    </app-add-hotel>
     <div id="editFormHotel" *ngIf="isEditHotelVisible">
       <app-edit-hotel
       *ngIf="isEditHotelVisible"

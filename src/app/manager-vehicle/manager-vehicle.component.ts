@@ -67,6 +67,8 @@ export class ManagerVehicleComponent implements OnInit {
     else{
       this.selectedVehicle = null;
     }
+
+    this.getListVehicle();
   }
 
   constructor(
@@ -74,6 +76,13 @@ export class ManagerVehicleComponent implements OnInit {
     private managerServiceUser: ManagerUserService
   ){}
 
+
+  onVehicleAdded(vehicle : Vehicle) {
+    console.log('Người dùng mới:', vehicle);
+    this.isAddVehicleVisible = false; // Ẩn form sau khi thêm
+    this.getListVehicle();
+
+  }
 
   ngOnInit(): void {
     this.getListVehicle();
