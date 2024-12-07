@@ -27,10 +27,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(window.location.origin); // In ra origin hiện tại trong console
-
     // Initialize Google login
     google.accounts.id.initialize({
-      client_id: '194956155091-rvbqge5cnpv1u0mdqimkssankmvpmuu5.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      client_id: '705865382435-nop2rtlr74mg75adprhdk62m1l5ospjt.apps.googleusercontent.com', // Thay bằng Client ID đúng
       callback: this.handleCredentialResponse.bind(this),
     });
 
@@ -64,9 +63,10 @@ export class LoginComponent implements OnInit {
           const username = response.username || email; // Ưu tiên username, fallback là email
           localStorage.setItem('username', username);
           localStorage.setItem('idaccount', response.idaccount);
-
-          // Điều hướng
-          this.router.navigate(['/customer']);
+          //Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
+          const name = response.name; // Lấy `name` từ phản hồi của backend
+          localStorage.setItem('name', name); // Lưu `name` vào LocalStorage
+          this.router.navigate(['/customer']); // Chuyển hướng
         },
         error: (error) => {
           console.error('Token verification failed:', error);
@@ -102,20 +102,33 @@ export class LoginComponent implements OnInit {
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
       next: (response: any) => {
-        if (response && response.account) {
-          const account = response.account;
+
+        // if (response && response.account) {
+        //   const account = response.account;
+        //   console.log('Thông tin đăng nhập là:', this.username, this.password);
+
+        //   console.log('Thông tin đăng nhập:', account);
+
+        //   // Lưu idaccount và username vào localStorage
+        //   localStorage.setItem('idaccount', account.idaccount);
+        //   localStorage.setItem('username', account.username);
+
+        //   // Kiểm tra loại người dùng (idTypeUser hoặc account.typeUser.idtypeuser)
+        //   const idTypeUser = response.idTypeUser || account.typeUser?.idtypeuser;
+
+        //   switch (idTypeUser) {
+
+        if (response.account && response.account.idaccount) {
+          // Kiểm tra quyền của tài khoản
           console.log('Thông tin đăng nhập là:', this.username, this.password);
 
-          console.log('Thông tin đăng nhập:', account);
+          // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
+          localStorage.setItem('idaccount', response.account.idaccount);
+          console.log('idacc', response.account.idaccount);
 
-          // Lưu idaccount và username vào localStorage
-          localStorage.setItem('idaccount', account.idaccount);
-          localStorage.setItem('username', account.username);
+          // Chuyển hướng theo loại tài khoản
+          switch (response.account.typeUser?.idtypeuser) {
 
-          // Kiểm tra loại người dùng (idTypeUser hoặc account.typeUser.idtypeuser)
-          const idTypeUser = response.idTypeUser || account.typeUser?.idtypeuser;
-
-          switch (idTypeUser) {
             case 'T001': // Quản trị viên
               this.router.navigate(['/admin']);
               break;
@@ -124,8 +137,17 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/admin']);
               break;
 
-            case 'T003': // Khách hàng
+
+            // case 'T003': // Khách hàng
+            //   this.router.navigate(['/customer']);
+
+            case 'T003': // Người dùng khác
+              localStorage.setItem('username', this.username);
               this.router.navigate(['/customer']);
+              const username = response.account.username || response.account.name; // Sử dụng username hoặc name
+              localStorage.setItem('username', username); // Lưu vào localStorage
+              this.router.navigate(['/customer']); // Chuyển hướng
+
               break;
 
             default:

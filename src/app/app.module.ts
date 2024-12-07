@@ -68,9 +68,15 @@ import { TourDetailComponent } from './tour-detail/tour-detail.component';
 
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
+import { ClientinfoUserComponent } from './clientinfo-user/clientinfo-user.component';
+import { ClientInvoiceComponent } from './client-invoice/client-invoice.component';
+
 
 import { TourDetailAddComponent } from './tour-detail-add/tour-detail-add.component';
 
+
+
+// import { PaymentCancelComponent } from './payment-cancel/payment-cancel.component';
 
 @NgModule({
   declarations: [
@@ -141,8 +147,12 @@ import { TourDetailAddComponent } from './tour-detail-add/tour-detail-add.compon
       InvoiceDetailComponent,
       ClientBookComponent,
 
+
       TourDetailAddComponent,
 
+
+      ClientinfoUserComponent,
+      ClientInvoiceComponent,
 
 
 

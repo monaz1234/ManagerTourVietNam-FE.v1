@@ -134,16 +134,39 @@ body {
         }
     }
 
-    /* Khung cho code */
+    /* Khung cho mã khuyến mãi và nút Copy */
+    .code-copy {
+        display: flex;
+        align-items: center; /* Căn giữa theo chiều dọc */
+        gap: 10px; /* Khoảng cách giữa mã khuyến mãi và nút Copy */
+        margin-bottom: 10px; /* Khoảng cách phía dưới */
+    }
+
     .code {
-        margin-bottom: 5px;
+        margin: 0; /* Loại bỏ khoảng cách mặc định */
         font-weight: bold;
         color: #8B4513; /* Màu cam nâu */
-        border:1px solid;
-        border-bottom-color:#009900; /* Green */
-        border-top-color:#FF0000;    /* Red */
-        border-left-color:#330000;   /* Black */
-        border-right-color:#0000CC;  /* Blue */
+        flex-grow: 1; /* Mã khuyến mãi chiếm tối đa không gian */
+        border: 1px solid;
+        padding: 5px;
+        border-bottom-color: #009900; /* Green */
+        border-top-color: #FF0000;    /* Red */
+        border-left-color: #330000;   /* Black */
+        border-right-color: #0000CC;  /* Blue */
+    }
+
+    button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: #0056b3;
+        }
     }
 
     /* Khung cho status */

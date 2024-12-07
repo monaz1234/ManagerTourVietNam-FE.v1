@@ -17,6 +17,7 @@
                 <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
                 <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
                 <li class="nav-item" *ngIf="username">
+
                   <span
                   class="nav-link"
                   [routerLink]="['/infouser', userId]"
@@ -26,6 +27,11 @@
 
 
                 </li>
+                <li>
+
+                    <a class="nav-link" href="javascript:void(0)" (click)="goToUserProfile()">Xin chào: {{ username }}</a>
+                </li>
+
                 <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
 
             </ul>
@@ -166,7 +172,10 @@
                     <h3>{{ promotion.name }}</h3>
                     <p class="description">{{ promotion.description }}</p>
                 </div>
-                <p class="code">Mã KM: {{ promotion.code }}</p>
+                <div class="code-copy">
+                    <p class="code">Mã KM: {{ promotion.code }}</p>
+                    <button (click)="copyCode(promotion.code)">Copy</button>
+                </div>
                 <p class="status" [ngClass]="{'inactive': !promotion.status}">
                     Trạng thái: {{ promotion.status ? 'Hoạt động' : 'Hết hạn' }}
                 </p>

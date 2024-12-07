@@ -115,6 +115,9 @@ export class CustomerComponent implements OnInit {
   goToTourDetail(idtour: string): void {
     this.router.navigate(['/customer/tour', idtour]);
   }
+  goToUserProfile() {
+    this.router.navigate(['/customer/profile']); // Điều hướng đến trang thông tin cá nhân
+  }
   onHotelSearch(): void {
     // Điều hướng kèm theo dữ liệu tìm kiếm
     this.router.navigate(['/customer/hotel'], {
@@ -208,6 +211,14 @@ export class CustomerComponent implements OnInit {
   // Pagination for promotions
   updatePromotionPagination(): void {
     this.pagesPromotion = Array.from({ length: Math.ceil(this.totalPromotionItems / this.itemsPerPagePromotion) }, (_, i) => i + 1);
+  }
+
+  copyCode(code: string): void {
+    navigator.clipboard.writeText(code).then(() => {
+      alert('Mã khuyến mãi đã được sao chép!');
+    }).catch(err => {
+      console.error('Không thể sao chép mã khuyến mãi: ', err);
+    });
   }
 
   getPagedPromotions(): void {

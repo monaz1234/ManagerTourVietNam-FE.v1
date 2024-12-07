@@ -44,7 +44,7 @@ export class CustomerdetailComponent implements OnInit{
   status = 1;
   idaccount = localStorage.getItem('idaccount');
   isAvailable: boolean = true; // Biến kiểm tra trạng thái có thể đặt
-
+  bookDataDetail: string = ''; //
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -387,64 +387,77 @@ export class CustomerdetailComponent implements OnInit{
   }
 
 
-// bookTour(): void {
 
-//   const bookData: Omit<Book, "idbook"> = {
-//     status: this.status, // Chuyển đổi number thành boolean
-//     account: this.idacc ? { idaccount: this.idacc } as Account : null,
-//     tour: this.tourId ? { idtour: this.tourId } as Tour : null,
-//   };
+bookTour(): void {
+
+  const bookData: Omit<Book, "idbook"> = {
+    status: this.status, // Chuyển đổi number thành boolean
+    account: this.idacc ? { idaccount: this.idacc } as Account : null,
+    tour: this.tourId ? { idtour: this.tourId } as Tour : null,
+  };
+
+  this.bookService.addBook(bookData).subscribe({
+    next: (bookResponse) => {
+      console.log('Book created successfully:', bookResponse);
+      const book: Book = {
+        idbook: bookResponse.idbook,
+        status: bookResponse.status,
+        account: bookResponse.account,
+        tour: bookResponse.tour
+      };
 
 
 
-  bookTour(): void {
-    this.applyPromotionCode();
-    const bookData: Omit<Book, "idbook"> = {
-      status: this.status, // Chuyển đổi number thành boolean
-      account: this.idacc ? { idaccount: this.idacc } as Account : null,
-      tour: this.tourId ? { idtour: this.tourId } as Tour : null,
-    };
 
-    console.log('Book data:', bookData);
 
-    this.bookService.addBook(bookData).subscribe({
-      next: (bookResponse) => {
-        console.log('Book created successfully:', bookResponse);
+  // bookTour(): void {
+  //   this.applyPromotionCode();
+  //   const bookData: Omit<Book, "idbook"> = {
+  //     status: this.status, // Chuyển đổi number thành boolean
+  //     account: this.idacc ? { idaccount: this.idacc } as Account : null,
+  //     tour: this.tourId ? { idtour: this.tourId } as Tour : null,
+  //   };
 
-        const book: Book = {
-          idbook: bookResponse.idbook,
-          status: bookResponse.status,
-          account: bookResponse.account,
-          tour: bookResponse.tour
-        };
+  //   console.log('Book data:', bookData);
 
-        const bookDetailData: bookdetail = {
-          idbookdetail: null as unknown as String,
-          idbook: book,
-          promotion_code: this.promotionCode,  // Ensure this is properly set
-          time_book: new Date().toISOString(),
-          quantity: this.quantity,
-          participant: this.username || '',
-        };
+  //   this.bookService.addBook(bookData).subscribe({
+  //     next: (bookResponse) => {
+  //       console.log('Book created successfully:', bookResponse);
 
-        this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
-          next: (bookDetailResponse) => {
-            alert('Đặt tour thành công!');
-            console.log('Book detail created successfully:', bookDetailResponse);
-            this.router.navigate(['/customer']);
-          },
-          error: (err) => {
-            console.error('Đặt tour thất bại:', err);
-            alert('Đặt chi tiết tour thất bại, vui lòng thử lại.');
-          },
-        });
-      },
-      error: (err) => {
-        console.error('Error adding book:', err);
-        alert('Đặt tour thất bại, vui lòng thử lại.');
-      },
-    });
-  }
+  //       const book: Book = {
+  //         idbook: bookResponse.idbook,
+  //         status: bookResponse.status,
+  //         account: bookResponse.account,
+  //         tour: bookResponse.tour
+  //       };
+
+  //       const bookDetailData: bookdetail = {
+  //         idbookdetail: null as unknown as String,
+  //         idbook: book,
+  //         promotion_code: this.promotionCode,  // Ensure this is properly set
+  //         time_book: new Date().toISOString(),
+  //         quantity: this.quantity,
+  //         participant: this.username || '',
+  //       };
+
+  //       this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
+  //         next: (bookDetailResponse) => {
+  //           alert('Đặt tour thành công!');
+  //           console.log('Book detail created successfully:', bookDetailResponse);
+  //           this.router.navigate(['/customer']);
+  //         },
+  //         error: (err) => {
+  //           console.error('Đặt tour thất bại:', err);
+  //           alert('Đặt chi tiết tour thất bại, vui lòng thử lại.');
+  //         },
+  //       });
+  //     },
+  //     error: (err) => {
+  //       console.error('Error adding book:', err);
+  //       alert('Đặt tour thất bại, vui lòng thử lại.');
+  //     },
+  //   });
+  // }
 
 
 
@@ -496,6 +509,36 @@ export class CustomerdetailComponent implements OnInit{
 //     },
 //   });
 // }
+
+
+      this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
+        next: (bookDetailResponse) => {
+          // alert('Đặt tour thành công!');
+          console.log('Book detail created successfully:', bookDetailResponse);
+          this.router.navigate(['/customerinvoice'], {
+            state: {
+              bookDetail: bookDetailResponse,
+              totalPrice: this.totalPrice,
+              discount: this.discount,
+              code: this.code,
+            },
+          });
+
+        },
+        error: (err) => {
+          console.error('Đặt tour thất bại:', err);
+          alert('Đặt chi tiết tour thất bại, vui lòng thử lại.');
+        },
+      });
+
+    },
+    error: (err) => {
+      console.error('Error adding book:', err);
+      alert('Đặt tour thất bại, vui lòng thử lại.');
+    },
+
+  });
+}
 
   getTourDetailById(tourId: String) {
     return this.tourDetails.find(detail => detail.idtour === tourId);
