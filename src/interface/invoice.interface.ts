@@ -1,11 +1,12 @@
 import { Account } from "./account.interface";
 import { Payment_Medthod } from "./payment_method.interface";
-
+import { Book } from "./book.interface";
 export interface Invoice {
   id_invoice: string;
   idaccount: Account | null;
-  payment_time : Date;
+  payment_time : string;
   total_amount : number;
-  status : boolean;
-  id_method : Payment_Medthod | null;
+  status : number;
+  idbook : Book | null;
+  payment_name: string;
 }

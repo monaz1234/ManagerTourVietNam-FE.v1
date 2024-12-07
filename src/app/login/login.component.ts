@@ -27,10 +27,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(window.location.origin); // In ra origin hiện tại trong console
-
     // Initialize Google login
     google.accounts.id.initialize({
-      client_id: '194956155091-rvbqge5cnpv1u0mdqimkssankmvpmuu5.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      client_id: '705865382435-nop2rtlr74mg75adprhdk62m1l5ospjt.apps.googleusercontent.com', // Thay bằng Client ID đúng
       callback: this.handleCredentialResponse.bind(this),
     });
 
@@ -80,9 +79,10 @@ export class LoginComponent implements OnInit {
           const username = response.username || email; // Ưu tiên username, fallback là email
           localStorage.setItem('username', username);
           localStorage.setItem('idaccount', response.idaccount);
-
-          // Điều hướng
-          this.router.navigate(['/customer']);
+          //Xử lý phản hồi từ backend (ví dụ, lưu thông tin người dùng và chuyển hướng)
+          const name = response.name; // Lấy `name` từ phản hồi của backend
+          localStorage.setItem('name', name); // Lưu `name` vào LocalStorage
+          this.router.navigate(['/customer']); // Chuyển hướng
         },
         error: (error) => {
           console.error('Token verification failed:', error);
@@ -100,16 +100,17 @@ export class LoginComponent implements OnInit {
 
     // Gọi service đăng nhập với username và password
     this.accountService.login(this.username, this.password).subscribe({
-      next: (account: any) => {
-        if (account) {
+      next: (response: any) => {
+        if (response.account && response.account.idaccount) {
           // Kiểm tra quyền của tài khoản
           console.log('Thông tin đăng nhập là:', this.username, this.password);
 
           // Lưu idaccount vào localStorage để sử dụng cho các yêu cầu khác
-          localStorage.setItem('idaccount', account.idaccount);
+          localStorage.setItem('idaccount', response.account.idaccount);
+          console.log('idacc', response.account.idaccount);
 
           // Chuyển hướng theo loại tài khoản
-          switch (account.typeUser?.idtypeuser) {
+          switch (response.account.typeUser?.idtypeuser) {
             case 'T001': // Quản trị viên
               localStorage.setItem('username', this.username);
               this.router.navigate(['/admin']);
@@ -119,7 +120,9 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/admin']);
               break;
             case 'T003': // Người dùng khác
-              const username = account.username || account.name; // Sử dụng username hoặc name
+              localStorage.setItem('username', this.username);
+              this.router.navigate(['/customer']);
+              const username = response.account.username || response.account.name; // Sử dụng username hoặc name
               localStorage.setItem('username', username); // Lưu vào localStorage
               this.router.navigate(['/customer']); // Chuyển hướng
               break;

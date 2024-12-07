@@ -67,7 +67,10 @@ import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-to
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
+import { ClientinfoUserComponent } from './clientinfo-user/clientinfo-user.component';
+import { ClientInvoiceComponent } from './client-invoice/client-invoice.component';
 
+// import { PaymentCancelComponent } from './payment-cancel/payment-cancel.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -135,7 +138,8 @@ import { ClientBookComponent } from './Clients/ClientBook/client-book/client-boo
       TourDetailComponent,
       InvoiceDetailComponent,
       ClientBookComponent,
-
+      ClientinfoUserComponent,
+      ClientInvoiceComponent,
 
 
 

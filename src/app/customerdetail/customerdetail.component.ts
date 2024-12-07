@@ -42,7 +42,7 @@ export class CustomerdetailComponent implements OnInit{
   status = 1;
   idaccount = localStorage.getItem('idaccount');
   isAvailable: boolean = true; // Biến kiểm tra trạng thái có thể đặt
-
+  bookDataDetail: string = ''; //
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -234,7 +234,6 @@ bookTour(): void {
   this.bookService.addBook(bookData).subscribe({
     next: (bookResponse) => {
       console.log('Book created successfully:', bookResponse);
-
       const book: Book = {
         idbook: bookResponse.idbook,
         status: bookResponse.status,
@@ -253,20 +252,30 @@ bookTour(): void {
 
       this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
         next: (bookDetailResponse) => {
-          alert('Đặt tour thành công!');
+          // alert('Đặt tour thành công!');
           console.log('Book detail created successfully:', bookDetailResponse);
-          this.router.navigate(['/customer']);
+          this.router.navigate(['/customerinvoice'], {
+            state: {
+              bookDetail: bookDetailResponse,
+              totalPrice: this.totalPrice,
+              discount: this.discount,
+              code: this.code,
+            },
+          });
+
         },
         error: (err) => {
           console.error('Đặt tour thất bại:', err);
           alert('Đặt chi tiết tour thất bại, vui lòng thử lại.');
         },
       });
+      
     },
     error: (err) => {
       console.error('Error adding book:', err);
       alert('Đặt tour thất bại, vui lòng thử lại.');
     },
+
   });
 }
   getTourDetailById(tourId: String) {

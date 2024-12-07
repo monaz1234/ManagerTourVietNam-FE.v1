@@ -59,7 +59,8 @@ import { EditTourComponent } from './manager-tour/manager-tour/edit-tour/edit-to
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 import { ClientBookComponent } from './Clients/ClientBook/client-book/client-book.component';
-
+import { ClientinfoUserComponent } from './clientinfo-user/clientinfo-user.component';
+import { ClientInvoiceComponent } from './client-invoice/client-invoice.component';
 
 const routes: Routes = [
 
@@ -74,8 +75,8 @@ const routes: Routes = [
 { path: 'about-us', component: AboutUsComponent },
 { path: 'bookClien', component: ClientBookComponent },
 { path: 'news', component: NewsComponent },
-
-
+{ path: 'customer/profile', component: ClientinfoUserComponent },
+{ path: 'customerinvoice', component: ClientInvoiceComponent },
 
 // { path: 'admin/book/detail/:id', component: BookdetailComponent },
 { path: 'admin/tour/detail/:id', component: TourDetailComponent },

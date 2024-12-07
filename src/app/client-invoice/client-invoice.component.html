@@ -1,0 +1,139 @@
+<section class="ftco-section">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tour du lịch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="customer">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about-us">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer">Tours</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer/hotel">Khách sạn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="news">Tin tức</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer/lienhe">Liên hệ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="customer/clientbook">Book</a></li>
+                    <li class="nav-item" *ngIf="!username"><a class="nav-link" href="login">Đăng nhập</a></li>
+                    <li class="nav-item" *ngIf="username">
+                        <a class="nav-link" href="javascript:void(0)" (click)="goToUserProfile()">Xin chào: {{ username }}</a>
+                    </li>                
+                    <li class="nav-item" *ngIf="username"><a class="nav-link" href="#" (click)="logout()">Đăng xuất</a></li>
+    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Khám phá địa điểm yêu thích của bạn với chúng tôi</h1>
+        </div>
+    </div>
+    <hr  style="margin-left: 400px;width: 50%;"    />
+
+<div class="invoice-container">
+    <h1>Thông tin Đơn hàng</h1>
+    <p><strong>Tên tour:</strong> {{ invoiceData.bookDetail?.idbook?.tour?.tourname }}</p>
+    <p><strong>Điểm xuất phát:</strong> {{ invoiceData.bookDetail?.idbook?.tour?.location }}</p>
+    <p><strong>Mô tả:</strong> {{ invoiceData.bookDetail?.idbook?.tour?.description }}</p>
+    <p><strong>Số lượng:</strong> {{ invoiceData.bookDetail?.quantity }}</p>
+    <p><strong>Tổng giá:</strong> {{ invoiceData.totalPrice | currency:'VND' }}</p>
+    <p><strong>Mã khuyến mãi áp dụng:</strong> {{ invoiceData.code }}</p>
+    <p><strong>Khách hàng:</strong> {{ invoiceData.bookDetail?.idbook?.account?.user?.name }}</p>
+    <p><strong>Số điện thoại:</strong> {{ invoiceData.bookDetail?.idbook?.account?.user?.phone }}</p>
+    <p><strong>Email:</strong> {{ invoiceData.bookDetail?.idbook?.account?.user?.email }}</p>
+    <p><strong>Thời gian đặt:</strong> {{ invoiceData.bookDetail?.time_book }}</p>
+    <div class="payment">
+        <p><strong>Phương thức thanh toán:</strong></p>
+        <div>
+            <label>
+                <input 
+                    type="radio" 
+                    name="paymentMethod" 
+                    value="cash" 
+                    [(ngModel)]="selectedPaymentMethod" 
+                /> 
+                Thanh toán tiền mặt
+            </label>
+        </div>
+        <div>
+            <label>
+                <input 
+                    type="radio" 
+                    name="paymentMethod" 
+                    value="paypal" 
+                    [(ngModel)]="selectedPaymentMethod" 
+                /> 
+                Thanh toán trực tuyến qua Paypal
+            </label>
+        </div>
+        <button 
+            class="btn btn-primary" 
+            (click)="ThanhToan()">Thanh toán
+        </button>
+    </div>
+    
+    
+</div>
+
+  <hr  style="margin-left: 400px;width: 50%;"    />
+  <!-- END nav -->
+  <div class="slider">
+  <div class="slides">
+      <div class="slide slide1"></div>
+      <div class="slide slide2"></div>
+      <div class="slide slide3"></div>
+      <div class="slide slide4"></div>
+      <div class="slide slide5"></div>
+          <!-- Thêm các slide khác nếu cần -->
+  </div>
+  <div class="overlay">
+      <h2>CHÚNG TÔI LÀ CÔNG TY DU LỊCH VIETNAMTOUR</h2>
+      <p>Chúng tôi sẽ mang đến cho quý khách những trải nghiệm tuyệt vời nhất</p>
+      <button (click)="navigateToMessenger()">Liên hệ qua Messenger của chúng tôi</button>
+  </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-content">
+      <div class="footer-section">
+      <h3>Giới thiệu</h3>
+      <p>Website VietNamTour cho phép đặt các tour du lịch khắp mọi nơi trong nước.</p>
+      </div>
+      <div class="footer-section">
+      <h4>Thông tin</h4>
+      <ul>
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Tin tức</a></li>
+          <li><a href="#">Chính sách và quyền riêng tư</a></li>
+          <li><a href="#">Liên hệ với chúng tôi</a></li>
+      </ul>
+      </div>
+      <div class="footer-section">
+      <h4>Liên hệ</h4>
+      <ul>
+          <li>Địa chỉ: 273 An Dương Vương, Tp.HCM</li>
+          <li>Số điện thoại: (+84) 123-456-789</li>
+          <li>Email: admin&#64;gmail.com</li>
+      </ul>
+      </div>
+      <div class="footer-section">
+      <h4>Theo dõi chúng tôi</h4>
+      <div class="social-icons">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-instagram"></i></a>
+      </div>
+      </div>
+  </div>
+  <div class="footer-bottom">
+      Copyright &copy;2024
+  </div>
+  </footer>
+
+
+  </section>
