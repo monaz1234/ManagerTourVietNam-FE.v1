@@ -482,14 +482,14 @@ bookTour(): void {
 //         tour: bookResponse.tour
 //       };
 
-//       const bookDetailData: bookdetail = {
-//         idbookdetail: null as unknown as String,
-//         idbook: book,
-//         promotion_code: this.promotion_code ? { promotion_code: this.promotion_code } as Promotion : null, // Sử dụng promotion_code từ applyPromotion
-//         time_book: new Date().toISOString(),
-//         quantity: this.quantity,
-//         participant: this.username || '',
-//       };
+      const bookDetailData: bookdetail = {
+        idbookdetail: null as unknown as String,
+        idbook: book,
+        promotion_code: this.promotion_code ? { promotion_code: this.promotion_code } as Promotion : null, // Sử dụng promotion_code từ applyPromotion
+        time_book: new Date().toISOString(),
+        quantity: this.quantity,
+        participant: this.username || '',
+      };
 
 //       this.bookDetailService.addBookDetailCreate(bookDetailData).subscribe({
 //         next: (bookDetailResponse) => {

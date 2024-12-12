@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     console.log(window.location.origin); // In ra origin hiện tại trong console
     // Initialize Google login
     google.accounts.id.initialize({
-      client_id: '705865382435-nop2rtlr74mg75adprhdk62m1l5ospjt.apps.googleusercontent.com', // Thay bằng Client ID đúng
+      client_id: '677635945499-0btdlbiqiic8av0ppbds98uupk7vhg6r.apps.googleusercontent.com', // Thay bằng Client ID đúng
       callback: this.handleCredentialResponse.bind(this),
     });
 
